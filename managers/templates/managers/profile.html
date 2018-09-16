@@ -1,4 +1,4 @@
 <div class="">
     <h1>{{ person.name_first }} {{ person.name_last }}</h1>
-    <h2>{{ country.name_pl }}</h2>    
+    <h2><a href="{% url 'country' country.id %}">{{ country.name_pl }}</a></h2>    
 </div> 

@@ -13,7 +13,7 @@
    <h2>Trenerzy</h2>
    <ul>
     {% for manager in managers %}
-        <li><a href="/managers/{{ manager.id }}/">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
+        <li><a href="{% url 'profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
     {% endfor %}
     </ul>   
    {% endif %}
