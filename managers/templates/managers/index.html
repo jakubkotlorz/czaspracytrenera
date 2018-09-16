@@ -1,7 +1,7 @@
 {% if countries_list %}
     <ul>
     {% for country in countries_list %}
-        <li><a href="{% url 'country' country.id %}">{{ country.code }}</a></li>
+        <li><a href="{% url 'managers:country' country.id %}">{{ country.code }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
