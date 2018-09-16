@@ -1,0 +1,9 @@
+{% if countries_list %}
+    <ul>
+    {% for country in countries_list %}
+        <li><a href="/managers/country/{{ country.id }}/">{{ country.code }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No countries are provided!<p>
+{% endif %}

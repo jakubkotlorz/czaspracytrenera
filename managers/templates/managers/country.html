@@ -1,0 +1,21 @@
+ <div class="">
+   <h1>{{ country.name_pl }}</h1>
+   
+   {% if clubs %}
+   <h2>Kluby</h2>
+   {% endif %}
+   
+   {% if cups %}
+   <h2>Rozgrywki</h2>
+   {% endif %}
+   
+   {% if managers %}
+   <h2>Trenerzy</h2>
+   <ul>
+    {% for manager in managers %}
+        <li><a href="/managers/{{ manager.id }}/">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
+    {% endfor %}
+    </ul>   
+   {% endif %}
+
+ </div> 
