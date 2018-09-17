@@ -5,6 +5,7 @@ class Country(models.Model):
     code = models.CharField(max_length=3)
     name_pl = models.CharField(max_length=50)
     name_en = models.CharField(max_length=50)
+    icon_name = models.CharField(max_length=10)
 
 
 class Season(models.Model):

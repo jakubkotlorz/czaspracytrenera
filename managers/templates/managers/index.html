@@ -1,7 +1,10 @@
+{% load static %}
 {% if countries_list %}
     <ul>
     {% for country in countries_list %}
-        <li><a href="{% url 'managers:country' country.id %}">{{ country.code }}</a></li>
+        {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
+        <li><a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" height="32" /> {{ country.code }}</a></li>
+        {% endwith %}
     {% endfor %}
     </ul>
 {% else %}
