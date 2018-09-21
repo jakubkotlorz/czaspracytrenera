@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from .models import Manager, Country
+from .models import Manager, Country, Season
 
 
 def index(request):
@@ -11,7 +11,8 @@ def index(request):
 def country(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
     managers = Manager.objects.filter(country=country_id)
-    context = { 'country': country, 'managers': managers}
+    seasons = Season.objects.filter(country=country_id)
+    context = { 'country': country, 'managers': managers, 'cups': seasons}
     return render(request, 'managers/country.html', context) 
 
 def profile(request, manager_id):
