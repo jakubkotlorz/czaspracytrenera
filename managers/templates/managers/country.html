@@ -12,14 +12,18 @@
 
   {% if cups %}
   <h2>Rozgrywki</h2>
+    {% for cup in cups %}
+      {{ cup.name }}
+    {% endfor %}
   {% endif %}
 
   {% if managers %}
   <h2>Trenerzy</h2>
   <ul>
-  {% for manager in managers %}
-      <li><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
-  {% endfor %}
+    {% for manager in managers %}
+    <li><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
+    {% endfor %}
   </ul>   
-{% endif %}
+  {% endif %}
+
 {% endblock %}
