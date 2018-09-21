@@ -1,4 +1,69 @@
-<div class="">
-    <h1>{{ person.name_first }} {{ person.name_last }}</h1>
-    <h2><a href="{% url 'managers:country' country.id %}">{{ country.name_pl }}</a></h2>    
-</div> 
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - profil managera{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="profile-titlebar">
+    <div class="col-md-3">
+      <div class="profile-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="profile-head">
+        <h1>{{ person.name_first }} {{ person.name_last }}</h1>
+        {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
+        <p>Kraj pochodzenia: 
+          <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" height="32" style="border: 1px #ddd solid; "/> {{ country.name_pl }}</a>
+        </p>
+        {% endwith %}
+        <p>DUPA</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="profile-club" style="text-align: center;">
+        {% if current_club %}
+        <h2>{{ current_club }}</h2>
+        <h4>Od 2000</h4>
+        {% else %}
+        <h2>Brak klubu</h2>
+        <h4>Od 2000</h4>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7">
+      <div class="profile-main">
+        <div class="profile-career">
+          <h3>Historia trenerka</h3>
+          <ul>
+            <li>Raz</li>
+            <li>Dwa</li>
+            <li>trzy</li>
+          </ul>
+        </div>
+        <div class="profile-links">
+            <h3>Linki</h3>
+            <ul>
+              <li>Raz</li>
+              <li>Dwa</li>
+              <li>trzy</li>
+            </ul>
+          </div>        
+      </div>
+  </div>
+  <div class="col-md-5">
+      <div class="profile-sidebar">
+        <div class="profile-club-history">
+          <h3>Historia klubu</h3>
+          <p>Poprzedni trener: </p>
+          <p>Następny trener: </p>          
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
