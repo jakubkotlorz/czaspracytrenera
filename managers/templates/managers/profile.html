@@ -39,12 +39,24 @@
   <div class="col-md-7">
       <div class="profile-main">
         <div class="profile-career">
-          <h3>Historia trenerka</h3>
-          <ul>
-            <li>Raz</li>
-            <li>Dwa</li>
-            <li>trzy</li>
-          </ul>
+          <h3>Kariera trenerska</h3>
+          {% if history %}
+            <table class="table table-striped">
+              <thead><tr><th>Klub</th><th>Początek</th><th>Koniec</th><th>Dni</th></tr></thead>
+              <tbody>
+            {% for entry in history %}
+              <tr>
+                <td>{{ entry.team.name_full }}</td>
+                <td>pocz</td>
+                <td>kon</td>
+                <td>roz</td>
+              </tr>
+            {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>Brak wpisów!</p>
+          {% endif %}
         </div>
         <div class="profile-links">
             <h3>Linki</h3>
