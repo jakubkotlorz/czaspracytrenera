@@ -6,19 +6,45 @@
 {% block content %}
 <h1>{{ cup.name }}</h1>
 
-  {% if teams %}
-  <div class="panel panel-default">
-    <div class="panel-heading">Drużyny w tym sezonie</div>
-    <div class="panel-body">
-      <ul class="list-inline">
-      {% for team in teams %}
-        <li class="list-inline-item">
-          <a href="!!!__TODO__!!!"><img src="{% static '/managers/icons-club/team.png' %}" alt="{{ team.team.name_full }}" height=32px /></a>
-        </li>
-      {% endfor %}
-      </ul>
+<div class="row">
+  <div class="col-md-8">
+    {% if teams %}
+    <div class="panel panel-default">
+      <div class="panel-heading">Drużyny w tym sezonie</div>
+      <div class="panel-body">
+        <table class="table table-bordered">
+          <thead><tr><th>Klub</th><th>Trener</th></tr></thead>
+          <tbody>
+            {% for job in jobs %}
+            <tr>
+              <td>{{ job.team.name_short }}</td>
+              <td>{{ job.manager.name_last }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
+    {% endif %}
   </div>
-  {% endif %}
+  <div class="col-md-4">
+    {% if teams %}
+    <div class="panel panel-default">
+      <div class="panel-heading">Drużyny w tym sezonie</div>
+      <div class="panel-body">
+        <div class="row">
+          {% for team in teams %}
+          <div class="col-md-12">
+            <a href="#" class="thumbnail">
+              <img src="{% static '/managers/icons-club/team.png' %}" alt="{{ team.team.name_short }}">
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock %}

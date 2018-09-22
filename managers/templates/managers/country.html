@@ -6,17 +6,19 @@
 {% block content %}
 <h1>{{ country.name_pl }}</h1>
 
-  {% if clubs %}
-  <h2>Kluby</h2>
-  {% endif %}
-
   {% if cups %}
   <div class="panel panel-default">
     <div class="panel-heading">Rozgrywki</div>
     <div class="panel-body">
-    {% for cup in cups %}
-      {{ cup.name }}
-    {% endfor %}
+      <ul class="list-inline">
+        {% for cup in cups %}
+          {% with 'managers/icons-cup/'|add:cup.icon_name as flag_static %}
+          <li class="list-inline-item">
+            <a href="{% url 'managers:season' cup.id %}"><img src="{% static flag_static %}" alt="{{ cup.name }}" height=64px/>{{ cup.name }}</a>
+          </li>
+          {% endwith %}
+        {% endfor %}
+      </ul>
     </div>
   </div>
   {% endif %}
@@ -31,5 +33,23 @@
     </div></ul>   
   </div>
   {% endif %}
+
+<!-- TEN PONIZSZY PANEL Z KARTAMI DODAC ZAMIENIC Z POWYZSZYM! -->
+  <!-- {% if teams %}
+  <div class="panel panel-default">
+    <div class="panel-heading">Drużyny w tym sezonie</div>
+    <div class="panel-body">
+      <div class="row">
+        {% for team in teams %}
+        <div class="col-md-2">
+          <a href="#" class="thumbnail">
+            <img src="{% static '/managers/icons-club/team.png' %}" alt="{{ team.team.name_code }}">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %} -->
 
 {% endblock %}

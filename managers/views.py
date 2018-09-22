@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.db.models import Q
 
 from .models import Manager, Country, Season, Employment, TeamSeason
 
@@ -25,6 +26,12 @@ def profile(request, manager_id):
 
 def season(request, cup_id):
     season = get_object_or_404(Season, pk=cup_id)
-    teams = TeamSeason.objects.filter(season=cup_id)
-    context = { 'cup': season, 'teams': teams }
+    teamSeason = TeamSeason.objects.filter(season=cup_id)
+    team_ids = [i.team_id for i in teamSeason]
+    q = Q()
+    for team_id in team_ids:
+        q = q | Q(team=team_id)
+    jobs = Employment.objects.filter(q)
+    print(jobs)
+    context = { 'cup': season, 'teams': teamSeason, 'jobs': jobs }
     return render(request, 'managers/season.html', context)
