@@ -16,7 +16,8 @@ class City(models.Model):
 class Season(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=50)
-    icon_name = models.CharField(max_length=10, )
+    icon_name = models.CharField(max_length=10, default='default_cup200.png', blank=False)
+    current = models.BooleanField(null=False, blank=False, default=False)
 
 
 class Team(models.Model):
