@@ -4,15 +4,41 @@
 {% block title %}Czas pracy trenera{% endblock %}
 
 {% block content %}
-  {% if countries_list %}
-    <ul>
-    {% for country in countries_list %}
-          {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
-          <li><a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" height="32" /> {{ country.code }}</a></li>
+
+  {% if cups_list %}
+  <div class="panel panel-default">
+    <div class="panel-heading">Rozgrywki</div>
+    <div class="panel-body">
+      <ul class="list-inline">
+        {% for cup in cups_list %}
+          {% with 'managers/icons-cup/'|add:cup.icon_name as flag_static %}
+          <li class="list-inline-item">
+            <a href="{% url 'managers:season' cup.id %}"><img src="{% static flag_static %}" alt="{{ cup.name }}" height=64px/></a>
+          </li>
           {% endwith %}
-    {% endfor %}
-    </ul>
-  {% else %}
-      <p>No countries are provided!<p>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
   {% endif %}
+
+  {% if countries_list %}
+  <div class="panel panel-default">
+    <div class="panel-heading">Kraje</div>
+    <div class="panel-body">
+      <ul class="list-inline">
+        {% for country in countries_list %}
+          {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
+          <li class="list-inline-item">
+            <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" /></a>
+          </li>
+          {% endwith %}
+        {% endfor %}
+      </ul>
+    </div>
+    </div>  
+  {% else %}
+      <div class="alert alert-danger">No countries are provided!</div>
+  {% endif %}
+
 {% endblock %}

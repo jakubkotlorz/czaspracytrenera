@@ -21,3 +21,8 @@ body {
 .profile-sidebar {
     background: #fff;
 }
+
+.flag32 {
+    border: 1px #ddd solid;
+    height: 32px;
+}

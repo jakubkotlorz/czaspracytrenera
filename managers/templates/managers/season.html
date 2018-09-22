@@ -1,0 +1,24 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - sezon: {{ cup.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ cup.name }}</h1>
+
+  {% if teams %}
+  <div class="panel panel-default">
+    <div class="panel-heading">Drużyny w tym sezonie</div>
+    <div class="panel-body">
+      <ul class="list-inline">
+      {% for team in teams %}
+        <li class="list-inline-item">
+          <a href="!!!__TODO__!!!"><img src="{% static '/managers/icons-club/team.png' %}" alt="{{ team.team.name_full }}" height=32px /></a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+{% endblock %}

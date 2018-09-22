@@ -16,7 +16,7 @@
         <h1>{{ person.name_first }} {{ person.name_last }}</h1>
         {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
         <p>Kraj pochodzenia: 
-          <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" height="32" style="border: 1px #ddd solid; "/> {{ country.name_pl }}</a>
+          <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" /> {{ country.name_pl }}</a>
         </p>
         {% endwith %}
         <p>DUPA</p>
