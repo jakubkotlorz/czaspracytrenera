@@ -8,9 +8,15 @@ class Country(models.Model):
     icon_name = models.CharField(max_length=10)
 
 
+class City(models.Model):
+    name_pl = models.CharField(max_length=50)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+
+
 class Season(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=50)
+    icon_name = models.CharField(max_length=10, )
 
 
 class Team(models.Model):
@@ -25,12 +31,24 @@ class TeamSeason(models.Model):
 
 
 class Manager(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+    country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL)
     name_first = models.CharField(max_length=20)
     name_last = models.CharField(max_length=30)
+    date_birth = models.DateTimeField(null=True, blank=True)
+    city_birth = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class Employment(models.Model):
-    manager = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True)
-    
+    FIRST = '1st'
+    ASSISTANT = '2nd'
+    ROLE_CHOICES = (
+        (FIRST, 'First'),
+        (ASSISTANT, 'Assistant'),
+    )
+    manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    date_start = models.DateTimeField(null=True, blank=True)
+    date_finish = models.DateTimeField(null=True, blank=True)
+    still_hired = models.BooleanField(null=False, blank=False, default=False)
+    days_lasted = models.IntegerField(null=True, blank=True)
+    role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
