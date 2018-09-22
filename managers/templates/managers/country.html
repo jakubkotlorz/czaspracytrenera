@@ -11,19 +11,25 @@
   {% endif %}
 
   {% if cups %}
-  <h2>Rozgrywki</h2>
+  <div class="panel panel-default">
+    <div class="panel-heading">Rozgrywki</div>
+    <div class="panel-body">
     {% for cup in cups %}
       {{ cup.name }}
     {% endfor %}
+    </div>
+  </div>
   {% endif %}
 
   {% if managers %}
-  <h2>Trenerzy</h2>
-  <ul>
-    {% for manager in managers %}
-    <li><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
-    {% endfor %}
-  </ul>   
+  <div class="panel panel-default">
+    <div class="panel-heading">Trenerzy</div>
+    <div class="panel-body"><ul>
+      {% for manager in managers %}
+      <li><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
+      {% endfor %}
+    </div></ul>   
+  </div>
   {% endif %}
 
 {% endblock %}
