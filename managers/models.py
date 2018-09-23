@@ -44,9 +44,10 @@ class Manager(models.Model):
     country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL)
     name_first = models.CharField(max_length=20)
     name_last = models.CharField(max_length=30)
-    date_birth = models.DateTimeField(null=True, blank=True)
+    date_birth = models.DateField(null=True, blank=True)
     city_birth = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=55)
+    photo = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name_first + self.name_last  
