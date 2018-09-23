@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
+from datetime import datetime
+from math import floor
 
-from .models import Manager, Country, Season, Employment, TeamSeason
+from .models import Manager, Country, Season, Employment, TeamSeason, City
 
 
 def index(request):
@@ -19,9 +21,11 @@ def country(request, country_id):
 
 def profile(request, manager_id):
     person = get_object_or_404(Manager, pk=manager_id)
+    age = floor((datetime.now().date() - person.date_birth).days/365.25)
     country = get_object_or_404(Country, pk=person.country_id)
+    city = get_object_or_404(City, pk=person.city_birth_id)
     history = Employment.objects.filter(manager=manager_id)
-    context = { 'person': person, 'country': country, 'history': history }
+    context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age }
     return render(request, 'managers/profile.html', context)
 
 def season(request, cup_id):

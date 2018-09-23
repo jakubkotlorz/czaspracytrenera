@@ -14,12 +14,19 @@
     <div class="col-md-5">
       <div class="profile-head">
         <h1>{{ person.name_first }} {{ person.name_last }}</h1>
-        {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
-        <p>Kraj pochodzenia: 
-          <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" /> {{ country.name_pl }}</a>
+        <p>Wiek: <strong> {{ age }}</strong></p>
+        <p>Data urodzenia: <strong>{{ person.date_birth }}</strong></p>
+        {% with 'managers/icons-country/'|add:city.country.icon_name as flag_static %}
+        <p>Miejsce urodzenia: 
+            <a href="{% url 'managers:country' city.country.id %}"><img src="{% static flag_static %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+          {{ city.name_pl }}
         </p>
         {% endwith %}
-        <p>DUPA</p>
+        {% with 'managers/icons-country/'|add:nationality.icon_name as flag_static %}
+        <p>Narodowość: 
+          <a href="{% url 'managers:country' nationality.id %}"><img src="{% static flag_static %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
+        </p>
+        {% endwith %}
       </div>
     </div>
     <div class="col-md-4">
