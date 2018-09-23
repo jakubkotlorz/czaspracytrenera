@@ -7,10 +7,16 @@ class Country(models.Model):
     name_en = models.CharField(max_length=50)
     icon_name = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.name_pl
+
 
 class City(models.Model):
     name_pl = models.CharField(max_length=50)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name_pl    
 
 
 class Season(models.Model):
@@ -25,6 +31,9 @@ class Team(models.Model):
     name_full = models.CharField(max_length=50)
     name_short = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name_full
+
 
 class TeamSeason(models.Model):
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True)
@@ -37,6 +46,10 @@ class Manager(models.Model):
     name_last = models.CharField(max_length=30)
     date_birth = models.DateTimeField(null=True, blank=True)
     city_birth = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
+    slug = models.SlugField(max_length=55)
+
+    def __str__(self):
+        return self.name_first + self.name_last  
 
 
 class Employment(models.Model):
