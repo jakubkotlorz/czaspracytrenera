@@ -12,8 +12,26 @@ body {
 .profile-img, .profile-head, .profile-club {
     background: #444;
     color: #eee;
+    height: 100%;
 }
 
+.profile-img {
+    padding-top: 20px;
+}
+
+.profile-img img {
+    display: block;
+    margin: 0 auto 0 auto;
+    height: 200px;
+}
+
+.profile-head {
+    padding: 50px 0 5px 10px;
+}
+
+.profile-names h1 {
+    margin: 0 0 10px 0;
+}
 .profile-main {
     background: #fff;
 }
@@ -31,3 +49,10 @@ body {
     border: 1px #ddd solid;
     height: 18px;
 }
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+  }

@@ -5,28 +5,34 @@
 
 {% block content %}
 <div class="row">
-  <div class="profile-titlebar">
+  <div class="profile-titlebar row-eq-height">
     <div class="col-md-3">
       <div class="profile-img">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+        {% with 'managers/photos/'|add:person.photo as photo %}
+        <img src="{% static photo %}" alt="{{ person.name_last }}"/>
+        {% endwith %}
       </div>
     </div>
     <div class="col-md-5">
       <div class="profile-head">
-        <h1>{{ person.name_first }} {{ person.name_last }}</h1>
-        <p>Wiek: <strong> {{ age }}</strong></p>
-        <p>Data urodzenia: <strong>{{ person.date_birth }}</strong></p>
-        {% with 'managers/icons-country/'|add:city.country.icon_name as flag_static %}
-        <p>Miejsce urodzenia: 
-            <a href="{% url 'managers:country' city.country.id %}"><img src="{% static flag_static %}" alt="{{ city.name_pl }}" class="flag18" /></a>
-          {{ city.name_pl }}
-        </p>
-        {% endwith %}
-        {% with 'managers/icons-country/'|add:nationality.icon_name as flag_static %}
-        <p>Narodowość: 
-          <a href="{% url 'managers:country' nationality.id %}"><img src="{% static flag_static %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
-        </p>
-        {% endwith %}
+        <div class="profile-names">
+          <h1>{{ person.name_first }} {{ person.name_last }}</h1>
+        </div>
+        <div class="profile-detailed">
+          <p>Wiek: <strong> {{ age }}</strong></p>
+          <p>Data urodzenia: <strong>{{ person.date_birth }}</strong></p>
+          {% with 'managers/icons-country/'|add:city.country.icon_name as flag_static %}
+          <p>Miejsce urodzenia: 
+              <a href="{% url 'managers:country' city.country.id %}"><img src="{% static flag_static %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+            {{ city.name_pl }}
+          </p>
+          {% endwith %}
+          {% with 'managers/icons-country/'|add:nationality.icon_name as flag_static %}
+          <p>Narodowość: 
+            <a href="{% url 'managers:country' nationality.id %}"><img src="{% static flag_static %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
+          </p>
+          {% endwith %}
+        </div>
       </div>
     </div>
     <div class="col-md-4">
