@@ -13,7 +13,7 @@
         {% for cup in cups_list %}
           {% with 'managers/icons-cup/'|add:cup.icon_name as flag_static %}
           <li class="list-inline-item">
-            <a href="{% url 'managers:season' cup.id %}"><img src="{% static flag_static %}" alt="{{ cup.name }}" height=64px/>{{ cup.name }}</a>
+            <a href="{% url 'managers:season' cup.id %}"><img src="{% static flag_static %}" alt="{{ cup.name }}" height=64px/></a>
           </li>
           {% endwith %}
         {% endfor %}
