@@ -55,14 +55,14 @@
           <h3>Kariera trenerska</h3>
           {% if history %}
             <table class="table table-striped">
-              <thead><tr><th>Klub</th><th>Początek</th><th>Koniec</th><th>Dni</th></tr></thead>
+              <thead><tr><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
               <tbody>
-            {% for entry in history %}
+            {% for club in history %}
               <tr>
-                <td>{{ entry.team.name_full }}</td>
-                <td>pocz</td>
-                <td>kon</td>
-                <td>roz</td>
+                <td>{{ club.team.name_full }}</td>
+                <td>{{ club.date_start }}</td>
+                <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
+                <td><b>{{ club.days }}</b></td>
               </tr>
             {% endfor %}
               </tbody>
@@ -71,14 +71,16 @@
             <p>Brak wpisów!</p>
           {% endif %}
         </div>
+        {% if links %}
         <div class="profile-links">
-            <h3>Linki</h3>
-            <ul>
-              <li>Raz</li>
-              <li>Dwa</li>
-              <li>trzy</li>
-            </ul>
-          </div>        
+          <h3>Linki</h3>
+          <ul>
+            <li>Raz</li>
+            <li>Dwa</li>
+            <li>trzy</li>
+          </ul>
+        </div>
+        {% endif %}
       </div>
   </div>
   <div class="col-md-5">
