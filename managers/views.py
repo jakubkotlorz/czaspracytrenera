@@ -25,6 +25,8 @@ def profile(request, manager_id):
     country = get_object_or_404(Country, pk=person.country_id)
     city = get_object_or_404(City, pk=person.city_birth_id)
     history = Employment.objects.filter(manager=manager_id)
+    for job in history:
+        job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days    
     context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age }
     return render(request, 'managers/profile.html', context)
 
