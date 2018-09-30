@@ -8,18 +8,23 @@
 
 <div class="row">
   <div class="col-md-8">
-    {% if teams %}
+    {% if current_jobs %}
     <div class="panel panel-default">
       <div class="panel-heading">Drużyny w tym sezonie</div>
       <div class="panel-body">
-        <table class="table table-bordered">
-          <thead><tr><th>Klub</th><th>Trener</th></tr></thead>
+        <table class="table table-bordered table-hover table-condensed">
+          <thead><tr><th>Herb</th><th>Klub</th><th>Trener</th><th>Od kiedy</th><th>Dni</th></tr></thead>
           <tbody>
-            {% for job in jobs %}
+            {% for job in current_jobs %}
+            {% with 'managers/icons-club/'|add:job.team.icon_name as emblem %}
             <tr>
-              <td>{{ job.team.name_short }}</td>
-              <td>{{ job.manager.name_last }}</td>
+              <td class="emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static emblem %}" alt="{{ job.team.name_short }}" /></a></td>
+              <td class="data-table"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_full }}</a></td>
+              <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+              <td class="data-table">{{ job.date_start }}</td>
+              <td class="data-table"><b>{{ job.days }}</b></td>
             </tr>
+            {% endwith %}
             {% endfor %}
           </tbody>
         </table>
@@ -31,17 +36,13 @@
     {% if teams %}
     <div class="panel panel-default">
       <div class="panel-heading">Drużyny w tym sezonie</div>
-      <div class="panel-body">
-        <div class="row">
-          {% for team in teams %}
-          <div class="col-md-12">
-            <a href="#" class="thumbnail">
-              <img src="{% static '/managers/icons-club/team.png' %}" alt="{{ team.team.name_short }}">
-            </a>
-          </div>
-          {% endfor %}
+        <div class="panel-body">
+          <ul class="list-group">
+            {% for team in teams %}
+            <li class="list-group-item"><a href="#" class="">{{ team.name_full }}</a></li>
+            {% endfor %}
+          </ul>
         </div>
-      </div>
     </div>
     {% endif %}
   </div>

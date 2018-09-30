@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from math import floor
 
-from .models import Manager, Country, Season, Employment, TeamSeason, City
+from .models import Manager, Country, Season, Employment, TeamSeason, City, Team
 
 
 def index(request):
@@ -32,10 +32,17 @@ def season(request, cup_id):
     season = get_object_or_404(Season, pk=cup_id)
     teamSeason = TeamSeason.objects.filter(season=cup_id)
     team_ids = [i.team_id for i in teamSeason]
-    q = Q()
+    q_jobs = Q()
+    q_team = Q()
     for team_id in team_ids:
-        q = q | Q(team=team_id)
-    jobs = Employment.objects.filter(q)
-    print(jobs)
-    context = { 'cup': season, 'teams': teamSeason, 'jobs': jobs }
+        q_jobs = q_jobs | Q(team=team_id)
+        q_team = q_team | Q(id=team_id)
+    current_jobs = Employment.objects.filter(q_jobs).filter(still_hired=True)
+    for job in current_jobs:
+        job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
+    teams = Team.objects.filter(q_team)
+    context = { 'cup': season, 'teams': teams, 'current_jobs': current_jobs }
     return render(request, 'managers/season.html', context)
+
+def club(request, club_id):
+    pass
