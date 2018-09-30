@@ -50,9 +50,30 @@ body {
     height: 18px;
 }
 
+.data-table {
+    vertical-align: middle !important; 
+}
+
+.emblem-col {
+    width: 48px;
+    height: 48px;
+    padding: 3px !important;
+    text-align: center;
+}
+
+.emblem-col img {
+    margin: 0;
+    height: 48px;
+    max-width: 48px;
+}
+
 .row-eq-height {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display:         flex;
-  }
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}

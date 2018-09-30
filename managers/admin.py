@@ -20,3 +20,11 @@ class ManagerAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ('name_first', 'name_last', )}
     ordering = ['name_last', 'country']
 admin.site.register(Manager, ManagerAdmin)
+
+
+class EmploymentAdmin(admin.ModelAdmin):
+    list_display = ('manager', 'team', 'date_start', 'date_finish', 'still_hired', 'days_lasted', 'role')
+    list_filter = ('still_hired', 'role')
+    search_fields = ('manager', 'team')
+    ordering = ['team__name_full', 'still_hired']
+admin.site.register(Employment, EmploymentAdmin)
