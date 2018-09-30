@@ -71,5 +71,13 @@ class Employment(models.Model):
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
 
+    def save(self, *args, **kwargs):
+        if self.date_start and self.date_finish and not self.still_hired:
+            self.days_lasted = (
+                date(year=self.date_finish.year, month=self.date_finish.month, day=self.date_finish.day)
+                - date(year=self.date_start.year, month=self.date_start.month, day=self.date_start.day)
+                ).days
+        super(Employment, self).save(*args, **kwargs)
+
     def __str__(self):
         return f"[{self.still_hired} {self.role}] [{self.team}] {self.manager} [{self.date_start}-{self.date_finish}]"
