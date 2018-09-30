@@ -59,7 +59,7 @@
               <tbody>
             {% for club in history %}
               <tr>
-                <td>{{ club.team.name_full }}</td>
+                <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
                 <td>{{ club.date_start }}</td>
                 <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
                 <td><b>{{ club.days }}</b></td>

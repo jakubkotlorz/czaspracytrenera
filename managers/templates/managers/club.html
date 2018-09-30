@@ -47,7 +47,7 @@
               <tbody>
               {% for job in history %}
               <tr>
-                <td>{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></td>
+                <td><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
                 <td>{{ job.date_start }}</td>
                 <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
                 <td><b>{{ job.days }}</b></td>
