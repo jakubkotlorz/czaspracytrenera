@@ -8,8 +8,11 @@ from .models import Manager, Country, Season, Employment, TeamSeason, City, Team
 
 def index(request):
     countries_list = Country.objects.order_by('id')
+    for country in countries_list:
+        country.count_managers = Manager.objects.filter(country=country).count()
     cups_list = Season.objects.filter(current=True)
-    context = { 'countries_list': countries_list, 'cups_list': cups_list }
+    managers = Manager.objects.all()
+    context = { 'countries_list': countries_list, 'cups_list': cups_list, 'all_managers': managers }
     return render(request, 'managers/index.html', context)
 
 def country(request, country_id):

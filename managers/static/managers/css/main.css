@@ -50,6 +50,11 @@ body {
     height: 18px;
 }
 
+.in-line-flag {
+    border: 1px #ddd solid;
+    height: 1.0em;    
+}
+
 .data-table {
     vertical-align: middle !important; 
 }

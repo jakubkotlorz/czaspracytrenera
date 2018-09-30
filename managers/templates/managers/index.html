@@ -24,15 +24,23 @@
 
   {% if countries_list %}
   <div class="panel panel-default">
-    <div class="panel-heading">Kraje</div>
+    <div class="panel-heading">Trzenerzy wg krajów pochodzenia</div>
     <div class="panel-body">
       <ul class="list-inline">
         {% for country in countries_list %}
-          {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
-          <li class="list-inline-item">
-            <a href="{% url 'managers:country' country.id %}"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" /></a>
-          </li>
-          {% endwith %}
+          {% if country.count_managers %}
+            {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
+            <li class="list-inline-item"><a href="{% url 'managers:country' country.id %}" class="btn btn-default" role="button"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" />&nbsp;<span class="badge">{{ country.count_managers }}</span></a></li>
+            {% endwith %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <hr />
+      <ul class="list-inline">
+        {% for manager in all_managers %}
+        {% with 'managers/icons-country/'|add:manager.country.icon_name as flag_static %}
+        <li class="list-inline-item"><a href="{% url 'managers:profile' manager.id %}"><img src="{% static flag_static %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}</a></li>
+        {% endwith %}
         {% endfor %}
       </ul>
     </div>
