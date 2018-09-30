@@ -27,7 +27,7 @@ def profile(request, manager_id):
     age = floor((datetime.now().date() - person.date_birth).days/365.25)
     country = get_object_or_404(Country, pk=person.country_id)
     city = get_object_or_404(City, pk=person.city_birth_id)
-    history = Employment.objects.filter(manager=manager_id)
+    history = Employment.objects.filter(manager=manager_id).order_by('-still_hired', '-date_finish')
     for job in history:
         job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days    
     context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age }
@@ -42,7 +42,7 @@ def season(request, cup_id):
     for team_id in team_ids:
         q_jobs = q_jobs | Q(team=team_id)
         q_team = q_team | Q(id=team_id)
-    current_jobs = Employment.objects.filter(q_jobs).filter(still_hired=True)
+    current_jobs = Employment.objects.filter(q_jobs).filter(still_hired=True).filter(role='1st')
     for job in current_jobs:
         job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
     teams = Team.objects.filter(q_team)
@@ -51,7 +51,7 @@ def season(request, cup_id):
 
 def club(request, club_id):
     club = get_object_or_404(Team, pk=club_id)
-    jobs = Employment.objects.filter(team=club.id)
+    jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish')
     for job in jobs:
         if job.still_hired:
             job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
