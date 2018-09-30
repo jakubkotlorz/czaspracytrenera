@@ -1,0 +1,75 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - klub{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="profile-titlebar row-eq-height">
+    <div class="col-md-3">
+      <div class="profile-img">
+        {% with 'managers/icons-club/'|add:club.icon_name as emblem %}
+        <img src="{% static emblem %}" alt="{{ club.icon }}"/>
+        {% endwith %}
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="profile-head">
+        <div class="profile-names">
+          <h1>{{ person.name_first }} {{ person.name_last }}</h1>
+        </div>
+        <div class="profile-detailed">
+          <p><strong> {{ club.name_full }}</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="profile-club" style="text-align: center;">
+
+        <h2></h2>
+        <h4>Od 2000</h4>
+
+        <h2>Brak klubu</h2>
+        <h4>Od 2000</h4>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7">
+      <div class="profile-main">
+        <div class="profile-career">
+          <h3>Dotychczasowi trenerzy</h3>
+            {% if history %}
+            <table class="table table-striped">
+              <thead><tr><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+              <tbody>
+              {% for job in history %}
+              <tr>
+                <td>{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></td>
+                <td>{{ job.date_start }}</td>
+                <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
+                <td><b>{{ job.days }}</b></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p>Brak wpisów!</p>
+            {% endif %}
+        </div>
+        {% if links %}
+        <div class="profile-links">
+          <h3>Linki</h3>
+          <ul>
+            <li>Raz</li>
+            <li>Dwa</li>
+            <li>trzy</li>
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+  </div>
+</div>
+{% endblock %}

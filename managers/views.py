@@ -47,4 +47,12 @@ def season(request, cup_id):
     return render(request, 'managers/season.html', context)
 
 def club(request, club_id):
-    pass
+    club = get_object_or_404(Team, pk=club_id)
+    jobs = Employment.objects.filter(team=club.id)
+    for job in jobs:
+        if job.still_hired:
+            job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
+        else:
+            job.days = job.days_lasted
+    context = { 'club': club, 'history': jobs  }
+    return render(request, 'managers/club.html', context)

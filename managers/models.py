@@ -31,7 +31,8 @@ class Team(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name_full = models.CharField(max_length=50)
     name_short = models.CharField(max_length=20)
-    icon_name = models.CharField(max_length=10)
+    name_code = models.CharField(max_length=3, null=True, blank=True)
+    icon_name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name_full

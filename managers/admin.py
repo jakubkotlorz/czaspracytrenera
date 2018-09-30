@@ -28,3 +28,10 @@ class EmploymentAdmin(admin.ModelAdmin):
     search_fields = ('manager', 'team')
     ordering = ['team__name_full', 'still_hired']
 admin.site.register(Employment, EmploymentAdmin)
+
+
+class ClubAdmin(admin.ModelAdmin):
+    list_display = ('country', 'name_full', 'name_short', 'name_code', 'icon_name')
+    list_filter = ('country', )
+    ordering = ['country', 'name_full']
+admin.site.register(Team, ClubAdmin)
