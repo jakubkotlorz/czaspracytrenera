@@ -63,7 +63,7 @@ class Employment(models.Model):
         (FIRST, 'First'),
         (ASSISTANT, 'Assistant'),
     )
-    manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
+    manager = models.ForeignKey(Manager, on_delete=models.CASCADE, related_name='jobs')
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     date_start = models.DateField(null=True, blank=True, default=date.today)
     date_finish = models.DateField(null=True, blank=True)
@@ -80,4 +80,11 @@ class Employment(models.Model):
         super(Employment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"[{self.still_hired} {self.role}] [{self.team}] {self.manager} [{self.date_start}-{self.date_finish}]"
+        hired = "Hired" if self.still_hired else "NOT hired"
+        return f"[{hired} {self.role}] [{self.team}] {self.manager} [{self.date_start}-{self.date_finish}]"
+
+
+class ExternalLink(models.Model):
+    url = models.CharField(max_length=80)
+    title = models.CharField(max_length=50, null=True, blank=True)
+    job = models.ForeignKey(Employment, on_delete=models.CASCADE, null=True, blank=True, related_name='links')

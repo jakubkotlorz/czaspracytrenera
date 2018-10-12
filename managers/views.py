@@ -3,7 +3,7 @@ from django.db.models import Q
 from datetime import datetime, date, timedelta
 from math import floor
 
-from .models import Manager, Country, Season, Employment, TeamSeason, City, Team
+from .models import Manager, Country, Season, Employment, TeamSeason, City, Team, ExternalLink
 
 
 def index(request):
@@ -27,10 +27,13 @@ def profile(request, manager_id):
     age = floor((datetime.now().date() - person.date_birth).days/365.25)
     country = get_object_or_404(Country, pk=person.country_id)
     city = get_object_or_404(City, pk=person.city_birth_id)
-    history = Employment.objects.filter(manager=manager_id).order_by('-still_hired', '-date_finish')
+    history = person.jobs.order_by('-still_hired', '-date_finish')
+    links = []
     for job in history:
-        job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days    
-    context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age }
+        job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
+        t = ExternalLink.objects.filter(job_id=job.id)
+    print(links)
+    context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age, 'links': links }
     return render(request, 'managers/profile.html', context)
 
 def season(request, cup_id):

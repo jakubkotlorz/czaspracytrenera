@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Country, City, Manager, Season, Team, TeamSeason, Employment
+from .models import Country, City, Manager, Season, Team, TeamSeason, Employment, ExternalLink
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -35,3 +35,8 @@ class ClubAdmin(admin.ModelAdmin):
     list_filter = ('country', )
     ordering = ['country', 'name_full']
 admin.site.register(Team, ClubAdmin)
+
+
+class ExternalLinkAdmin(admin.ModelAdmin):
+    list_display = ('url', 'title', 'job')
+admin.site.register(ExternalLink, ExternalLinkAdmin)
