@@ -36,14 +36,9 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="profile-club" style="text-align: center;">
-        {% if current_club %}
-        <h2>{{ current_club }}</h2>
-        <h4>Od 2000</h4>
-        {% else %}
-        <h2>Brak klubu</h2>
-        <h4>Od 2000</h4>
-        {% endif %}
+      <div class="profile-club" style="text-align: center;">{% if current_job and current_job.team.icon_name %}
+        {% with 'managers/icons-club/'|add:current_job.team.icon_name as ico %}<a href="{% url 'managers:club' current_job.team.id %}"><img src="{% static ico %}" alt="{{ current_job.team.name_full }}"/></a>{% endwith %}{% else %}{% with 'managers/icons-club/team.png' as ico %}<img src="{% static ico %}" alt="Domyślny herb"/>{% endwith %}{% endif %}
+        <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>
       </div>
     </div>
   </div>
@@ -57,15 +52,13 @@
           <table class="table table-striped">
             <thead><tr><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th><th>Info</th></tr></thead>
             <tbody>
-          {% for club in history %}
-            <tr>
+              {% for club in history %}<tr>
               <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
               <td>{{ club.date_start }}</td>
               <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
               <td><b>{{ club.days }}</b></td>
               <td>-</td>
-            </tr>
-          {% endfor %}
+            </tr>{% endfor %}
             </tbody>
           </table>
         {% else %}

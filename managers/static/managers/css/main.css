@@ -25,6 +25,11 @@ body {
     height: 200px;
 }
 
+.profile-club img {
+    margin: 20px auto 0 auto;
+    height: 135px;
+}
+
 .profile-head {
     padding: 50px 0 5px 10px;
 }

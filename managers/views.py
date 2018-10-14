@@ -37,7 +37,11 @@ def profile(request, manager_id):
         if job.links:
             q_links = q_links | Q(job=job)
     links = ExternalLink.objects.filter(q_links)
-    context = { 'person': person, 'nationality': country, 'history': history, 'city': city, 'age': age, 'links': links }
+    if history[0].still_hired:
+        current_job = history[0]
+    else:
+        current_job = ""
+    context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links }
     return render(request, 'managers/profile.html', context)
 
 def season(request, cup_id):
