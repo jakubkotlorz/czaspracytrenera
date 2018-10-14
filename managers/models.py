@@ -27,10 +27,11 @@ class Season(models.Model):
     date_start = models.DateField(default=date(year=2018, month=7, day=1))
     date_end = models.DateField(default=date(year=2019, month=6, day=30))
 
+
 class Team(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
-    name_full = models.CharField(max_length=50)
-    name_short = models.CharField(max_length=20)
+    name_full = models.CharField(max_length=50, unique=True)
+    name_short = models.CharField(max_length=20, unique=True)
     name_code = models.CharField(max_length=3, null=True, blank=True)
     icon_name = models.CharField(max_length=50, null=True, blank=True)
 
@@ -66,7 +67,9 @@ class Employment(models.Model):
     manager = models.ForeignKey(Manager, on_delete=models.CASCADE, related_name='jobs')
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     date_start = models.DateField(null=True, blank=True, default=date.today)
+    date_start_approx = models.BooleanField(default=False)
     date_finish = models.DateField(null=True, blank=True)
+    date_finish_approx = models.BooleanField(default=False)
     still_hired = models.BooleanField(null=False, blank=False, default=False)
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
@@ -85,6 +88,9 @@ class Employment(models.Model):
 
 
 class ExternalLink(models.Model):
-    url = models.CharField(max_length=80)
+    url = models.CharField(max_length=80, unique=True)
     title = models.CharField(max_length=50, null=True, blank=True)
     job = models.ForeignKey(Employment, on_delete=models.CASCADE, null=True, blank=True, related_name='links')
+
+    def __str__(self):
+        return self.title

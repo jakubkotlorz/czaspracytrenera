@@ -73,9 +73,9 @@
         {% endif %}
       </div>
       {% if links %}<div class="profile-links">
-        <ul>{% for link in links %}
         <h3>Linki</h3>
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        <ul class="list-unstyled">{% for link in links %}
+          <li class="list-item"><i class="glyphicon glyphicon-globe"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
         {% endfor %}</ul>
       </div>{% endif %}
     </div>
