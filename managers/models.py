@@ -59,8 +59,8 @@ class Team(models.Model):
 
 
 class TeamSeason(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True)
-    season = models.ForeignKey(Season, on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='seasons')
+    season = models.ForeignKey(Season, on_delete=models.SET_NULL, null=True, related_name='teams')
 
 
 class Manager(models.Model):

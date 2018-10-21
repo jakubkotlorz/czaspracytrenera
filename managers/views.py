@@ -46,18 +46,18 @@ def profile(request, manager_id):
 
 def season(request, cup_id):
     season = get_object_or_404(Season, pk=cup_id)
-    teamSeason = TeamSeason.objects.filter(season=cup_id)
-    team_ids = [i.team_id for i in teamSeason]
-    q_jobs = Q()
+    teamsInSeason = season.teams.all()
+    team_ids = [i.team_id for i in teamsInSeason]
     q_team = Q()
+    q_jobs = Q()
     for team_id in team_ids:
-        q_jobs = q_jobs | Q(team=team_id)
         q_team = q_team | Q(id=team_id)
-    current_jobs = Employment.objects.filter(q_jobs).filter(still_hired=True).filter(role='1st')
-    for job in current_jobs:
-        job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
+        q_jobs = q_jobs | Q(team=team_id)
     teams = Team.objects.filter(q_team)
-    context = { 'cup': season, 'teams': teams, 'current_jobs': current_jobs }
+
+    jobs_season = Employment.objects.filter(q_jobs)
+    jobs_lost = jobs_season.filter(date_finish__range=[season.date_start, season.date_end]).all()
+    context = { 'cup': season, 'teams': teams, 'jobs_lost': jobs_lost }
     return render(request, 'managers/season.html', context)
 
 def club(request, club_id):

@@ -17,7 +17,7 @@
           <tbody>
             {% for team in teams %}{% with team.getCurrentEmployment as job %}<tr>
               <td class="emblem-col"><a href="{% url 'managers:club' team.id %}"><img src="{% static team.getIcon %}" alt="{{ team.name_short }}" /></a></td>
-              <td class="data-table"><a href="{% url 'managers:club' team.id %}">{{ team.name_full }}</a></td>
+              <td class="data-table"><a href="{% url 'managers:club' team.id %}">{{ team.name_short }}</a></td>
               <td class="data-table">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a>{% endif %}</td>
               <td class="data-table">{% if job %}{{ job.date_start }}{% endif %}</td>
               <td class="data-table"><b>{% if job %}{{ job.daysToday }}</b>{% endif %}</td>              
@@ -25,6 +25,26 @@
           </tbody>
         </table>
       </div>
+    </div>
+    {% endif %}
+    {% if jobs_lost %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Zwolnienia w tym sezonie</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed">
+                <thead><tr><th>Herb</th><th>Klub</th><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+                <tbody>
+                  {% for job in jobs_lost %}<tr>
+                    <td class="emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
+                    <td class="data-table"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_short }}</a></td>
+                    <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+                    <td class="data-table">{{ job.date_start }}</td>
+                    <td class="data-table">{{ job.date_finish }}</td>
+                    <td class="data-table"><b>{{ job.days_lasted }}</b></td>              
+                  </tr>{% endfor %}
+                </tbody>
+              </table>          
+        </div>
     </div>
     {% endif %}
   </div>
