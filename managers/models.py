@@ -7,6 +7,9 @@ class Country(models.Model):
     name_en = models.CharField(max_length=50)
     icon_name = models.CharField(max_length=10)
 
+    def getIcon(self):
+        return f"/managers/icons-country/{self.icon_name}"
+
     def __str__(self):
         return self.name_pl
 
@@ -27,6 +30,10 @@ class Season(models.Model):
     date_start = models.DateField(default=date(year=2018, month=7, day=1))
     date_end = models.DateField(default=date(year=2019, month=6, day=30))
 
+    def getIcon(self):
+        return f"/managers/icons-cup/{self.icon_name}"
+
+
 
 class Team(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
@@ -34,6 +41,12 @@ class Team(models.Model):
     name_short = models.CharField(max_length=20, unique=True)
     name_code = models.CharField(max_length=3, null=True, blank=True)
     icon_name = models.CharField(max_length=50, null=True, blank=True)
+
+    def getIcon(self):
+        if not self.icon_name:
+            return f"/managers/icons-club/team.png"
+        else:
+            return f"/managers/icons-club/{self.country.code.lower()}/{self.icon_name}"
 
     def __str__(self):
         return self.name_full
@@ -52,6 +65,12 @@ class Manager(models.Model):
     city_birth = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=55)
     photo = models.CharField(max_length=50, null=True, blank=True)
+
+    def getPhoto(self):
+        if not self.photo:
+            return f"/managers/icons/manager.png"
+        else:
+            return f"/managers/photos/{self.photo}"
 
     def __str__(self):
         return f"{self.name_first} {self.name_last}"

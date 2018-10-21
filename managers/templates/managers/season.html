@@ -16,15 +16,13 @@
           <thead><tr><th>Herb</th><th>Klub</th><th>Trener</th><th>Od kiedy</th><th>Dni</th></tr></thead>
           <tbody>
             {% for job in current_jobs %}
-            {% with 'managers/icons-club/'|add:job.team.icon_name as emblem %}
             <tr>
-              <td class="emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static emblem %}" alt="{{ job.team.name_short }}" /></a></td>
+              <td class="emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
               <td class="data-table"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_full }}</a></td>
               <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
               <td class="data-table">{{ job.date_start }}</td>
               <td class="data-table"><b>{{ job.days }}</b></td>
             </tr>
-            {% endwith %}
             {% endfor %}
           </tbody>
         </table>

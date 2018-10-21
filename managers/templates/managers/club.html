@@ -8,9 +8,7 @@
   <div class="profile-titlebar row-eq-height">
     <div class="col-md-3">
       <div class="profile-img">
-        {% with 'managers/icons-club/'|add:club.icon_name as emblem %}
-        <img src="{% static emblem %}" alt="{{ club.icon }}"/>
-        {% endwith %}
+        <img src="{% static club.getIcon %}" alt="{{ club.icon }}"/>
       </div>
     </div>
     <div class="col-md-5">

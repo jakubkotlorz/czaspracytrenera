@@ -11,11 +11,9 @@
     <div class="panel-body">
       <ul class="list-inline">
         {% for cup in cups_list %}
-          {% with 'managers/icons-cup/'|add:cup.icon_name as flag_static %}
           <li class="list-inline-item">
-            <a href="{% url 'managers:season' cup.id %}"><img src="{% static flag_static %}" alt="{{ cup.name }}" height=64px/></a>
+            <a href="{% url 'managers:season' cup.id %}"><img src="{% static cup.getIcon %}" alt="{{ cup.name }}" height=64px/></a>
           </li>
-          {% endwith %}
         {% endfor %}
       </ul>
     </div>
@@ -29,18 +27,14 @@
       <ul class="list-inline">
         {% for country in countries_list %}
           {% if country.count_managers %}
-            {% with 'managers/icons-country/'|add:country.icon_name as flag_static %}
-            <li class="list-inline-item"><a href="{% url 'managers:country' country.id %}" class="btn btn-default" role="button"><img src="{% static flag_static %}" alt="{{ country.name_pl }}" class="flag32" />&nbsp;<span class="badge">{{ country.count_managers }}</span></a></li>
-            {% endwith %}
+            <li class="list-inline-item"><a href="{% url 'managers:country' country.id %}" class="btn btn-default" role="button"><img src="{% static country.getIcon %}" alt="{{ country.name_pl }}" class="flag32" />&nbsp;<span class="badge">{{ country.count_managers }}</span></a></li>
           {% endif %}
         {% endfor %}
       </ul>
       <hr />
       <ul class="list-inline">
         {% for manager in all_managers %}
-        {% with 'managers/icons-country/'|add:manager.country.icon_name as flag_static %}
-        <li class="list-inline-item"><a href="{% url 'managers:profile' manager.id %}"><img src="{% static flag_static %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}</a></li>
-        {% endwith %}
+        <li class="list-inline-item"><a href="{% url 'managers:profile' manager.id %}"><img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}</a></li>
         {% endfor %}
       </ul>
     </div>

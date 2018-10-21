@@ -8,9 +8,7 @@
   <div class="profile-titlebar row-eq-height">
     <div class="col-md-3">
       <div class="profile-img">
-        {% with 'managers/photos/'|add:person.photo as photo %}
-        <img src="{% static photo %}" alt="{{ person.name_last }}"/>
-        {% endwith %}
+        <img src="{% static person.getPhoto %}" alt="{{ person.name_last }}"/>
       </div>
     </div>
     <div class="col-md-5">
@@ -21,23 +19,22 @@
         <div class="profile-detailed">
           <p>Wiek: <strong> {{ age }}</strong></p>
           <p>Data urodzenia: <strong>{{ person.date_birth }}</strong></p>
-          {% with 'managers/icons-country/'|add:city.country.icon_name as flag_static %}
           <p>Miejsce urodzenia: 
-              <a href="{% url 'managers:country' city.country.id %}"><img src="{% static flag_static %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+              <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
             {{ city.name_pl }}
           </p>
-          {% endwith %}
-          {% with 'managers/icons-country/'|add:nationality.icon_name as flag_static %}
           <p>Narodowość: 
-            <a href="{% url 'managers:country' nationality.id %}"><img src="{% static flag_static %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
+            <a href="{% url 'managers:country' nationality.id %}"><img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
           </p>
-          {% endwith %}
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="profile-club" style="text-align: center;">{% if current_job and current_job.team.icon_name %}
-        {% with 'managers/icons-club/'|add:current_job.team.icon_name as ico %}<a href="{% url 'managers:club' current_job.team.id %}"><img src="{% static ico %}" alt="{{ current_job.team.name_full }}"/></a>{% endwith %}{% else %}{% with 'managers/icons-club/team.png' as ico %}<img src="{% static ico %}" alt="Domyślny herb"/>{% endwith %}{% endif %}
+      <div class="profile-club" style="text-align: center;">{% if current_job %}
+        <a href="{% url 'managers:club' current_job.team.id %}">
+          <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
+          {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
+        </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
         <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>
       </div>
     </div>
