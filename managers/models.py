@@ -48,6 +48,12 @@ class Team(models.Model):
         else:
             return f"/managers/icons-club/{self.country.code.lower()}/{self.icon_name}"
 
+    def getCurrentEmployment(self):
+        return self.hirings.filter(still_hired=True).filter(role='1st').get()
+
+    def getAllHirings(self):
+        return self.hirings.order_by('-still_hired', '-date_finish')
+
     def __str__(self):
         return self.name_full
 
@@ -83,8 +89,9 @@ class Employment(models.Model):
         (FIRST, 'First'),
         (ASSISTANT, 'Assistant'),
     )
+
     manager = models.ForeignKey(Manager, on_delete=models.CASCADE, related_name='jobs')
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='hirings')
     date_start = models.DateField(null=True, blank=True, default=date.today)
     date_start_approx = models.BooleanField(default=False)
     date_finish = models.DateField(null=True, blank=True)
@@ -92,6 +99,9 @@ class Employment(models.Model):
     still_hired = models.BooleanField(null=False, blank=False, default=False)
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
+
+    def daysToday(self):
+        return (date.today() - date(year=self.date_start.year, month=self.date_start.month, day=self.date_start.day)).days
 
     def save(self, *args, **kwargs):
         if self.date_start and self.date_finish and not self.still_hired:

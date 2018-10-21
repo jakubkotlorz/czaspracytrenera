@@ -65,7 +65,7 @@ def club(request, club_id):
     jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish')
     for job in jobs:
         if job.still_hired:
-            job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
+            job.days = job.daysToday()
         else:
             job.days = job.days_lasted
     context = { 'club': club, 'history': jobs  }
