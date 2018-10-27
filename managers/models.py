@@ -33,6 +33,8 @@ class Season(models.Model):
     def getIcon(self):
         return f"/managers/icons-cup/{self.icon_name}"
 
+    def __str__(self):
+        return self.name
 
 
 class Team(models.Model):

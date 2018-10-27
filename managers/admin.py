@@ -37,6 +37,16 @@ class ClubAdmin(admin.ModelAdmin):
 admin.site.register(Team, ClubAdmin)
 
 
+class SeasonAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+admin.site.register(Season, SeasonAdmin)
+
+
+class TeamSeasonAdmin(admin.ModelAdmin):
+    list_display = ('season', 'team')
+admin.site.register(TeamSeason, TeamSeasonAdmin)
+
+
 class ExternalLinkAdmin(admin.ModelAdmin):
     list_display = ('url', 'title', 'job')
 admin.site.register(ExternalLink, ExternalLinkAdmin)
