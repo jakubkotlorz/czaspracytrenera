@@ -23,3 +23,7 @@ build/
 tests/report/
 
 .vscode/*
+
+db.sqlite3
+
+tmp/
