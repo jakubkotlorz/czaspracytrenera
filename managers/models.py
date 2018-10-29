@@ -119,8 +119,8 @@ class Employment(models.Model):
 
 
 class ExternalLink(models.Model):
-    url = models.CharField(max_length=80, unique=True)
-    title = models.CharField(max_length=50, null=True, blank=True)
+    url = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=100, null=True, blank=True)
     job = models.ForeignKey(Employment, on_delete=models.CASCADE, null=True, blank=True, related_name='links')
 
     def __str__(self):
