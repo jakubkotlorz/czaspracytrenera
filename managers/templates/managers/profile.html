@@ -11,20 +11,21 @@
         <img src="{% static person.getPhoto %}" alt="{{ person.name_last }}"/>
       </div>
     </div>
-    <div class="col-md-5">
-      <div class="profile-head">
-        <div class="profile-names">
-          <h1>{{ person.name_first }} {{ person.name_last }}</h1>
+    <div class="col-md-5 profile-head">
+      <div class="profile-flag row">
+        <div class="col-sm-10">&nbsp;</div>
+        <div class="col-sm-2">
+          <a href="{% url 'managers:country' nationality.id %}"><img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}</a>
         </div>
-        <div class="profile-detailed">
-          <p>Wiek: <strong> {{ age }}</strong></p>
-          <p>Data urodzenia: <strong>{{ person.date_birth }}</strong></p>
-          <p>Miejsce urodzenia: 
-              <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
-            {{ city.name_pl }}
-          </p>
-          <p>Narodowość: 
-            <a href="{% url 'managers:country' nationality.id %}"><img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag18" /> {{ country.name_pl }}</a>
+      </div>
+      <div class="profile-names row">
+        <center><h1>{{ person.name_first }} {{ person.name_last }}</h1></center>
+      </div>
+      <div class="profile-detailed row-eq-height">
+        <div class="col-sm-12">
+          <p class="text-center">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (<strong>{{ age }} l.</strong>) {% else %}(brak danych){% endif %} 
+            {% if city %} w <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+          {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
           </p>
         </div>
       </div>

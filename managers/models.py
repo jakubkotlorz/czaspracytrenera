@@ -71,6 +71,7 @@ class Manager(models.Model):
     name_last = models.CharField(max_length=30)
     date_birth = models.DateField(null=True, blank=True)
     city_birth = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
+    date_death = models.DateField(null=True, blank=True)
     slug = models.SlugField(max_length=55)
     photo = models.CharField(max_length=50, null=True, blank=True)
 

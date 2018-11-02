@@ -24,9 +24,18 @@ def country(request, country_id):
 
 def profile(request, manager_id):
     person = get_object_or_404(Manager, pk=manager_id)
-    age = floor((datetime.now().date() - person.date_birth).days/365.25)
+    if person.date_birth:
+        if person.date_death:
+            age = floor((person.date_death - person.date_birth).days/365.25)
+        else:
+            age = floor((datetime.now().date() - person.date_birth).days/365.25)
+    else:
+        age = ''
     country = get_object_or_404(Country, pk=person.country_id)
-    city = get_object_or_404(City, pk=person.city_birth_id)
+    if person.city_birth_id:
+        city = City.objects.get(pk=person.city_birth_id)
+    else:
+        city = ''
     history = person.jobs.order_by('-still_hired', '-date_finish')
     q_links = Q()
     for job in history:

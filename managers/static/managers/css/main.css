@@ -39,13 +39,14 @@ body {
     color: #ddd;
 }
 
-.profile-head {
-    padding: 50px 0 5px 10px;
+.profile-flag {
+    margin: 25px 0 0 0;
 }
 
-.profile-names h1 {
-    margin: 0 0 10px 0;
+.profile-names {
+    margin: 15px 0 40px 0;
 }
+
 .profile-main {
     background: #fff;
 }
@@ -54,10 +55,15 @@ body {
     background: #fff;
 }
 
+.flag-big {
+    border: 1px #ddd solid;
+    height: 38px;
+}
+
 .flag32 {
     border: 1px #ddd solid;
     height: 32px;
-}
+} 
 
 .flag18 {
     border: 1px #ddd solid;
