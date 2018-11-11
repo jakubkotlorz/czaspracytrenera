@@ -7,13 +7,24 @@ from .models import Manager, Country, Season, Employment, TeamSeason, City, Team
 
 
 def index(request):
-    countries_list = Country.objects.order_by('id')
+    context = {
+        'cups_list': Season.objects.filter(current=True),
+    }
+    return render(request, 'managers/index.html', context)
+
+def news(request):
+    context = {}
+    return render(request, 'managers/news.html', context)
+
+def managers(request):
+    countries_list = Country.objects.order_by('-importance', 'name_en')
     for country in countries_list:
         country.count_managers = Manager.objects.filter(country=country).count()
-    cups_list = Season.objects.filter(current=True)
-    managers = Manager.objects.all()
-    context = { 'countries_list': countries_list, 'cups_list': cups_list, 'all_managers': managers }
-    return render(request, 'managers/index.html', context)
+    context = {
+        'countries_list': countries_list,
+        'all_managers': Manager.objects.all().order_by('name_last')
+    }    
+    return render(request, 'managers/managers-main.html', context)
 
 def country(request, country_id):
     country = get_object_or_404(Country, pk=country_id)

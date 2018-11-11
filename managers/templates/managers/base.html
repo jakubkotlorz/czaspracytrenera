@@ -48,8 +48,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="disabled"><a href="#">Aktualności</a></li>
-            <li class="disabled"><a href="#">Trenerzy</a></li>
+            <li><a href="{% url 'managers:news' %}">Aktualności</a></li>
+            <li ><a href="{% url 'managers:managers' %}">Trenerzy</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rozgrywki <span class="caret"></span></a>
               <ul class="dropdown-menu">

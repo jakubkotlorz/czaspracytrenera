@@ -9,4 +9,6 @@ urlpatterns = [
     path('t/<int:club_id>/', views.club, name='club'),
     path('m/<int:manager_id>/', views.profile, name='profile'),
     path('cup/<int:cup_id>/', views.season, name='season'),
+    path('news/', views.news, name='news'),
+    path('managers/', views.managers, name='managers'),
 ]

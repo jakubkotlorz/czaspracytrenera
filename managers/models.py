@@ -6,6 +6,7 @@ class Country(models.Model):
     name_pl = models.CharField(max_length=50)
     name_en = models.CharField(max_length=50)
     icon_name = models.CharField(max_length=10)
+    importance = models.IntegerField(default=0)
 
     def getIcon(self):
         return f"/managers/icons-country/{self.icon_name}"
