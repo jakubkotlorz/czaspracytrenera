@@ -7,6 +7,8 @@ body {
     padding-top: 70px;
     background-color: whitesmoke; 
     margin-bottom: 60px; /* Margin bottom by footer height */
+    /* background: url('../images/bg-pitch.jpg') no-repeat center center fixed;
+    background-size: cover; */
 }
 
 .navbar-brand {
@@ -104,6 +106,24 @@ body {
     margin: 0;
     height: 48px;
     max-width: 48px;
+}
+
+
+.hired-sacked-table {
+    width: 100%;
+    font-size: 1.2em;
+}
+
+.hired-sacket-table, .photo {
+    height: 42px;
+    max-width: 42px;
+    margin: 2px 6px 2px 0;
+}
+
+.emblem-in-table {
+    margin: 2px;
+    height: 32px;
+    max-width: 32px;
 }
 
 .row-eq-height {

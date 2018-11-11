@@ -9,6 +9,8 @@ from .models import Manager, Country, Season, Employment, TeamSeason, City, Team
 def index(request):
     context = {
         'cups_list': Season.objects.filter(current=True),
+        'managers_hired': Employment.objects.filter(still_hired=True).order_by('-date_start')[:10],
+        'managers_sacked': Employment.objects.filter(still_hired=False).order_by('-date_finish')[:10],
     }
     return render(request, 'managers/index.html', context)
 

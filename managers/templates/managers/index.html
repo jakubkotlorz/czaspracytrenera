@@ -5,19 +5,43 @@
 
 {% block content %}
 
-  <!-- {% if cups_list %}
-  <div class="panel panel-default">
-    <div class="panel-heading">Rozgrywki</div>
-    <div class="panel-body">
-      <ul class="list-inline">
-        {% for cup in cups_list %}
-          <li class="list-inline-item">
-            <a href="{% url 'managers:season' cup.id %}"><img src="{% static cup.getIcon %}" alt="{{ cup.name }}" height=64px/></a>
-          </li>
-        {% endfor %}
-      </ul>
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Ostatnio zwolnieni</div>
+      <div class="panel-body">
+        <table class="hired-sacked-table">{% for job in managers_sacked %}
+          <tr>
+            <td style="width: 32px; text-align: center;"><img src="{% static job.manager.getPhoto %}" alt="" class="photo" /></td>
+            <td width="auto"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
+            <td width="120px" align="center">{{ job.date_finish|date:"j N" }}</td>
+            <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+            <td width="32px" align="right"><i class="glyphicon glyphicon-arrow-right" style="color:rgb(220, 0, 0); font-size: 18px;"></i></td>
+            <td width="72px" align="right"><strong style="margin-left: 3px;">{{ job.days_lasted }}</strong> dni</td>
+          </tr>{% endfor %}
+        </table>
+      </div>
     </div>
   </div>
-  {% endif %} -->
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Ostatnio zatrudnieni</div>
+      <div class="panel-body">
+        <table class="hired-sacked-table">{% for job in managers_hired %}
+          <tr>
+            <td style="width: 32px; text-align: center;"><img src="{% static job.manager.getPhoto %}" alt="" class="photo" /></td>
+            <td width="auto"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
+            <td width="120px" align="center">{{ job.date_start|date:"j N" }}</td>
+            <td width="32px" align="right"><i class="glyphicon glyphicon-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
+            <td width="54px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+          </tr>{% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 {% endblock %}
