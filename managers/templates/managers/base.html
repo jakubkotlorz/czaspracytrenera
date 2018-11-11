@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">CzasPracyTrenera</a>
+          <a class="navbar-brand" href="/"><img src="{% static 'managers/icons/logo.png' %}" /></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -71,9 +71,13 @@
       </div>
     </nav>
     
-    <div class="container">
+    <div class="main-content container">
       {% block content %}{% endblock %}
     </div> <!-- /container -->
+
+    <footer class="blog-footer">
+      <p><a href="http://czaspracytrenera.pl">CzasPracyTrenera.pl</a></p>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
