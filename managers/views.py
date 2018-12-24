@@ -1,9 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, TeamSeason, City, Team, ExternalLink
+from .forms import SearchForm
 
 
 def index(request):
@@ -13,6 +14,43 @@ def index(request):
         'managers_sacked': Employment.objects.filter(still_hired=False).order_by('-date_finish')[:10],
     }
     return render(request, 'managers/index.html', context)
+
+def search(request):
+    search_query = request.GET.get('q')
+
+    if not search_query:  
+        return redirect('managers:index') 
+
+    search_keywords = search_query.split()
+
+    query_manager = Q()
+    query_team = Q()
+    for q in search_keywords:
+        if len(q) < 3:
+            continue
+        query_manager = query_manager | Q(name_first__contains=q) | Q(name_last__contains=q)
+        query_team = query_team | Q(name_full__contains=q)
+
+    if query_manager:
+        results_manager = Manager.objects.filter(query_manager)
+    else:
+        results_manager = ""
+
+    if query_team:
+        results_team = Team.objects.filter(query_team)
+    else:
+        results_team = ""
+
+    print(query_manager)
+    print(results_manager)
+
+    context = {
+        'query': search_query,
+        'res_managers': results_manager,
+        'res_teams': results_team,
+    }
+
+    return render(request, 'managers/search.html', context)
 
 def news(request):
     context = {}

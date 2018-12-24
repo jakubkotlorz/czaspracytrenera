@@ -1,0 +1,37 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - Wyniki wyszukiwania {% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Trenerzy</div>
+    <div class="panel-body">
+        {% if res_managers %}
+        <ul class="list-group">
+            {% for manager in res_managers %}
+            <li class="list-group-item  "><a href="{% url 'managers:profile' manager.id %}" class="" role="">{{ manager }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Brak wyników wyszukiwania...</p>
+        {% endif %}
+  </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Drużyny</div>
+    <div class="panel-body">
+        {% if res_teams %}
+        <ul class="list-group">
+            {% for team in res_teams %}
+            <li class="list-group-item  "><a href="{% url 'managers:club' team.id %}" class="" role="">{{ team }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Brak wyników wyszukiwania...</p>
+        {% endif %}
+  </div>
+</div>  
+
+{% endblock %}

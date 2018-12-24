@@ -11,4 +11,5 @@ urlpatterns = [
     path('cup/<int:cup_id>/', views.season, name='season'),
     path('news/', views.news, name='news'),
     path('managers/', views.managers, name='managers'),
+    path('search/', views.search, name='search'),
 ]
