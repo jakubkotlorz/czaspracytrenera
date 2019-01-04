@@ -3,65 +3,70 @@
 
 {% block title %}Czas pracy trenera - sezon: {{ cup.name }}{% endblock %}
 
-{% block content %}
-<h1>{{ cup.name }}</h1>
-
-<div class="row">
-  <div class="col-md-8">
-    {% if teams %}
-    <div class="panel panel-default">
-      <div class="panel-heading">Drużyny w tym sezonie</div>
-      <div class="panel-body">
-        <table class="table table-bordered table-hover table-condensed">
-          <thead><tr><th>Herb</th><th>Klub</th><th>Trener</th><th>Od kiedy</th><th>Dni</th></tr></thead>
-          <tbody>
-            {% for team in teams %}{% with team.getCurrentEmployment as job %}<tr>
-              <td class="emblem-col"><a href="{% url 'managers:club' team.id %}"><img src="{% static team.getIcon %}" alt="{{ team.name_short }}" /></a></td>
-              <td class="data-table"><a href="{% url 'managers:club' team.id %}">{{ team.name_short }}</a></td>
-              <td class="data-table">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a>{% endif %}</td>
-              <td class="data-table">{% if job %}{{ job.date_start }}{% endif %}</td>
-              <td class="data-table"><b>{% if job %}{{ job.daysToday }}</b>{% endif %}</td>              
-            </tr>{% endwith %}{% endfor %}
-          </tbody>
-        </table>
+{% block header %}
+    <div class="jumbotron" style="background-image: linear-gradient({{ cup.jmb_bg1 }}, {{ cup.jmb_bg2 }}); color: {{ cup.jmb_col }}; ">
+      <div class="container">
+        <div class="row">
+          <div class="col-2 col-lg-1">
+            <img class="" style="height: 80px; " src="{% static cup.getIcon %}" />
+          </div>
+          <div class="col-10 col-lg-11">
+            <h1 class="display-5">{{ cup.name }}</h1>
+            <p class="lead">{{ cup.years }}</p>
+          </div>
+        </div>
       </div>
     </div>
-    {% endif %}
-    {% if jobs_lost %}
-    <div class="panel panel-default">
-        <div class="panel-heading">Zwolnienia w tym sezonie</div>
-        <div class="panel-body">
-            <table class="table table-bordered table-hover table-condensed">
-                <thead><tr><th>Herb</th><th>Klub</th><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
-                <tbody>
-                  {% for job in jobs_lost %}<tr>
-                    <td class="emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
-                    <td class="data-table"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_short }}</a></td>
-                    <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
-                    <td class="data-table">{{ job.date_start }}</td>
-                    <td class="data-table">{{ job.date_finish }}</td>
-                    <td class="data-table"><b>{{ job.days_lasted }}</b></td>              
-                  </tr>{% endfor %}
-                </tbody>
-              </table>          
-        </div>
-    </div>
-    {% endif %}
-  </div>
-  <div class="col-md-4">
+{% endblock %}
+
+{% block content %}
     {% if teams %}
-    <div class="panel panel-default">
-      <div class="panel-heading">Drużyny w tym sezonie</div>
-        <div class="panel-body">
-          <ul class="list-group">
-            {% for team in teams %}
-            <li class="list-group-item"><a href="#" class="">{{ team.name_full }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
+    <p class="display-4">Stan aktualny</p>
+    <div class="row">
+      <table class="table table-hover table-condensed table-employments">
+        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell">Klub</th><th>&nbsp;</th><th>Manager</th><th class="d-none d-lg-table-cell">Od kiedy</th><th>Dni</th></tr></thead>
+        <tbody>
+          {% for team in teams %}{% with team.getCurrentEmployment as job %}<tr>
+            <td class="data-table emblem-col"><a href="{% url 'managers:club' team.id %}"><img src="{% static team.getIcon %}" alt="{{ team.name_short }}" /></a></td>
+            <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' team.id %}">{{ team.name_short }}</a></td>
+            <td class="data-table photo-col">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></a>{% endif %}</td>
+            <td class="data-table">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a>{% endif %}</td>
+            <td class="data-table d-none d-lg-table-cell">{% if job %}{{ job.date_start }}{% endif %}</td>
+            <td class="data-table text-center"><b>{% if job %}{{ job.daysToday }}</b>{% endif %}</td>              
+          </tr>{% endwith %}{% endfor %}
+        </tbody>
+      </table>
     </div>
     {% endif %}
-  </div>
-</div>
+
+    {% if jobs_lost %}
+    <hr />    
+    <p class="display-4">Odeszli w tym sezonie</p>
+    <div class="row">  
+      <table class="table table-hover table-condensed table-employments">
+        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell">Klub</th><th>Manager</th><th class="d-none d-sm-table-cell">Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+        <tbody>
+          {% for job in jobs_lost %}<tr>
+            <td class="data-table emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
+            <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_short }}</a></td>
+            <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+            <td class="data-table d-none d-sm-table-cell">{{ job.date_start }}</td>
+            <td class="data-table">{{ job.date_finish }}</td>
+            <td class="data-table text-center"><b>{{ job.days_lasted }}</b></td>              
+          </tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    {% if other_teams %}
+    <hr />    
+    <p class="display-4">{{ country }} - pozostałe drużyny</p>    
+    <div class="">
+      <ul class="list-inline">{% for team in other_teams %}
+        <li class="list-inline-item"><a href="{% url 'managers:club' team.id %}" class="btn btn-group-sm btn-light" style="margin-bottom: 4px; ">{{ team }}</a></li>
+      {% endfor %}</ul>
+    </div>
+    {% endif %}
 
 {% endblock %}

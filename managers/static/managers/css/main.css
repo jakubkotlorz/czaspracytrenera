@@ -5,10 +5,27 @@ html {
 
 body {
     padding-top: 70px;
-    background-color: whitesmoke; 
-    margin-bottom: 60px; /* Margin bottom by footer height */
+    background-color: #ffffff; 
+    margin-bottom: 150px; /* Margin bottom by footer height */
     /* background: url('../images/bg-pitch.jpg') no-repeat center center fixed;
     background-size: cover; */
+}
+
+a {
+    color: #083B66;
+}
+
+.table-employments th{
+    border: 0px solid #a0a0a0;
+}
+
+.dropdown-item {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.dropdown-item img {
+    height: 32px;
 }
 
 .navbar-brand {
@@ -16,29 +33,26 @@ body {
 }
 
 .navbar-brand img {
-    margin-top: 9px;
-    margin-left:24px;
+    margin-bottom: 5px;
+    margin-left: 0px;
 }
 
-.profile-titlebar {
-    height: 220px;
-    background: #333;
+.jumbotron {
+    padding: 2.0rem 0 0.5rem;
+    margin-bottom: 2rem;
+    background-color: #303030;
+    color: #fff;
+    border-radius: 0;
 }
 
-.profile-img, .profile-head, .profile-club {
-    background: #444;
-    color: #eee;
-    height: 100%;
-}
 
-.profile-img {
-    padding-top: 20px;
-}
+/*  just profile - start */
 
 .profile-img img {
     display: block;
     margin: 0 auto 0 auto;
-    height: 200px;
+    max-height: 210px;
+    height: 210px;
 }
 
 .profile-club img {
@@ -55,20 +69,22 @@ body {
     color: #ddd;
 }
 
-.profile-flag {
-    margin: 25px 0 0 0;
+.profile-flag img {
+    position: absolute;  
+    margin: 0 0 0 0;
+    top: 80%; 
+    left: 10%; 
+    transform: translate(-50%, -50%);
+    font-size: 1.8em;
+    height: 38px;
 }
 
-.profile-names {
-    margin: 15px 0 40px 0;
-}
 
-.profile-main {
-    background: #fff;
-}
+/* just profile - end */
 
-.profile-sidebar {
-    background: #fff;
+.club-emblem img {
+    height: 120px;
+    margin: 0;
 }
 
 .flag-big {
@@ -88,36 +104,64 @@ body {
 
 .in-line-flag {
     border: 1px #ddd solid;
-    height: 1.0em;    
+    height: 1.0em;
+}
+
+.in-line-flag-counter {
+    display: inline-block;
+    color: #419A1C;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-left: none;
+    line-height: 30px;
+    padding: 0px 6px;
+    vertical-align: middle;
 }
 
 .data-table {
-    vertical-align: middle !important; 
+    vertical-align: middle !important;
+}
+
+.photo-col {
+    width: 1px;
+    padding: 2px !important;
+    text-align: center;
 }
 
 .emblem-col {
-    width: 48px;
-    height: 48px;
+    width: 96px;
+    height: 36px;
     padding: 3px !important;
     text-align: center;
 }
 
 .emblem-col img {
     margin: 0;
-    height: 48px;
+    height: 36px;
     max-width: 48px;
 }
 
+.hired-sacked-card {
+    padding: 0px 0px;
+}
 
 .hired-sacked-table {
     width: 100%;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
-.hired-sacket-table, .photo {
+.squared-photo {
+    width: 42px;
     height: 42px;
-    max-width: 42px;
-    margin: 2px 6px 2px 0;
+    overflow: hidden;
+    margin: 2px 6px 2px 2px;
+}
+
+.squared-photo img {
+    /* 42px height means 56px width (4:3 ratio) 
+    so (56-14)/2= 7*/
+    height: 42px;
+    margin-left: -7px;
 }
 
 .emblem-in-table {
@@ -150,9 +194,14 @@ tr:nth-child(even) {
     width: 100%;
     height: 60px; /* Set the fixed height of the footer here */
     line-height: 60px; /* Vertically center the text there */
-    background-color: #dddddd;
+    background-color: #808080;
     text-align: center;
-  }
-  .blog-footer p:last-child {
+}
+
+.blog-footer a {
+    color: #fff;
+}
+
+.blog-footer p:last-child {
     margin-bottom: 0;
-  }
+}

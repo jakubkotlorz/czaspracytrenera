@@ -3,39 +3,52 @@
 
 {% block title %}Czas pracy trenera{% endblock %}
 
+{% block header %}
+    <div class="jumbotron" style="background-image: linear-gradient(#083B66, #083B66); color: {{ cup.jmb_col }}; ">
+      <div class="container">
+        <div class="row">
+          <div class="">
+            <h1 class="display-5">Zmiany na stanowisku pierwszego trenera</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
 {% block content %}
 
 <div class="row">
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">Ostatnio zwolnieni</div>
-      <div class="panel-body">
+  <div class="col-md-6 pl-0 pr-1">
+    <div class="card">
+      <div class="card-header h3">Odeszli z klubu</div>
+      <div class="card-body hired-sacked-card">
         <table class="hired-sacked-table">{% for job in managers_sacked %}
           <tr>
-            <td style="width: 32px; text-align: center;"><img src="{% static job.manager.getPhoto %}" alt="" class="photo" /></td>
+            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></td>
             <td width="auto"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
-            <td width="120px" align="center">{{ job.date_finish|date:"j N" }}</td>
+            <td width="88px" align="center">{{ job.date_finish|date:"j N" }}</td>
+            <td width="32px" align="center"><i class="fa fa-arrow-left" style="color:rgb(220, 0, 0); font-size: 18px;"></i></td>
             <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
-            <td width="32px" align="right"><i class="glyphicon glyphicon-arrow-right" style="color:rgb(220, 0, 0); font-size: 18px;"></i></td>
-            <td width="72px" align="right"><strong style="margin-left: 3px;">{{ job.days_lasted }}</strong> dni</td>
+            <td width="88px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.days_lasted }}</strong> dni</td>
           </tr>{% endfor %}
         </table>
       </div>
     </div>
   </div>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">Ostatnio zatrudnieni</div>
-      <div class="panel-body">
+  <div class="col-md-6 pl-1 pr-0">
+    <div class="card">
+      <div class="card-header h3">Zostali zatrudnieni</div>
+      <div class="card-body hired-sacked-card">
         <table class="hired-sacked-table">{% for job in managers_hired %}
           <tr>
-            <td style="width: 32px; text-align: center;"><img src="{% static job.manager.getPhoto %}" alt="" class="photo" /></td>
+            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></td>
             <td width="auto"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
-            <td width="120px" align="center">{{ job.date_start|date:"j N" }}</td>
-            <td width="32px" align="right"><i class="glyphicon glyphicon-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
-            <td width="54px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+            <td width="88px" align="center">{{ job.date_start|date:"j N" }}</td>
+            <td width="32px" align="center"><i class="fa fa-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
+            <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+            <td width="72px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.daysToday }}</strong> dni</td>
           </tr>{% endfor %}
         </table>
       </div>

@@ -1,73 +1,57 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}Czas pracy trenera - klub{% endblock %}
+{% block title %}Czas pracy trenera - {{ club.name_full }}{% endblock %}
+
+{% block header %}
+    <div class="jumbotron pt-3 pb-3" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
+      <div class="container">
+        <div class="row">
+          <div class="col-3 club-emblem text-center">
+            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
+          </div>
+          <div class="col-6 profile-head text-center">
+            <h1 class="display-5"><br />{{ club.name_full }}</h1>
+          </div>
+          <div class="col-3 club-emblem text-center">
+            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
+          </div>          
+          <!-- <div class="col-3 profile-club text-center"> -->
+            <!-- {% if current_job %}<a href="{% url 'managers:club' current_job.team.id %}">
+              <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
+              {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
+            </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
+            <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>             -->
+          </div>          
+        </div>
+      </div>  
+    </div>
+{% endblock %}
 
 {% block content %}
 <div class="row">
-  <div class="profile-titlebar row-eq-height">
-    <div class="col-md-3">
-      <div class="profile-img">
-        <img src="{% static club.getIcon %}" alt="{{ club.icon }}"/>
-      </div>
-    </div>
-    <div class="col-md-5">
-      <div class="profile-head">
-        <div class="profile-names">
-          <h1>{{ person.name_first }} {{ person.name_last }}</h1>
-        </div>
-        <div class="profile-detailed">
-          <p><strong> {{ club.name_full }}</strong></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="profile-club" style="text-align: center;">
-
-        <h2></h2>
-        <h4>Od 2000</h4>
-
-        <h2>Brak klubu</h2>
-        <h4>Od 2000</h4>
-
-      </div>
-    </div>
-  </div>
+  <p class="display-4">Dotychczasowi trenerzy</p>
+  {% if history %}
+  <table class="table table-striped">
+    <thead><tr><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+    <tbody>
+      {% for job in history %}<tr>
+        <td><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+        <td>{{ job.date_start }}</td>
+        <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
+        <td class="text-center"><b>{{ job.days }}</b></td>
+      </tr>{% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>Brak wpisów!</p>
+  {% endif %}
 </div>
-<div class="row">
-  <div class="col-md-7">
-      <div class="profile-main">
-        <div class="profile-career">
-          <h3>Dotychczasowi trenerzy</h3>
-            {% if history %}
-            <table class="table table-striped">
-              <thead><tr><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
-              <tbody>
-              {% for job in history %}
-              <tr>
-                <td><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
-                <td>{{ job.date_start }}</td>
-                <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
-                <td><b>{{ job.days }}</b></td>
-              </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-            {% else %}
-            <p>Brak wpisów!</p>
-            {% endif %}
-        </div>
-        {% if links %}
-        <div class="profile-links">
-          <h3>Linki</h3>
-          <ul>
-            <li>Raz</li>
-            <li>Dwa</li>
-            <li>trzy</li>
-          </ul>
-        </div>
-        {% endif %}
-      </div>
-  </div>
-</div>
+
+{% if links %}<div class="profile-links">
+  <h3>Linki</h3>
+  <ul class="list">{% for link in links %}
+    <li class="list-item"><i class="glyphicon glyphicon-globe"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+  {% endfor %}</ul>
+</div>{% endif %}
 {% endblock %}

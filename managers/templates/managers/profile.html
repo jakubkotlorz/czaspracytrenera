@@ -1,10 +1,42 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}Czas pracy trenera - profil managera{% endblock %}
+{% block title %}Czas pracy trenera - {{ person.name_first }} {{ person.name_last }}{% endblock %}
+
+{% block header %}
+    <div class="jumbotron pt-0 pb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
+      <div class="container">
+        <div class="row">
+          <div class="col-4 profile-img">
+            <img src="{% static person.getPhoto %}"  alt="{{ person.name_last }}" />
+            <div class="row profile-flag"><a href="{% url 'managers:country' nationality.id %}">
+                <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
+              </a></div>         
+          </div>
+          <div class="col-5 profile-head">
+            <h1 class="display-5"><br />{{ person.name_last }}</h1>
+            <p class="lead">{{ person.name_first }}</p>
+            <p class="">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (<strong>{{ age }} l.</strong>) {% else %}(brak danych){% endif %} 
+              {% if city %} w <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+            {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
+            </p>
+          </div>
+          <div class="col-3 profile-club text-center">
+            {% if current_job %}<a href="{% url 'managers:club' current_job.team.id %}">
+              <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
+              {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
+            </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
+            <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>            
+          </div>          
+        </div>
+      </div>  
+    </div>
+{% endblock %}
 
 {% block content %}
-<div class="row">
+
+
+<!-- <div class="row">
   <div class="profile-titlebar row-eq-height">
     <div class="col-md-3">
       <div class="profile-img">
@@ -40,45 +72,32 @@
       </div>
     </div>
   </div>
-</div>
+  </div> -->
+
 <div class="row">
-  <div class="col-md-7">
-    <div class="profile-main">
-      <div class="profile-career">
-        <h3>Kariera trenerska</h3>
-        {% if history %}
-          <table class="table table-striped">
-            <thead><tr><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th><th>Info</th></tr></thead>
-            <tbody>
-              {% for club in history %}<tr>
-              <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
-              <td>{{ club.date_start }}</td>
-              <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
-              <td><b>{{ club.days }}</b></td>
-              <td>-</td>
-            </tr>{% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <p>Brak wpisów!</p>
-        {% endif %}
-      </div>
-      {% if links %}<div class="profile-links">
-        <h3>Linki</h3>
-        <ul class="list-unstyled">{% for link in links %}
-          <li class="list-item"><i class="glyphicon glyphicon-globe"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
-        {% endfor %}</ul>
-      </div>{% endif %}
-    </div>
-  </div>
-  <div class="col-md-5">
-      <div class="profile-sidebar">
-        <div class="profile-club-history">
-          <h3>Historia klubu</h3>
-          <p>Poprzedni trener: </p>
-          <p>Następny trener: </p>          
-        </div>
-      </div>
-  </div>
+  <p class="display-4">Przebieg kariery</p>
+  {% if history %}
+    <table class="table table-striped">
+      <thead><tr><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+      <tbody>
+        {% for club in history %}<tr>
+          <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
+          <td>{{ club.date_start }}</td>
+          <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
+          <td><b>{{ club.days }}</b></td>
+        </tr>{% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Brak wpisów!</p>
+  {% endif %}
+</div>
+{% if links %}<div class="profile-links">
+  <p class="display-4">Linki</p>
+  <ul class="list">{% for link in links %}
+    <li class="list-item"><i class="glyphicon glyphicon-globe"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+  {% endfor %}</ul>
+</div>{% endif %}
+
 </div>
 {% endblock %}

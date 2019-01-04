@@ -4,33 +4,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Czas pracy trenera">
+    <meta name="author" content="Jakub Kotlorz">
+    <link rel="icon" href="{% static 'managers/icons/favicon.ico' %}">
 
     <title>{% block title %}{% endblock %}</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="{% static 'managers/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="{% static 'managers/css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <!-- Custom styles -->
     <link href="{% static 'managers/css/main.css' %}" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="{% static 'managers/js/ie-emulation-modes-warning.js' %}"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129006421-1"></script>
@@ -39,67 +24,57 @@
 
   <body>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a class="navbar-brand" href="/"><img src="{% static 'managers/icons/logo.png' %}" /></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="{% url 'managers:news' %}">Aktualności</a></li>
-            <li ><a href="{% url 'managers:managers' %}">Trenerzy</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rozgrywki <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <!-- <li class="dropdown-header">Polskie</li> -->
-                <li><a href="{% url 'managers:season' 1 %}">Ekstraklasa</a></li>
-                <li><a href="{% url 'managers:season' 4 %}">1. Liga</a></li>
-                <li role="separator" class="divider"></li>
-                <!-- <li class="dropdown-header">Europejskie</li> -->
-                <li><a href="{% url 'managers:season' 5 %}">Premier League</a></li>
-                <li class="disabled"><a href="{% url 'managers:season' 2 %}">Bundesliga</a></li>
-                <li class="disabled"><a href="{% url 'managers:season' 3 %}">La Liga</a></li>
-              </ul>
+        <div id="nb" class="navbar-collapse collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'managers:news' %}">Aktualności</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'managers:managers' %}">Trenerzy</a></li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="cupsDropdown" role="button" aria-haspopup="true" aria-expanded="false">Rozgrywki <span class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="cupsDropdown">
+                <a class="dropdown-item" href="{% url 'managers:season' 1 %}"><img src="{% static 'managers/icons-cup/ekstraklasa200.png' %}" /> Ekstraklasa</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 4 %}"><img src="{% static 'managers/icons-cup/polska-1-liga.png' %}" /> 1. Liga</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'managers:season' 5 %}"><img src="{% static 'managers/icons-cup/pl200.png' %}" /> Premier League</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 2 %}"><img src="{% static 'managers/icons-cup/bundesliga200.png' %}" /> Bundesliga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 3 %}"><img src="{% static 'managers/icons-cup/laliga200.png' %}" /> La Liga</a>
+              </div>  
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="./"><span class="sr-only">(current)</span></a></li>
-            <li class="nav navbar-nav navbar-right">
-              <form class="navbar-form" role="search" action="{% url 'managers:search' %}" method="GET">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Szukaj" name='q' />
-                  <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                  </div>
-                </div>
-              </form>
-            </li>
-          </ul>
+          <form class="form-inline my-2" role="search" action="{% url 'managers:search' %}" method="GET">
+            <div class="input-group">
+              <input type="text" class="form-control" type="text" placeholder="Szukaj" aria-label="Szukaj..." name='q' />
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
+            </div>
+          </form>
         </div><!--/.nav-collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nb" aria-expanded="false" aria-controls="nb" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
       </div>
     </nav>
     
-    <div class="main-content container">
-      {% block content %}{% endblock %}
-    </div> <!-- /container -->
+    {% block header %}{% endblock %}
+
+    <main role="main">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
 
     <footer class="blog-footer">
       <p><a href="http://czaspracytrenera.pl">CzasPracyTrenera.pl</a></p>
     </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="{% static 'managers/js/bootstrap.min.js' %}"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{% static 'managers/js/ie10-viewport-bug-workaround.js' %}"></script>
+
   </body>
 </html>

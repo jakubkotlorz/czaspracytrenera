@@ -25,17 +25,21 @@ class City(models.Model):
 
 class Season(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=50)
-    icon_name = models.CharField(max_length=10, default='default_cup200.png', blank=False)
+    name = models.CharField(max_length=30)
+    years = models.CharField(max_length=20, null=True)
+    icon_name = models.CharField(max_length=20, default='default_cup200.png', blank=False)
     current = models.BooleanField(null=False, blank=False, default=False)
     date_start = models.DateField(default=date(year=2018, month=7, day=1))
     date_end = models.DateField(default=date(year=2019, month=6, day=30))
+    jmb_bg1 = models.CharField(max_length=8, default="#505050")
+    jmb_bg2 = models.CharField(max_length=8, default="#202020")
+    jmb_col = models.CharField(max_length=8, default="#ffffff")
 
     def getIcon(self):
         return f"/managers/icons-cup/{self.icon_name}"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.years}"
 
 
 class Team(models.Model):
@@ -44,6 +48,7 @@ class Team(models.Model):
     name_short = models.CharField(max_length=20, unique=True)
     name_code = models.CharField(max_length=3, null=True, blank=True)
     icon_name = models.CharField(max_length=50, null=True, blank=True)
+    is_national = models.BooleanField(default=False)
 
     def getIcon(self):
         if not self.icon_name:

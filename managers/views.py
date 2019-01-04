@@ -114,10 +114,11 @@ def season(request, cup_id):
         q_team = q_team | Q(id=team_id)
         q_jobs = q_jobs | Q(team=team_id)
     teams = Team.objects.filter(q_team)
+    other_teams = Team.objects.filter(country=season.country).exclude(q_team).order_by('-is_national')
 
     jobs_season = Employment.objects.filter(q_jobs)
     jobs_lost = jobs_season.filter(date_finish__range=[season.date_start, season.date_end]).all()
-    context = { 'cup': season, 'teams': teams, 'jobs_lost': jobs_lost }
+    context = { 'cup': season, 'teams': teams, 'jobs_lost': jobs_lost, 'other_teams': other_teams, 'country': season.country }
     return render(request, 'managers/season.html', context)
 
 def club(request, club_id):
