@@ -2,9 +2,9 @@
 import os
 import sys
 
-if __name__ == '__main__':
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'czaspracytrenera.settings.development')
-    os.environ['DJANGO_SECRET_KEY'] = "5q&x$c_lgx5ioo%8p)1vzd)m5#7n43v)5iodvrxqfpr8*jl&*%"
+import secret
+
+if __name__ == '__main__': 
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

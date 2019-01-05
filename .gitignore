@@ -25,6 +25,7 @@ tests/report/
 .vscode/*
 
 # secret data
+secret.py
 czaspracytrenera/settings/production.py
 db.sqlite3
 
