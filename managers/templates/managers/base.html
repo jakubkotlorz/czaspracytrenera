@@ -36,12 +36,14 @@
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="cupsDropdown" role="button" aria-haspopup="true" aria-expanded="false">Rozgrywki <span class="caret"></span></a>
               <div class="dropdown-menu" aria-labelledby="cupsDropdown">
-                <a class="dropdown-item" href="{% url 'managers:season' 1 %}"><img src="{% static 'managers/icons-cup/ekstraklasa200.png' %}" /> Ekstraklasa</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 4 %}"><img src="{% static 'managers/icons-cup/polska-1-liga.png' %}" /> 1. Liga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 1 %}"><img src="{% static 'managers/icons-cup/48x48/esa2018.png' %}" class="dropdown-cup-icon" /> Ekstraklasa</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 4 %}"><img src="{% static 'managers/icons-cup/48x48/fortuna1liga.png' %}" class="dropdown-cup-icon" /> 1. Liga</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'managers:season' 5 %}"><img src="{% static 'managers/icons-cup/pl200.png' %}" /> Premier League</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 2 %}"><img src="{% static 'managers/icons-cup/bundesliga200.png' %}" /> Bundesliga</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 3 %}"><img src="{% static 'managers/icons-cup/laliga200.png' %}" /> La Liga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 5 %}"><img src="{% static 'managers/icons-cup/48x48/premier2018.png' %}" class="dropdown-cup-icon" /> Premier League</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 2 %}"><img src="{% static 'managers/icons-cup/48x48/bundesliga.png' %}" class="dropdown-cup-icon" /> Bundesliga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 3 %}"><img src="{% static 'managers/icons-cup/48x48/laliga2018.png' %}" class="dropdown-cup-icon" /> La Liga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 6 %}"><img src="{% static 'managers/icons-cup/48x48/seriea.png' %}" class="dropdown-cup-icon" /> Serie A</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 7 %}"><img src="{% static 'managers/icons-cup/48x48/ligue1.png' %}" class="dropdown-cup-icon" /> Ligue 1</a>
               </div>  
             </li>
           </ul>
