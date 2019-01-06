@@ -30,5 +30,6 @@ czaspracytrenera/settings/production.py
 passenger_wsgi.py
 db.sqlite3
 public/
+manage.py
 
 tmp/
