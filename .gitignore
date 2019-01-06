@@ -31,5 +31,6 @@ passenger_wsgi.py
 db.sqlite3
 public/
 manage.py
+statistics.csv
 
 tmp/
