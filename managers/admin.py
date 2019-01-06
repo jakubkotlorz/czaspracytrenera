@@ -28,7 +28,7 @@ class EmploymentAdmin(admin.ModelAdmin):
     list_display = ('manager', 'team', 'date_start', 'date_finish', 'still_hired', 'days_lasted', 'role')
     list_display_links = ('manager', 'team', 'date_start', 'date_finish', 'still_hired')
     list_filter = ('still_hired', 'role')
-    search_fields = ('manager', 'team')
+    search_fields = ('manager__name_first', 'manager__name_last', 'team__name_full', 'team__name_short')
     ordering = ['team__name_full', 'still_hired']
 admin.site.register(Employment, EmploymentAdmin)
 
