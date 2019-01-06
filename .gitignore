@@ -27,6 +27,8 @@ tests/report/
 # secret data
 secret.py
 czaspracytrenera/settings/production.py
+passenger_wsgi.py
 db.sqlite3
+public/
 
 tmp/
