@@ -23,9 +23,12 @@
     {% if teams %}
     <p class="display-4">Stan aktualny</p>
     <div class="row">
-      <table class="table table-hover table-condensed table-employments">
-        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell">Klub</th><th>&nbsp;</th><th>Manager</th><th class="d-none d-lg-table-cell">Od kiedy</th><th>Dni</th></tr></thead>
-        <tbody>
+      <table class="table table-hover table-condensed table-employments" id="table-employments">
+        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
+          <th>&nbsp;</th><th class="th-sortable-default">Manager</th>
+          <th class="d-none d-lg-table-cell">Od kiedy</th>
+          <th class="th-sortable-default">Dni</th></tr></thead>
+        <tbody><tr></tr><!-- empty tr for sorting script issue -->
           {% for team in teams %}{% with team.getCurrentEmployment as job %}<tr>
             <td class="data-table emblem-col"><a href="{% url 'managers:club' team.id %}"><img src="{% static team.getIcon %}" alt="{{ team.name_short }}" /></a></td>
             <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' team.id %}">{{ team.name_short }}</a></td>
@@ -44,8 +47,11 @@
     <p class="display-4">Odeszli w tym sezonie</p>
     <div class="row">  
       <table class="table table-hover table-condensed table-employments">
-        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell">Klub</th><th>Manager</th><th class="d-none d-sm-table-cell">Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
-        <tbody>
+        <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
+          <th>&nbsp;</th><th class="th-sortable-default">Manager</th>
+          <th class="d-none d-sm-table-cell">Od kiedy</th><th>Do kiedy</th>
+          <th class="th-sortable-default">Dni</th></tr></thead>
+        <tbody><tr></tr><!-- empty tr for sorting script issue -->
           {% for job in jobs_lost %}<tr>
             <td class="data-table emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
             <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_short }}</a></td>
@@ -71,3 +77,22 @@
     {% endif %}
 
 {% endblock %}
+
+
+{% block extra_js %}
+<script>
+  const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+  const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+  $('.th-sortable-default').click(function() {
+    var table = this.closest('table');
+    Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+      .sort(comparer(Array.from(this.parentNode.children).indexOf(this), this.asc = !this.asc))
+      .forEach(tr => table.appendChild(tr));
+});
+
+</script>
+{% endblock extra_js %}
