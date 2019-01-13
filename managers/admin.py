@@ -56,6 +56,6 @@ admin.site.register(TeamSeason, TeamSeasonAdmin)
 
 
 class ExternalLinkAdmin(admin.ModelAdmin):
-    list_display = ('url', 'title', 'job')
+    list_display = ('title', 'job', 'url')
     list_display_links = ('title', )
 admin.site.register(ExternalLink, ExternalLinkAdmin)

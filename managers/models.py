@@ -67,8 +67,8 @@ class Team(models.Model):
 
 
 class TeamSeason(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='seasons')
-    season = models.ForeignKey(Season, on_delete=models.SET_NULL, null=True, related_name='teams')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, default=0, related_name='seasons')
+    season = models.ForeignKey(Season, on_delete=models.CASCADE, default=0, related_name='teams')
 
 
 class Manager(models.Model):
@@ -124,7 +124,7 @@ class Employment(models.Model):
 
 
 class ExternalLink(models.Model):
-    url = models.CharField(max_length=200, unique=True)
+    url = models.CharField(max_length=200)
     title = models.CharField(max_length=100, null=True, blank=True)
     job = models.ForeignKey(Employment, on_delete=models.CASCADE, null=True, blank=True, related_name='links')
 
