@@ -78,9 +78,10 @@
   <p class="display-4">Przebieg kariery</p>
   {% if history %}
     <table class="table table-striped">
-      <thead><tr><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+      <thead><tr><th>&nbsp;</th><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
       <tbody>
         {% for club in history %}<tr>
+          <td class="data-table emblem-col"><a href="{% url 'managers:club' club.team.id %}"><img src="{% static club.team.getIcon %}" alt="{{ club.team.name_short }}" /></a></td>
           <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
           <td>{{ club.date_start }}</td>
           <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
