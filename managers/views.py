@@ -15,39 +15,39 @@ def index(request):
     }
     return render(request, 'managers/index.html', context)
 
+def search_manager(search_text):
+    res_query = Q()
+    for q in search_text.split():
+        if len(q) < 3:
+            continue
+        res_query = res_query | Q(name_first__contains=q) | Q(name_last__contains=q)
+
+    if (len(res_query) > 0):
+        return Manager.objects.filter(res_query)
+    else:
+        return []
+
+def search_team(search_text):
+    res_query = Q()
+    for q in search_text.split():
+        if len(q) < 2:
+            continue
+        res_query = res_query | Q(name_full__contains=q) | Q(name_short__contains=q)
+    if (len(res_query) > 0):
+        return Team.objects.filter(res_query)
+    else:
+        return []
+
 def search(request):
     search_query = request.GET.get('q')
 
     if not search_query:  
         return redirect('managers:index') 
 
-    search_keywords = search_query.split()
-
-    query_manager = Q()
-    query_team = Q()
-    for q in search_keywords:
-        if len(q) < 3:
-            continue
-        query_manager = query_manager | Q(name_first__contains=q) | Q(name_last__contains=q)
-        query_team = query_team | Q(name_full__contains=q)
-
-    if query_manager:
-        results_manager = Manager.objects.filter(query_manager)
-    else:
-        results_manager = ""
-
-    if query_team:
-        results_team = Team.objects.filter(query_team)
-    else:
-        results_team = ""
-
-    print(query_manager)
-    print(results_manager)
-
     context = {
         'query': search_query,
-        'res_managers': results_manager,
-        'res_teams': results_team,
+        'res_managers': search_manager(search_query),
+        'res_teams': search_team(search_query),
     }
 
     return render(request, 'managers/search.html', context)
