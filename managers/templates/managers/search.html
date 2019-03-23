@@ -5,33 +5,35 @@
 
 {% block content %}
 
-<div class="panel panel-default">
-    <div class="panel-heading">Trenerzy</div>
-    <div class="panel-body">
-        {% if res_managers %}
-        <ul class="list-group">
-            {% for manager in res_managers %}
-            <li class="list-group-item  "><a href="{% url 'managers:profile' manager.id %}" class="" role="">{{ manager }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>Brak wyników wyszukiwania...</p>
-        {% endif %}
+<div class="row">
+  <div class="col-md-6 pl-0 pr-1">
+    <div class="card">
+      <div class="card-header h3">Trenerzy</div>
+      <div class="card-body hired-sacked-card">
+        {% if res_managers %}<table class="hired-sacked-table">
+          {% for manager in res_managers %}<tr>
+            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static manager.getPhoto %}" alt="" /></div></td>
+            <td width="auto"><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_first }} <strong>{{ manager.name_last }}</strong></a></td>
+          </tr>{% endfor %}
+        </table>
+        {% else %}<p style="margin: 2.0em;">Brak wyników wyszukiwania...</p>{% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 pl-1 pr-0">
+    <div class="card">
+      <div class="card-header h3">Zespoły</div>
+      <div class="card-body hired-sacked-card">
+        {% if res_teams %}<table class="hired-sacked-table">
+          {% for team in res_teams %}<tr>
+            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static team.getIcon %}" alt="" /></div></td>
+            <td width="auto"><a href="{% url 'managers:club' team.id %}">{{ team }}</a></td>
+          </tr>{% endfor %}
+        </table>
+        {% else %}<p style="margin: 2.0em;">Brak wyników wyszukiwania...</p>{% endif %}
+      </div>
+    </div>    
   </div>
 </div>
-<div class="panel panel-default">
-    <div class="panel-heading">Drużyny</div>
-    <div class="panel-body">
-        {% if res_teams %}
-        <ul class="list-group">
-            {% for team in res_teams %}
-            <li class="list-group-item  "><a href="{% url 'managers:club' team.id %}" class="" role="">{{ team }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>Brak wyników wyszukiwania...</p>
-        {% endif %}
-  </div>
-</div>  
 
 {% endblock %}
