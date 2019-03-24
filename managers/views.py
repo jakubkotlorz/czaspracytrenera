@@ -20,7 +20,7 @@ def search_manager(search_text):
     for q in search_text.split():
         if len(q) < 3:
             continue
-        res_query = res_query | Q(name_first__contains=q) | Q(name_last__contains=q)
+        res_query = res_query | Q(name_first__contains=q) | Q(name_last__contains=q) | Q(slug__contains=q)
 
     if (len(res_query) > 0):
         return Manager.objects.filter(res_query)
