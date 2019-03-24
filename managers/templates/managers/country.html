@@ -26,7 +26,7 @@
     <div class="panel-heading">Trenerzy</div>
     <div class="panel-body"><ul>
       {% for manager in managers %}
-      <li><a href="{% url 'managers:profile' manager.id %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
+      <li><a href="{% url 'managers:profile' manager.slug %}">{{ manager.name_last }}, {{ manager.name_first }}</a></li>
       {% endfor %}
     </div></ul>   
   </div>

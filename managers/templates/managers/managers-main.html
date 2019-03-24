@@ -30,7 +30,7 @@
     <hr />
     <p class="display-4">Pełna lista</p>
     <ul class="list-inline">{% for manager in all_managers %}
-      <li class="list-inline-item"><a href="{% url 'managers:profile' manager.id %}">
+      <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
         <img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
       </a></li>
     {% endfor %}</ul>

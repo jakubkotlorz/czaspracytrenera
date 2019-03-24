@@ -32,8 +32,8 @@
           {% for team in teams %}{% with team.getCurrentEmployment as job %}<tr>
             <td class="data-table emblem-col"><a href="{% url 'managers:club' team.id %}"><img src="{% static team.getIcon %}" alt="{{ team.name_short }}" /></a></td>
             <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' team.id %}">{{ team.name_short }}</a></td>
-            <td class="data-table photo-col">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></a>{% endif %}</td>
-            <td class="data-table">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a>{% endif %}</td>
+            <td class="data-table photo-col">{% if job %}<a href="{% url 'managers:profile' job.manager.slug %}"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></a>{% endif %}</td>
+            <td class="data-table">{% if job %}<a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a>{% endif %}</td>
             <td class="data-table d-none d-lg-table-cell">{% if job %}{{ job.date_start }}{% endif %}</td>
             <td class="data-table text-center"><b>{% if job %}{{ job.daysToday }}</b>{% endif %}</td>              
           </tr>{% endwith %}{% endfor %}
@@ -55,8 +55,8 @@
           {% for job in jobs_lost %}<tr>
             <td class="data-table emblem-col"><a href="{% url 'managers:club' job.team.id %}"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" /></a></td>
             <td class="data-table d-none d-sm-table-cell"><a href="{% url 'managers:club' job.team.id %}">{{ job.team.name_short }}</a></td>
-            <td class="data-table photo-col">{% if job %}<a href="{% url 'managers:profile' job.manager.id %}"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></a>{% endif %}</td>            
-            <td class="data-table"><a href="{% url 'managers:profile' job.manager.id %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+            <td class="data-table photo-col">{% if job %}<a href="{% url 'managers:profile' job.manager.slug %}"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></a>{% endif %}</td>            
+            <td class="data-table"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
             <td class="data-table d-none d-sm-table-cell">{{ job.date_start }}</td>
             <td class="data-table">{{ job.date_finish }}</td>
             <td class="data-table text-center"><b>{{ job.days_lasted }}</b></td>              

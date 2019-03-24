@@ -73,8 +73,8 @@ def country(request, country_id):
     context = { 'country': country, 'managers': managers, 'cups': seasons }
     return render(request, 'managers/country.html', context) 
 
-def profile(request, manager_id):
-    person = get_object_or_404(Manager, pk=manager_id)
+def profile(request, slug):
+    person = get_object_or_404(Manager, slug=slug)
     if person.date_birth:
         if person.date_death:
             age = floor((person.date_death - person.date_birth).days/365.25)
