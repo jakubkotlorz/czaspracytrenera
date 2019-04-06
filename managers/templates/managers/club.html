@@ -29,6 +29,14 @@
 {% endblock %}
 
 {% block content %}
+<div class="">
+  <p class="row display-4">Ostatnie 20 lat</p>
+</div>
+<div class="">
+  <div class="progress club-timeline">{% for period in clubTimeLine %}
+    <div class="progress-bar {{ period.isBreak }}" role="progressbar" style="width: {{ period.percentage }}%" aria-valuenow="{{ period.percentage }}" aria-valuemin="0" aria-valuemax="100">{{ period.text }}</div>
+  {% endfor %}</div>
+</div>
 <div class="row">
   <p class="display-4">Dotychczasowi trenerzy</p>
   {% if history %}

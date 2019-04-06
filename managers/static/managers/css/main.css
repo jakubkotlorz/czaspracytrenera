@@ -205,3 +205,20 @@ tr:nth-child(even) {
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
+
+/*
+ * Progress bars
+ */
+.club-timeline {
+    height: 5.0em;
+}
+
+.club-timeline .progress-bar {
+    border: 1px solid #404040;
+    background-color: rgba(8, 60, 102, 0.5);
+}
+
+.club-timeline .none {
+    border: 0px;
+    background-color: inherit;
+}

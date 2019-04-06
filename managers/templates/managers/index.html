@@ -48,7 +48,7 @@
             <td width="88px" align="center">{{ job.date_start|date:"j N" }}</td>
             <td width="32px" align="center"><i class="fa fa-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
             <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
-            <td width="72px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.daysToday }}</strong> dni</td>
+            <td width="72px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.durationDays }}</strong> dni</td>
           </tr>{% endfor %}
         </table>
       </div>

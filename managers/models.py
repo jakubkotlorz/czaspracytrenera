@@ -107,8 +107,11 @@ class Employment(models.Model):
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
 
-    def daysToday(self):
-        return (date.today() - date(year=self.date_start.year, month=self.date_start.month, day=self.date_start.day)).days
+    def durationDays(self):
+        if self.still_hired:
+            return (date.today() - date(year=self.date_start.year, month=self.date_start.month, day=self.date_start.day)).days
+        else:
+            return self.days_lasted
 
     def save(self, *args, **kwargs):
         if self.date_start and self.date_finish and not self.still_hired:

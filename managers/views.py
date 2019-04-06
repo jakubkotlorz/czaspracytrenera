@@ -124,10 +124,59 @@ def season(request, cup_id):
 def club(request, club_id):
     club = get_object_or_404(Team, pk=club_id)
     jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish')
-    for job in jobs:
-        if job.still_hired:
-            job.days = job.daysToday()
+    
+    totalPeriodLength = int(365.25*20) # TODO: fix precision
+    
+    historyBegin = date.today() - timedelta(days=totalPeriodLength)
+
+    clubTimeLine = []
+    lastJobEndDate = historyBegin
+
+    for job in reversed(jobs):
+        # add new information for the table
+        job.days = job.durationDays()
+
+        # prepare club's timeline of managers
+
+        # job older than we want to see
+        if not job.still_hired and job.date_finish < historyBegin:
+            continue
+
+        # job started before and ended after history begin
+        if job.date_start - historyBegin < timedelta(0):
+            startOfJob = historyBegin
         else:
-            job.days = job.days_lasted
-    context = { 'club': club, 'history': jobs  }
+            startOfJob = job.date_start    
+            # calculate previous duration of pause between managers
+            lastPausePeriod = round((startOfJob - lastJobEndDate) / timedelta(days=totalPeriodLength) * 100)
+            clubTimeLine.append({'isBreak': 'none', 'percentage': lastPausePeriod, 'text': ''})
+
+        # save for next iteration - pause calculation
+        lastJobEndDate = job.date_finish
+
+        # calculate job duration
+        daysPeriodStart = (startOfJob - historyBegin) / timedelta(days=totalPeriodLength)
+
+        if job.still_hired:
+            daysPeriodEnd = 1.0
+        else:
+            daysPeriodEnd = (lastJobEndDate - historyBegin) / timedelta(days=totalPeriodLength)
+            if daysPeriodEnd < 0:
+                daysPeriodEnd = 0
+                continue
+                
+        jobPeriod = round((daysPeriodEnd - daysPeriodStart) * 100)
+
+        # prepare label depending on available bar size
+        label = f"{job.manager.name_last[:round(jobPeriod*1.5)]}"
+        clubTimeLine.append({'isBreak': '', 'percentage': jobPeriod, 'text': label})
+
+    # print whole clubTimeLine
+    s = 0
+    for period in clubTimeLine:
+        print('%30s %d | %s' % (period['text'], period['percentage'], period['isBreak']))
+        s = s + period['percentage']
+    print('suma tego wszystkiego: ', s)
+
+    context = { 'club': club, 'history': jobs, 'clubTimeLine': clubTimeLine }
     return render(request, 'managers/club.html', context)
