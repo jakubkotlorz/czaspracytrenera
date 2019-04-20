@@ -167,9 +167,13 @@ def club(request, club_id):
                 
         jobPeriod = round((daysPeriodEnd - daysPeriodStart) * 100)
 
-        # prepare label depending on available bar size
-        label = f"{job.manager.name_last[:round(jobPeriod*1.5)]}"
-        clubTimeLine.append({'isBreak': '', 'percentage': jobPeriod, 'text': label})
+        # if period was short - show it as a pause! 1% of 20ys is 73d
+        if jobPeriod < 2.0:
+            clubTimeLine.append({'isBreak': 'none', 'percentage': jobPeriod, 'text': ''})
+        else: 
+            # prepare label depending on available bar size
+            label = f"{job.manager.name_last[:round(jobPeriod*1.5)]}"
+            clubTimeLine.append({'isBreak': '', 'percentage': jobPeriod, 'text': label})
 
     # print whole clubTimeLine
     s = 0

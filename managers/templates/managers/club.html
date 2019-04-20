@@ -4,41 +4,55 @@
 {% block title %}Czas pracy trenera - {{ club.name_full }}{% endblock %}
 
 {% block header %}
-    <div class="jumbotron pt-3 pb-3" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
+    <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
       <div class="container">
         <div class="row">
-          <div class="col-3 club-emblem text-center">
+          <div class="col-1 col-md-3 club-emblem text-center">
             <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
           </div>
-          <div class="col-6 profile-head text-center">
+          <div class="col-12 col-md-6 profile-head text-center">
             <h1 class="display-5"><br />{{ club.name_full }}</h1>
           </div>
-          <div class="col-3 club-emblem text-center">
+          <div class="d-none d-md-block club-emblem text-center">
             <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
-          </div>          
-          <!-- <div class="col-3 profile-club text-center"> -->
-            <!-- {% if current_job %}<a href="{% url 'managers:club' current_job.team.id %}">
-              <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
-              {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
-            </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
-            <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>             -->
-          </div>          
+          </div>                  
         </div>
       </div>  
     </div>
+    {% if club.getCurrentEmployment %}
+    {% with club.getCurrentEmployment as job %}
+    <div class="jumbotron pt-0 pb-0 mb-0" style="background-color: rgba(8, 60, 102, 0.055); color: #000000; ">
+      <div class="container">
+        <div class="row">
+          <div class="col-2 col-md-4 text-center">
+            <p class="h3"><br />{{ job.durationDays }} dni</p>
+          </div>
+          <div class="col-4 col-md-4">
+            <p class="h3"><br />{{ job.manager.name_last }}</p>
+            <p>{{ job.manager.name_first }}</p>
+          </div>
+          <div class="col-6 col-md-4">
+            <img src="{% static job.manager.getPhoto %}"  alt="{{ job.manager.name_last }}" style="height: 150px;"/>
+          </div>
+        </div>
+      </div>
+    </div>  
+  {% endwith %}
+  {% endif %} 
+
+    <div class="jumbotron pt-4 pb-5" style="background-color: rgba(8, 60, 102, 0.185); color: #000000; ">
+      <div class="container">
+        <p class="row h1">Ostatnie 20 lat</p>
+        <div class="progress club-timeline">{% for period in clubTimeLine %}
+          <div class="progress-bar {{ period.isBreak }}" role="progressbar" style="width: {{ period.percentage }}%" aria-valuenow="{{ period.percentage }}" aria-valuemin="0" aria-valuemax="100">{{ period.text }}</div>
+        {% endfor %}</div>
+      </div>
+    </div>    
 {% endblock %}
 
 {% block content %}
-<div class="">
-  <p class="row display-4">Ostatnie 20 lat</p>
-</div>
-<div class="">
-  <div class="progress club-timeline">{% for period in clubTimeLine %}
-    <div class="progress-bar {{ period.isBreak }}" role="progressbar" style="width: {{ period.percentage }}%" aria-valuenow="{{ period.percentage }}" aria-valuemin="0" aria-valuemax="100">{{ period.text }}</div>
-  {% endfor %}</div>
-</div>
 <div class="row">
-  <p class="display-4">Dotychczasowi trenerzy</p>
+  <p class="h1">Dotychczasowi trenerzy</p>
   {% if history %}
   <table class="table table-striped">
     <thead><tr><th>&nbsp;</th><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
