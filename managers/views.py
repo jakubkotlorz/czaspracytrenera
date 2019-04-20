@@ -32,7 +32,7 @@ def search_team(search_text):
     for q in search_text.split():
         if len(q) < 2:
             continue
-        res_query = res_query | Q(name_full__contains=q) | Q(name_short__contains=q)
+        res_query = res_query | Q(name_full__contains=q) | Q(name_short__contains=q) | Q(slug__contains=q)
     if (len(res_query) > 0):
         return Team.objects.filter(res_query)
     else:
@@ -121,8 +121,8 @@ def season(request, cup_id):
     context = { 'cup': season, 'teams': teams, 'jobs_lost': jobs_lost, 'other_teams': other_teams, 'country': season.country }
     return render(request, 'managers/season.html', context)
 
-def club(request, club_id):
-    club = get_object_or_404(Team, pk=club_id)
+def club(request, slug):
+    club = get_object_or_404(Team, slug=slug)
     jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish')
     
     totalPeriodLength = int(365.25*20) # TODO: fix precision

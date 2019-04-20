@@ -22,7 +22,7 @@
             </p>
           </div>
           <div class="col-3 profile-club text-center">
-            {% if current_job %}<a href="{% url 'managers:club' current_job.team.id %}">
+            {% if current_job %}<a href="{% url 'managers:team' current_job.team.slug %}">
               <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
               {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
             </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
@@ -64,7 +64,7 @@
     </div>
     <div class="col-md-4">
       <div class="profile-club" style="text-align: center;">{% if current_job %}
-        <a href="{% url 'managers:club' current_job.team.id %}">
+        <a href="{% url 'managers:team' current_job.team.id %}">
           <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
           {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
         </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
@@ -81,8 +81,8 @@
       <thead><tr><th>&nbsp;</th><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
       <tbody>
         {% for club in history %}<tr>
-          <td class="data-table emblem-col"><a href="{% url 'managers:club' club.team.id %}"><img src="{% static club.team.getIcon %}" alt="{{ club.team.name_short }}" /></a></td>
-          <td><a href="{% url 'managers:club' club.team.id %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
+          <td class="data-table emblem-col"><a href="{% url 'managers:team' club.team.slug %}"><img src="{% static club.team.getIcon %}" alt="{{ club.team.name_short }}" /></a></td>
+          <td><a href="{% url 'managers:team' club.team.slug %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
           <td>{{ club.date_start }}</td>
           <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
           <td><b>{{ club.days }}</b></td>

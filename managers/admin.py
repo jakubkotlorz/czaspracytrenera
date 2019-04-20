@@ -34,9 +34,10 @@ admin.site.register(Employment, EmploymentAdmin)
 
 
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ('is_national', 'country', 'name_full', 'name_short', 'name_code', 'icon_name')
+    list_display = ('is_national', 'country', 'slug', 'name_full', 'name_short', 'name_code', 'icon_name')
     list_display_links = ('name_full', 'name_short', 'name_code')
     list_filter = ('country', 'is_national')
+    prepopulated_fields = { 'slug': ('name_full', )}
     ordering = ['country', 'name_full']
 admin.site.register(Team, ClubAdmin)
 

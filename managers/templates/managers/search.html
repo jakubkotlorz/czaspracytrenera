@@ -27,7 +27,7 @@
         {% if res_teams %}<table class="hired-sacked-table">
           {% for team in res_teams %}<tr>
             <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static team.getIcon %}" alt="" /></div></td>
-            <td width="auto"><a href="{% url 'managers:club' team.id %}">{{ team }}</a></td>
+            <td width="auto"><a href="{% url 'managers:team' team.slug %}">{{ team }}</a></td>
           </tr>{% endfor %}
         </table>
         {% else %}<p style="margin: 2.0em;">Brak wyników wyszukiwania...</p>{% endif %}

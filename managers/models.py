@@ -48,6 +48,7 @@ class Team(models.Model):
     name_short = models.CharField(max_length=20, unique=True)
     name_code = models.CharField(max_length=3, null=True, blank=True)
     icon_name = models.CharField(max_length=50, null=True, blank=True)
+    slug = models.SlugField(max_length=55)
     is_national = models.BooleanField(default=False)
 
     def getIcon(self):
