@@ -104,8 +104,8 @@ def profile(request, slug):
     context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
     return render(request, 'managers/profile.html', context)
 
-def season(request, cup_id):
-    season = get_object_or_404(Season, pk=cup_id)
+def season(request, slug):
+    season = get_object_or_404(Season, slug=slug)
     teamsInSeason = season.teams.all()
     team_ids = [i.team_id for i in teamsInSeason]
     q_team = Q()
