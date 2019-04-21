@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from datetime import date
 
 class Country(models.Model):
@@ -42,6 +43,9 @@ class Season(models.Model):
     def __str__(self):
         return f"{self.name} {self.years}"
 
+    def get_absolute_url(self):
+        return reverse('managers:season', args=[str(self.slug)])
+
 
 class Team(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
@@ -67,6 +71,9 @@ class Team(models.Model):
     def __str__(self):
         return self.name_full
 
+    def get_absolute_url(self):
+        return reverse('managers:team', args=[str(self.slug)])
+
 
 class TeamSeason(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, default=0, related_name='seasons')
@@ -91,6 +98,9 @@ class Manager(models.Model):
 
     def __str__(self):
         return f"{self.name_first} {self.name_last}"
+
+    def get_absolute_url(self):
+        return reverse('managers:profile', args=[str(self.slug)])        
 
 
 class Employment(models.Model):
