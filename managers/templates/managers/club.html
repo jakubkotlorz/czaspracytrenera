@@ -48,7 +48,7 @@
   {% endwith %}
   {% endif %} 
 
-    <div class="jumbotron pt-4 pb-5" style="background-color: rgba(8, 60, 102, 0.185); color: #000000; ">
+    <div class="jumbotron pt-3 pb-4" style="background-color: rgba(8, 60, 102, 0.185); color: #000000; ">
       <div class="container">
         <p class="row h1">Ostatnie 20 lat</p>
         <div class="progress club-timeline">{% for period in clubTimeLine %}
@@ -63,13 +63,15 @@
   <p class="h1">Dotychczasowi trenerzy</p>
   {% if history %}
   <table class="table table-striped">
-    <thead><tr><th>&nbsp;</th><th>Trener</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
+    <thead><tr><th>&nbsp;</th><th>Trener</th><th>Od</th><th>Do</th><th>Dni</th></tr></thead>
     <tbody>
       {% for job in history %}<tr>
-        <td style="width: 32px; text-align: center; padding: 0;"><div class="squared-photo"><img src="{% static job.manager.getPhoto %}" alt="" /></div></td>
-        <td><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
-        <td>{{ job.date_start }}</td>
-        <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
+        <td class="p-0" style="vertical-align: middle;"><div class="squared-photo-small"><img src="{% static job.manager.getPhoto %}" alt="" /></div></td>
+        <td class="px-1"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
+        <td class="d-table-cell d-sm-none px-1">{{ job.date_start|date:"M y" }}</td>
+        <td class="d-none d-sm-table-cell">{{ job.date_start }}</td>
+        <td class="d-table-cell d-sm-none px-1">{% if job.date_finish %}{{ job.date_finish|date:"M y" }}{% else %} - {% endif %}</td>
+        <td class="d-none d-sm-table-cell">{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
         <td class="text-center"><b>{{ job.days }}</b></td>
       </tr>{% endfor %}
     </tbody>

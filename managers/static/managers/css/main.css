@@ -180,6 +180,18 @@ a {
     margin: 2px 6px 2px 2px;
 }
 
+.squared-photo-small {
+    text-align: center;
+    padding: 0;
+}
+
+.squared-photo-small img {
+    margin: 0;
+    width: 64px;
+    min-height: 48px;
+    overflow: hidden;
+}
+
 .squared-photo img {
     /* 42px height means 56px width (4:3 ratio) 
     so (56-14)/2= 7*/
