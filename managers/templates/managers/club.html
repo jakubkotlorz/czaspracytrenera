@@ -7,13 +7,13 @@
     <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
       <div class="container">
         <div class="row">
-          <div class="col-1 col-md-3 club-emblem text-center">
-            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
+          <div class="col-4 col-sm-2 club-emblem text-center">
+            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}"/>
           </div>
-          <div class="col-12 col-md-6 profile-head text-center">
-            <h1 class="display-5"><br />{{ club.name_full }}</h1>
+          <div class="col-8 col-sm-8 profile-head text-center align-self-center">
+            <h1 class="display-4" >{{ club.name_full }}</h1>
           </div>
-          <div class="d-none d-md-block club-emblem text-center">
+          <div class="d-none d-sm-block col-sm-2 club-emblem text-center">
             <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
           </div>                  
         </div>
@@ -23,16 +23,24 @@
     {% with club.getCurrentEmployment as job %}
     <div class="jumbotron pt-0 pb-0 mb-0" style="background-color: rgba(8, 60, 102, 0.055); color: #000000; ">
       <div class="container">
-        <div class="row">
-          <div class="col-2 col-md-4 text-center">
-            <p class="h3"><br />{{ job.durationDays }} dni</p>
+        <div class="d-flex align-items-center">
+          <div class="mx-0 mx-sm-3 mx-md-5">
+            <div class="badge badge-secondary badge-days-number">
+              <p class="h3 font-weight-light m-0">{{ job.durationDays }}</p>
+              <p class="h5 font-weight-light m-0">dni</p>
+            </div>
           </div>
-          <div class="col-4 col-md-4">
-            <p class="h3"><br />{{ job.manager.name_last }}</p>
-            <p>{{ job.manager.name_first }}</p>
+          <div class="flex-grow-1 flex-column p-2 mx-0 mx-sm-3 mx-md-5">
+              <p class="h1 font-weight-light">
+                <a href="{% url 'managers:profile' job.manager.slug %}" class="text-reset">{{ job.manager.name_last }}</a>
+              </p>
+              <p class="h5 font-weight-light">
+                <a href="{% url 'managers:profile' job.manager.slug %}" class="text-reset">{{ job.manager.name_first }}</a>
+              </p>
+            </a>
           </div>
-          <div class="col-6 col-md-4">
-            <img src="{% static job.manager.getPhoto %}"  alt="{{ job.manager.name_last }}" style="height: 150px;"/>
+          <div class="">
+            <img src="{% static job.manager.getPhoto %}" alt="{{ job.manager.name_last }}" class="img-fluid club-manager-photo" />
           </div>
         </div>
       </div>

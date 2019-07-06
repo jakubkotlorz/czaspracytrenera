@@ -1,7 +1,14 @@
 html {
     position: relative;
     min-height: 100%;
+    font-size: 1.0rem;
 }
+
+@media screen and (max-width: 720px) {
+    .display-4 {
+      font-size: 2.0rem;
+    }
+  }
 
 body {
     padding-top: 70px;
@@ -81,6 +88,22 @@ a {
 
 
 /* just profile - end */
+
+.club-manager-photo {
+    min-height: 110px;
+    max-height: 150px;
+    object-fit: cover;
+}
+
+.badge-days-number {
+    margin: 10px 0 10px 0;
+    padding: 10px 10px 10px 10px;
+}
+
+.full-page-photo {
+    width: 50%;
+    height: auto;
+}
 
 .club-emblem img {
     height: 120px;
