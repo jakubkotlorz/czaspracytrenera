@@ -136,51 +136,61 @@ def club(request, slug):
         # add new information for the table
         job.days = job.durationDays()
 
-        # prepare club's timeline of managers
-
         # job older than we want to see
         if not job.still_hired and job.date_finish < historyBegin:
             continue
 
-        # job started before and ended after history begin
+        # calculate duration of pause preceeding current job
         if job.date_start - historyBegin < timedelta(0):
-            startOfJob = historyBegin
+            startOfJob = historyBegin  # job started before and ended after history begin
         else:
-            startOfJob = job.date_start    
-            # calculate previous duration of pause between managers
-            lastPausePeriod = round((startOfJob - lastJobEndDate) / timedelta(days=totalPeriodLength) * 100)
-            clubTimeLine.append({'isBreak': 'none', 'percentage': lastPausePeriod, 'text': ''})
-
-        # save for next iteration - pause calculation
-        lastJobEndDate = job.date_finish
+            startOfJob = job.date_start
+            pausePeriod = (startOfJob - lastJobEndDate) / timedelta(days=totalPeriodLength) * 100
+            clubTimeLine.append({
+                'percentage': floor(pausePeriod), 
+                'rest': pausePeriod - floor(pausePeriod),
+                'rest': 0,
+                'text': '', 
+                'isJob': 'no-job'
+            })
+        lastJobEndDate = job.date_finish # save for future pause calculation
 
         # calculate job duration
         daysPeriodStart = (startOfJob - historyBegin) / timedelta(days=totalPeriodLength)
-
         if job.still_hired:
             daysPeriodEnd = 1.0
         else:
             daysPeriodEnd = (lastJobEndDate - historyBegin) / timedelta(days=totalPeriodLength)
             if daysPeriodEnd < 0:
                 daysPeriodEnd = 0
-                continue
-                
-        jobPeriod = round((daysPeriodEnd - daysPeriodStart) * 100)
+                print("Error! daysPeriodEnd < 0")
+                continue       
+        jobPeriod = (daysPeriodEnd - daysPeriodStart) * 100
 
-        # if period was short - show it as a pause! 1% of 20ys is 73d
-        if jobPeriod < 2.0:
-            clubTimeLine.append({'isBreak': 'none', 'percentage': jobPeriod, 'text': ''})
-        else: 
-            # prepare label depending on available bar size
-            label = f"{job.manager.name_last[:round(jobPeriod*1.5)]}"
-            clubTimeLine.append({'isBreak': '', 'percentage': jobPeriod, 'text': label})
+        # prepare label depending on available bar size, 1% of 20ys is 73d
+        label = f"{job.manager.name_last[:round(floor(jobPeriod)*1.5)]}"
+
+        clubTimeLine.append({
+            'percentage': floor(jobPeriod), 
+            'rest': jobPeriod - floor(jobPeriod),
+            'text': label,
+            'isJob': 'job'
+        })
+
+    # prepare sorted list of rests (after floor)
+    ids = [i for i,period in enumerate(clubTimeLine) if period['rest'] > 0]
+    rests = sorted([({'id': r, 'rest': clubTimeLine[r]['rest']}) for r in ids], key=lambda k: k['rest'], reverse=True)
+
+    # calculate and add padding
+    padding = 100 - sum(item['percentage'] for item in clubTimeLine)
+    for i in range(padding):
+        k = rests[i % len(rests)]['id']
+        clubTimeLine[k]['percentage'] = clubTimeLine[k]['percentage'] + 1
 
     # print whole clubTimeLine
-    s = 0
     for period in clubTimeLine:
-        print('%30s %d | %s' % (period['text'], period['percentage'], period['isBreak']))
-        s = s + period['percentage']
-    print('suma tego wszystkiego: ', s)
+        del period['rest']
+        print(period)
 
     context = { 'club': club, 'history': jobs, 'clubTimeLine': clubTimeLine }
     return render(request, 'managers/club.html', context)

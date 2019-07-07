@@ -253,7 +253,7 @@ tr:nth-child(even) {
     background-color: rgba(8, 60, 102, 0.5);
 }
 
-.club-timeline .none {
+.club-timeline .no-job {
     border: 0px;
     background-color: inherit;
 }
