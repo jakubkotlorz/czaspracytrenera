@@ -63,7 +63,8 @@ class Team(models.Model):
             return f"/managers/icons-club/{self.country.code.lower()}/{self.icon_name}"
 
     def getCurrentEmployment(self):
-        return self.hirings.filter(still_hired=True).filter(role='1st').get()
+        currentManager = self.hirings.filter(still_hired=True).filter(role='1st').first()
+        return currentManager
 
     def getAllHirings(self):
         return self.hirings.order_by('-still_hired', '-date_finish')

@@ -123,7 +123,7 @@ def season(request, slug):
 
 def club(request, slug):
     club = get_object_or_404(Team, slug=slug)
-    jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish')
+    jobs = Employment.objects.filter(team=club.id).filter(role='1st').order_by('-still_hired', '-date_finish', '-date_start')
     
     totalPeriodLength = int(365.25*20) # TODO: fix precision
     
@@ -145,6 +145,8 @@ def club(request, slug):
             startOfJob = historyBegin  # job started before and ended after history begin
         else:
             startOfJob = job.date_start
+            if lastJobEndDate:
+                break
             pausePeriod = (startOfJob - lastJobEndDate) / timedelta(days=totalPeriodLength) * 100
             clubTimeLine.append({
                 'percentage': floor(pausePeriod), 
@@ -182,10 +184,11 @@ def club(request, slug):
     rests = sorted([({'id': r, 'rest': clubTimeLine[r]['rest']}) for r in ids], key=lambda k: k['rest'], reverse=True)
 
     # calculate and add padding
-    padding = 100 - sum(item['percentage'] for item in clubTimeLine)
-    for i in range(padding):
-        k = rests[i % len(rests)]['id']
-        clubTimeLine[k]['percentage'] = clubTimeLine[k]['percentage'] + 1
+    if rests:
+        padding = 100 - sum(item['percentage'] for item in clubTimeLine)
+        for i in range(padding):
+            k = rests[i % len(rests)]['id']
+            clubTimeLine[k]['percentage'] = clubTimeLine[k]['percentage'] + 1
 
     # print whole clubTimeLine
     for period in clubTimeLine:
