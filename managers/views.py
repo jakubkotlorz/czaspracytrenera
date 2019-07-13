@@ -145,8 +145,6 @@ def club(request, slug):
             startOfJob = historyBegin  # job started before and ended after history begin
         else:
             startOfJob = job.date_start
-            if lastJobEndDate:
-                break
             pausePeriod = (startOfJob - lastJobEndDate) / timedelta(days=totalPeriodLength) * 100
             clubTimeLine.append({
                 'percentage': floor(pausePeriod), 
@@ -193,7 +191,7 @@ def club(request, slug):
     # print whole clubTimeLine
     for period in clubTimeLine:
         del period['rest']
-        print(period)
+        # print(period)
 
     context = { 'club': club, 'history': jobs, 'clubTimeLine': clubTimeLine }
     return render(request, 'managers/club.html', context)
