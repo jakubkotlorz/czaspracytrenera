@@ -24,29 +24,6 @@ class City(models.Model):
         return self.name_pl    
 
 
-class Season(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=30)
-    years = models.CharField(max_length=20, null=True)
-    slug = models.SlugField(max_length=55)
-    icon_name = models.CharField(max_length=20, default='defaultcup_200.png', blank=False)
-    current = models.BooleanField(null=False, blank=False, default=False)
-    date_start = models.DateField(default=date(year=date.today().year, month=7, day=1))
-    date_end = models.DateField(default=date(year=date.today().year + 1, month=6, day=30))
-    jmb_bg1 = models.CharField(max_length=8, default="#505050")
-    jmb_bg2 = models.CharField(max_length=8, default="#202020")
-    jmb_col = models.CharField(max_length=8, default="#ffffff")
-
-    def getIcon(self):
-        return f"/managers/icons-cup/{self.icon_name}"
-
-    def __str__(self):
-        return f"{self.name} {self.years}"
-
-    def get_absolute_url(self):
-        return reverse('managers:season', args=[str(self.slug)])
-
-
 class Team(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name_full = models.CharField(max_length=50, unique=True)
@@ -76,9 +53,28 @@ class Team(models.Model):
         return reverse('managers:team', args=[str(self.slug)])
 
 
-class TeamSeason(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, default=0, related_name='seasons')
-    season = models.ForeignKey(Season, on_delete=models.CASCADE, default=0, related_name='teams')
+class Season(models.Model):
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=30)
+    years = models.CharField(max_length=20, null=True)
+    slug = models.SlugField(max_length=55)
+    icon_name = models.CharField(max_length=20, default='defaultcup_200.png', blank=False)
+    current = models.BooleanField(null=False, blank=False, default=False)
+    date_start = models.DateField(default=date(year=date.today().year, month=7, day=1))
+    date_end = models.DateField(default=date(year=date.today().year + 1, month=6, day=30))
+    jmb_bg1 = models.CharField(max_length=8, default="#505050")
+    jmb_bg2 = models.CharField(max_length=8, default="#202020")
+    jmb_col = models.CharField(max_length=8, default="#ffffff")
+    teams = models.ManyToManyField(Team)
+
+    def getIcon(self):
+        return f"/managers/icons-cup/{self.icon_name}"
+
+    def __str__(self):
+        return f"{self.name} {self.years}"
+
+    def get_absolute_url(self):
+        return reverse('managers:season', args=[str(self.slug)])
 
 
 class Manager(models.Model):

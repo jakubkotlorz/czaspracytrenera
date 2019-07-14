@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Country, City, Manager, Season, Team, TeamSeason, Employment, ExternalLink
+from .models import Country, City, Manager, Season, Team, Employment, ExternalLink
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -49,13 +49,6 @@ class SeasonAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ('name', 'years', )}
     ordering = ('country', )
 admin.site.register(Season, SeasonAdmin)
-
-
-class TeamSeasonAdmin(admin.ModelAdmin):
-    list_display = ('season', 'team')
-    list_display_links = ('team', )
-admin.site.register(TeamSeason, TeamSeasonAdmin)
-
 
 class ExternalLinkAdmin(admin.ModelAdmin):
     list_display = ('title', 'job', 'url')

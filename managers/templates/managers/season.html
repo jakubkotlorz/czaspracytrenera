@@ -71,8 +71,10 @@
       <hr />    
       <p class="display-4">{{ country }} - pozostałe drużyny</p>    
       <div class="">
-        <ul class="list-inline">{% for team in other_teams %}
-          <li class="list-inline-item"><a href="{% url 'managers:team' team.slug %}" class="btn btn-group-sm btn-light" style="margin-bottom: 4px; ">{{ team }}</a></li>
+        <ul class="list-inline">{% for team in other_teams|dictsort:"name_full" %}
+          <li class="list-inline-item">
+            <a href="{% url 'managers:team' team.slug %}" class="btn btn-group-sm {% if team.is_national %}btn-secondary{% else %}btn-light{% endif %}" style="margin-bottom: 4px; ">{{ team }}</a>
+          </li>
         {% endfor %}</ul>
       </div>
       {% endif %}

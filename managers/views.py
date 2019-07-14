@@ -3,7 +3,7 @@ from django.db.models import Q
 from datetime import datetime, date, timedelta
 from math import floor
 
-from .models import Manager, Country, Season, Employment, TeamSeason, City, Team, ExternalLink
+from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
 from .forms import SearchForm
 
 
@@ -106,18 +106,18 @@ def profile(request, slug):
 
 def season(request, slug):
     season = get_object_or_404(Season, slug=slug)
-    teamsInSeason = season.teams.all()
-    team_ids = [i.team_id for i in teamsInSeason]
-    q_team = Q() # needed for displaying all teams, not only current jobs!
-    q_jobs = Q()
-    for team_id in team_ids:
-        q_team = q_team | Q(id=team_id)
-        q_jobs = q_jobs | Q(team=team_id)
     
-    teams = Team.objects.filter(q_team) if len(q_team) > 0 else []
-    jobs_lost = Employment.objects.filter(q_jobs).filter(date_finish__range=[season.date_start, season.date_end]).all() if len(q_jobs) > 0 else []
-    other_teams = Team.objects.filter(country=season.country).exclude(q_team).order_by('-is_national')
-    context = { 'cup': season, 'teams': teams, 'jobs_lost': jobs_lost, 'other_teams': other_teams, 'country': season.country }
+    teamsInSeason = season.teams.all()
+
+    # find jobs for given teams and filter to current season
+    q_teams = Q()
+    for t in teamsInSeason:
+        q_teams.add(Q(team=t.pk), Q.OR)
+    jobs_lost = Employment.objects.filter(q_teams).filter(date_finish__range=[season.date_start, season.date_end]) if len(q_teams) > 0 else []
+
+    other_teams = list(set(Team.objects.filter(country=season.country)) - set(teamsInSeason))
+
+    context = { 'cup': season, 'teams': teamsInSeason, 'jobs_lost': jobs_lost, 'other_teams': other_teams, 'country': season.country }
     return render(request, 'managers/season.html', context)
 
 def club(request, slug):
