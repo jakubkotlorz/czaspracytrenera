@@ -29,7 +29,7 @@ class Season(models.Model):
     name = models.CharField(max_length=30)
     years = models.CharField(max_length=20, null=True)
     slug = models.SlugField(max_length=55)
-    icon_name = models.CharField(max_length=20, default='default_cup200.png', blank=False)
+    icon_name = models.CharField(max_length=20, default='defaultcup_200.png', blank=False)
     current = models.BooleanField(null=False, blank=False, default=False)
     date_start = models.DateField(default=date(year=date.today().year, month=7, day=1))
     date_end = models.DateField(default=date(year=date.today().year + 1, month=6, day=30))

@@ -20,9 +20,9 @@
 {% endblock %}
 
 {% block content %}
-    {% if teams %}
-    <p class="display-4">Stan aktualny</p>
-    <div class="row">
+    <div>
+      <p class="display-4">Aktualni trenerzy</p>
+      {% if teams %}
       <table class="table table-hover table-condensed table-employments" id="table-employments">
         <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
           <th>&nbsp;</th><th class="th-sortable-default">Manager</th>
@@ -39,13 +39,13 @@
           </tr>{% endwith %}{% endfor %}
         </tbody>
       </table>
-    </div>
-    {% endif %}
+      {% else %}
+      <p class="">Brak drużyn dodanych do tego sezonu!</p>
+      {% endif %}
 
-    {% if jobs_lost %}
-    <hr />    
-    <p class="display-4">Odeszli w tym sezonie</p>
-    <div class="row">  
+      <hr />
+      <p class="display-4">Odeszli w tym sezonie</p>
+      {% if jobs_lost %}
       <table class="table table-hover table-condensed table-employments">
         <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
           <th>&nbsp;</th><th class="th-sortable-default">Manager</th>
@@ -63,18 +63,20 @@
           </tr>{% endfor %}
         </tbody>
       </table>
-    </div>
-    {% endif %}
+      {% else %}
+      <p class="">Na razie nikt...</p>
+      {% endif %}
 
-    {% if other_teams %}
-    <hr />    
-    <p class="display-4">{{ country }} - pozostałe drużyny</p>    
-    <div class="">
-      <ul class="list-inline">{% for team in other_teams %}
-        <li class="list-inline-item"><a href="{% url 'managers:team' team.slug %}" class="btn btn-group-sm btn-light" style="margin-bottom: 4px; ">{{ team }}</a></li>
-      {% endfor %}</ul>
+      {% if other_teams %}
+      <hr />    
+      <p class="display-4">{{ country }} - pozostałe drużyny</p>    
+      <div class="">
+        <ul class="list-inline">{% for team in other_teams %}
+          <li class="list-inline-item"><a href="{% url 'managers:team' team.slug %}" class="btn btn-group-sm btn-light" style="margin-bottom: 4px; ">{{ team }}</a></li>
+        {% endfor %}</ul>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
 
 {% endblock %}
 
