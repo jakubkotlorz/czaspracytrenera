@@ -4,7 +4,7 @@ from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm
+from .forms import SearchForm, TeamToSeasonForm
 
 
 def index(request):
@@ -106,18 +106,28 @@ def profile(request, slug):
 
 def season(request, slug):
     season = get_object_or_404(Season, slug=slug)
+    thisCountryTeams = Team.objects.filter(country=season.country)
+    availableTeamsQs = thisCountryTeams.exclude(seasons=season)
+
+    if request.method == 'POST':
+        form = TeamToSeasonForm(availableTeamsQs, season.teams, request.POST)
+        if form.is_valid():
+            if form.cleaned_data['add_team']:
+                season.teams.add(form.cleaned_data['add_team'])
+            if form.cleaned_data['del_team']:
+                season.teams.remove(form.cleaned_data['del_team'])
+    form = TeamToSeasonForm(availableTeamsQs, season.teams)
     
     teamsInSeason = season.teams.all()
-
+    otherTeams = list(set(thisCountryTeams) - set(teamsInSeason))
+    
     # find jobs for given teams and filter to current season
     q_teams = Q()
     for t in teamsInSeason:
         q_teams.add(Q(team=t.pk), Q.OR)
     jobs_lost = Employment.objects.filter(q_teams).filter(date_finish__range=[season.date_start, season.date_end]) if len(q_teams) > 0 else []
 
-    other_teams = list(set(Team.objects.filter(country=season.country)) - set(teamsInSeason))
-
-    context = { 'cup': season, 'teams': teamsInSeason, 'jobs_lost': jobs_lost, 'other_teams': other_teams, 'country': season.country }
+    context = { 'cup': season, 'teams': teamsInSeason, 'jobs_lost': jobs_lost, 'other_teams': otherTeams, 'country': season.country, 'update_team_list_form': form }
     return render(request, 'managers/season.html', context)
 
 def club(request, slug):

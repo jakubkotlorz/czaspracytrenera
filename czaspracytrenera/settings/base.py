@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'managers'
+    'managers',
+    'crispy_forms'
 ]
 
 SITE_ID = 1

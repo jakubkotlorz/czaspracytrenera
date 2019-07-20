@@ -65,7 +65,7 @@ class Season(models.Model):
     jmb_bg1 = models.CharField(max_length=8, default="#505050")
     jmb_bg2 = models.CharField(max_length=8, default="#202020")
     jmb_col = models.CharField(max_length=8, default="#ffffff")
-    teams = models.ManyToManyField(Team)
+    teams = models.ManyToManyField(Team, related_name='seasons')
 
     def getIcon(self):
         return f"/managers/icons-cup/{self.icon_name}"
