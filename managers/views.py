@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
+from django.views.generic import CreateView, UpdateView
+
 from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm, TeamToSeasonForm
+from .forms import SearchForm, TeamToSeasonForm, SeasonCreateForm, SeasonUpdateForm
 
 
 def index(request):
@@ -103,6 +105,22 @@ def profile(request, slug):
         current_job = ""
     context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
     return render(request, 'managers/profile.html', context)
+
+
+class SeasonCreateView(CreateView):
+    template_name = 'managers/season_create.html'
+    form_class = SeasonCreateForm
+    queryset = Season.objects.all()
+
+
+class SeasonUpdateView(UpdateView):
+    template_name = 'managers/season_update.html'
+    form_class = SeasonUpdateForm
+    queryset = Season.objects.all()
+
+    def get_object(self):
+        return get_object_or_404(Season, slug=self.kwargs['slug'])
+
 
 def season(request, slug):
     season = get_object_or_404(Season, slug=slug)

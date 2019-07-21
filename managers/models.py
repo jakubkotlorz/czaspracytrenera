@@ -57,7 +57,7 @@ class Season(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=30)
     years = models.CharField(max_length=20, null=True)
-    slug = models.SlugField(max_length=55)
+    slug = models.SlugField(max_length=55, unique=True)
     icon_name = models.CharField(max_length=20, default='defaultcup_200.png', blank=False)
     current = models.BooleanField(null=False, blank=False, default=False)
     date_start = models.DateField(default=date(year=date.today().year, month=7, day=1))
