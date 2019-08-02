@@ -1,6 +1,5 @@
 {% extends "managers/base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block title %}Czas pracy trenera - sezon: {{ cup.name }}{% endblock %}
 
@@ -22,13 +21,6 @@
 
 {% block content %}
 
-<form action="{% url 'managers:season' cup.slug %}" method="post" novalidate>
-  {% csrf_token %}
-  <div class="row">
-    <div class="col-6">{{ update_team_list_form.add_team|as_crispy_field }}<input type="submit" value="Zmień" class="btn btn-primary my-2" /></div>
-    <div class="col-6">{{ update_team_list_form.del_team|as_crispy_field }}<input type="submit" value="Zmień" class="btn btn-primary my-2" /></div>
-  </div>
-</form>
     <div>
       <p class="display-4">Aktualni trenerzy</p>
       {% if teams %}
