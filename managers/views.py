@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from datetime import datetime, date, timedelta
 from math import floor
@@ -107,13 +108,13 @@ def profile(request, slug):
     return render(request, 'managers/profile.html', context)
 
 
-class SeasonCreateView(CreateView):
+class SeasonCreateView(LoginRequiredMixin, CreateView):
     template_name = 'managers/season_create.html'
     form_class = SeasonCreateForm
     queryset = Season.objects.all()
 
 
-class SeasonUpdateView(UpdateView):
+class SeasonUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'managers/season_update.html'
     form_class = SeasonUpdateForm
     queryset = Season.objects.all()
