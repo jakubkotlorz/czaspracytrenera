@@ -123,25 +123,6 @@ class SeasonUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(SeasonUpdateView, self).get_context_data(**kwargs)
-
-        # season = get_object_or_404(Season, slug=self.kwargs['slug'])
-        # thisCountryTeams = Team.objects.filter(country=season.country)
-        # availableTeamsQs = thisCountryTeams.exclude(seasons=season)
-        # # form = TeamToSeasonForm(availableTeamsQs, season.teams)
-
-        # if self.request.method == 'POST':
-        #     form = TeamToSeasonForm(availableTeamsQs, season.teams, self.request.POST)
-        #     if form.is_valid():
-        #         if form.cleaned_data['add_team']:
-        #             season.teams.add(form.cleaned_data['add_team'])
-        #         if form.cleaned_data['del_team']:
-        #             season.teams.remove(form.cleaned_data['del_team'])
-        # form = TeamToSeasonForm(availableTeamsQs, season.teams)        
-
-        # context['update_team_list_form'] = form
-        # context['cup'] = season
-        print("KONTEKST: ", context)
-        print("OBJEKT: ", type(context['object'].teams.all()))
         return context
 
     def clean(self):
