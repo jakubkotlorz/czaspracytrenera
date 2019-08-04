@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from datetime import date
+from django.utils.text import slugify
+
 
 class Country(models.Model):
     code = models.CharField(max_length=3)
@@ -75,6 +77,10 @@ class Season(models.Model):
 
     def get_absolute_url(self):
         return reverse('managers:season', args=[str(self.slug)])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify([self.name, self.years])
+        super(Season, self).save(*args, **kwargs)
 
 
 class Manager(models.Model):
