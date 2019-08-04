@@ -31,6 +31,12 @@ a {
     padding-right: 0.5rem;
 }
 
+.season-list-element {
+    height: 80px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
 .dropdown-cup-icon {
     height: 48px;
 }

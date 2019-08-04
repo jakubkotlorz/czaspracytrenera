@@ -1,0 +1,34 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - lista sezonów{% endblock %}
+
+{% block header %}
+    <div class="jumbotron" style="background-image: linear-gradient(#69c270, #3b663f); color: #fff;">
+      <div class="container">
+        <div class="row">
+          <div class="col-2 col-lg-1">
+            <img class="" style="height: 80px; " src="" />
+          </div>
+          <div class="col-10 col-lg-11">
+            <h1 class="display-5">Bieżące rozgrywki</h1>
+            <p class="lead">Wszystkie ligi i puchary</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <p class="display-4">Pełna lista</p>
+    <div class="card-deck">{% for season in object_list %}
+      <a href="{% url 'managers:season' season.slug %}">
+        <div class="card mb-3" style="width: 18rem;">
+          <img class="card-img-top season-list-element" src="{% static season.getIcon %}" alt="{{ season }}">
+          <div class="card-body pt-2 pb-0">
+            <h5 class="card-title">{{ season }}</h5>
+          </div>
+        </div>
+      </a>{% endfor %}
+    </div>
+{% endblock %}

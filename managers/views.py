@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from datetime import datetime, date, timedelta
@@ -106,6 +106,11 @@ def profile(request, slug):
         current_job = ""
     context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
     return render(request, 'managers/profile.html', context)
+
+
+class SeasonListView(ListView):
+    template_name = 'managers/season_list.html'
+    queryset = Season.objects.all()
 
 
 class SeasonCreateView(LoginRequiredMixin, CreateView):
