@@ -110,12 +110,14 @@ def profile(request, slug):
 
 class SeasonCreateView(LoginRequiredMixin, CreateView):
     template_name = 'managers/season_create.html'
+    login_url = '/admin/'
     form_class = SeasonCreateForm
     queryset = Season.objects.all()
 
 
 class SeasonUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'managers/season_update.html'
+    login_url = '/admin/'
     form_class = SeasonUpdateForm
     queryset = Season.objects.all()
 
