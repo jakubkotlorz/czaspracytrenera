@@ -112,6 +112,13 @@ class SeasonListView(ListView):
     template_name = 'managers/season_list.html'
     queryset = Season.currentSeasons.all()
 
+    def get_context_data(self, **kwargs):
+        context = super(SeasonListView, self).get_context_data(**kwargs)
+        showHidden = self.request.GET.get('showHidden', False)
+        if showHidden == 'True':
+            context['hidden'] = Season.objects.filter(current=False)
+        return context
+
 
 class SeasonCreateView(LoginRequiredMixin, CreateView):
     template_name = 'managers/season_create.html'

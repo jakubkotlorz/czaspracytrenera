@@ -27,4 +27,9 @@
         <div class="card-body pt-2 pb-0"><h5 class="card-title"><a href="{% url 'managers:season' season.slug %}">{{ season }}</a></h5></div>
       </div>{% endfor %}
     </div>
+
+    {% if hidden %}<p class="display-4">Ukryte (nieaktywne)</p>
+    <ul class="list-inline">{% for season in hidden %}
+        <li class="list-inline-item"><a href="{% url 'managers:season' season.slug %}">{{ season }}</a></li>
+    {% endfor %}</ul>{% endif %}
 {% endblock %}
