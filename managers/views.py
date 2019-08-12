@@ -110,7 +110,7 @@ def profile(request, slug):
 
 class SeasonListView(ListView):
     template_name = 'managers/season_list.html'
-    queryset = Season.objects.all()
+    queryset = Season.currentSeasons.all()
 
 
 class SeasonCreateView(LoginRequiredMixin, CreateView):

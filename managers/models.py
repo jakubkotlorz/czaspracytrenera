@@ -55,6 +55,11 @@ class Team(models.Model):
         return reverse('managers:team', args=[str(self.slug)])
 
 
+class CurrentSeasonsManager(models.Manager):
+    def get_queryset(self):
+        return super(CurrentSeasonsManager, self).get_queryset().filter(current=True)
+
+
 class Season(models.Model):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=30)
@@ -68,6 +73,9 @@ class Season(models.Model):
     jmb_bg2 = models.CharField(max_length=8, default="#202020")
     jmb_col = models.CharField(max_length=8, default="#ffffff")
     teams = models.ManyToManyField(Team, related_name='seasons')
+
+    objects = models.Manager()
+    currentSeasons = CurrentSeasonsManager()
 
     def getIcon(self):
         return f"/managers/icons-cup/{self.icon_name}"
