@@ -32,9 +32,10 @@ a {
 }
 
 .season-list-element {
-    height: 80px;
+    height: 160px;
     -o-object-fit: cover;
     object-fit: cover;
+    /* margin: auto; */
 }
 
 .dropdown-cup-icon {

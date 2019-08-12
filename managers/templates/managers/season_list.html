@@ -21,14 +21,10 @@
 
 {% block content %}
     <p class="display-4">Pełna lista</p>
-    <div class="card-deck">{% for season in object_list %}
-      <a href="{% url 'managers:season' season.slug %}">
-        <div class="card mb-3" style="width: 18rem;">
-          <img class="card-img-top season-list-element" src="{% static season.getIcon %}" alt="{{ season }}">
-          <div class="card-body pt-2 pb-0">
-            <h5 class="card-title">{{ season }}</h5>
-          </div>
-        </div>
-      </a>{% endfor %}
+    <div class="card-columns">{% for season in object_list %}
+      <div class="card mb-3" style="width: 18rem;">
+        <div class="card-header"><img class="card-img-top season-list-element" src="{% static season.getIcon %}" alt="{{ season }}" /></div>
+        <div class="card-body pt-2 pb-0"><h5 class="card-title">{{ season }}</h5></div>
+      </div>{% endfor %}
     </div>
 {% endblock %}
