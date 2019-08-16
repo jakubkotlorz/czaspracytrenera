@@ -21,6 +21,12 @@
 
 {% block content %}
 
+{% if admin_bar %}
+    <nav class="navbar navbar-expand-md bg-dark mb-4">
+      <a class="btn btn-secondary mr-1" href="{% url 'managers:season-update' cup.slug %}" role="button">Edytuj</a>
+    </nav>   
+{% endif %}
+
     <div>
       <p class="display-4">Aktualni trenerzy</p>
       {% if teams %}

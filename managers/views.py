@@ -117,6 +117,8 @@ class SeasonListView(ListView):
         showHidden = self.request.GET.get('showHidden', False)
         if showHidden == 'True':
             context['hidden'] = Season.objects.filter(current=False)
+        if self.request.user.is_authenticated:
+            context['admin_bar'] = True
         return context
 
 
@@ -163,6 +165,8 @@ def season(request, slug):
     jobs_lost = Employment.objects.filter(q_teams).filter(date_finish__range=[season.date_start, season.date_end]) if len(q_teams) > 0 else []
 
     context = { 'cup': season, 'teams': teamsInSeason, 'jobs_lost': jobs_lost, 'other_teams': otherTeams, 'country': season.country }
+    if request.user.is_authenticated:
+        context['admin_bar'] = True
     return render(request, 'managers/season.html', context)
 
 def club(request, slug):
