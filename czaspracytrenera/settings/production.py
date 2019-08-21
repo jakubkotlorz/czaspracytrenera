@@ -9,9 +9,10 @@ ALLOWED_HOSTS = ["czaspracytrenera.pl", "www.czaspracytrenera.pl"]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
+
 STATIC_ROOT = os.path.join(ENV_PATH, '../../public/static/') 
+STATIC_URL = '/static/'
+
 MEDIA_ROOT = os.path.join(ENV_PATH, '../../public/media/') 
+MEDIA_URL = 'public/media/'
