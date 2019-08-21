@@ -7,7 +7,8 @@ from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm
+from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, UploadFileForm
+from .files_handling import upload_photo
 
 
 def index(request):
@@ -105,7 +106,25 @@ def profile(request, slug):
     else:
         current_job = ""
     context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
+    if request.user.is_authenticated:
+        context['admin_bar'] = True
     return render(request, 'managers/profile.html', context)
+
+
+def profilePhoto(request, slug):
+    person = get_object_or_404(Manager, slug=slug)
+    uploaded_file_url = None 
+    
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file_url = upload_photo(request.FILES['file'])
+            person.photo = uploaded_file_url
+            person.save()
+    else:
+        form = UploadFileForm()
+    context = { 'person': person, 'uploaded_file_url': uploaded_file_url, 'form': form }
+    return render(request, 'managers/profile-update-photo.html', context)
 
 
 class SeasonListView(ListView):

@@ -1,0 +1,42 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - {{ person.name_first }} {{ person.name_last }}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <p class="display-2">{{ person }}</p>
+</div>
+
+{% if uploaded_file_url %}<div class="row">
+  <div class="alert alert-success" role="alert">Zapisano plik: {{ uploaded_file_url }}</div>
+</div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="md-form">
+  {% csrf_token %}
+  <div class="custom-file">
+    {{ form.file }}
+    <label class="custom-file-label" for="{{ form.file.id_for_label }}">{{ person.photo|default:"Wybierz plik..." }}</label>
+  </div>   
+  <div class="mt-3">
+    <button type="submit" class="btn btn-primary">Wyślij</button>
+  </div> 
+</form>
+
+<div class="row mt-3">
+  <img src="/static{{ person.getPhoto }}" class="img-fluid" alt="{{ person.getPhoto }}">
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Add the following code if you want the name of the file appear on select
+  $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+</script>
+{% endblock extra_js %}

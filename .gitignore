@@ -34,3 +34,6 @@ manage.py
 statistics.csv
 
 tmp/
+
+# media
+media/photos/

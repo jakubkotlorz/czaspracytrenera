@@ -74,6 +74,12 @@
   </div>
   </div> -->
 
+{% if admin_bar %}
+<nav class="navbar navbar-expand-md bg-dark mb-4">
+  <a class="btn btn-secondary mr-1" href="{% url 'managers:profile-update-photo' person.slug %}" role="button">Zmień zdjęcie</a>
+</nav>   
+{% endif %}
+
 <div class="row">
   <p class="display-4">Przebieg kariery</p>
   {% if history %}

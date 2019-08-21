@@ -77,3 +77,6 @@ class SeasonUpdateForm(forms.ModelForm):
             ),
             Submit('submit', 'Zapisz', css_class='my-2')
         )
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={'class': 'custom-file-input', 'id': 'customFile', 'name': 'givenFile'}))

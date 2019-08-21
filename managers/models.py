@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from datetime import date
@@ -106,7 +107,7 @@ class Manager(models.Model):
         if not self.photo:
             return f"/managers/icons/manager.png"
         else:
-            return f"/managers/photos/{self.photo}"
+            return f"/../{settings.MEDIA_URL}/photos/{self.photo}"
 
     def __str__(self):
         return f"{self.name_first} {self.name_last}"
