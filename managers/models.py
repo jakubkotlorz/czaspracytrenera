@@ -104,10 +104,8 @@ class Manager(models.Model):
     photo = models.CharField(max_length=50, null=True, blank=True)
 
     def getPhoto(self):
-        if not self.photo:
-            return f"/managers/icons/manager.png"
-        else:
-            return f"/../{settings.MEDIA_URL}/photos/{self.photo}"
+        img = self.photo if self.photo else "manager.png"
+        return f"/{settings.MEDIA_URL}/photos/{img}"
 
     def __str__(self):
         return f"{self.name_first} {self.name_last}"

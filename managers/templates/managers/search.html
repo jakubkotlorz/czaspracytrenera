@@ -12,7 +12,7 @@
       <div class="card-body hired-sacked-card">
         {% if res_managers %}<table class="hired-sacked-table">
           {% for manager in res_managers %}<tr>
-            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{% static manager.getPhoto %}" alt="" /></div></td>
+            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{{ manager.getPhoto }}" alt="" /></div></td>
             <td width="auto"><a href="{% url 'managers:profile' manager.slug %}">{{ manager.name_first }} <strong>{{ manager.name_last }}</strong></a></td>
           </tr>{% endfor %}
         </table>

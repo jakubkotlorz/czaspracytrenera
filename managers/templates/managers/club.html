@@ -40,7 +40,7 @@
             </a>
           </div>
           <div class="">
-            <img src="{% static job.manager.getPhoto %}" alt="{{ job.manager.name_last }}" class="img-fluid club-manager-photo" />
+            <img src="{{ job.manager.getPhoto }}" alt="{{ job.manager.name_last }}" class="img-fluid club-manager-photo" />
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
     <thead><tr><th>&nbsp;</th><th>Trener</th><th>Od</th><th>Do</th><th>Dni</th></tr></thead>
     <tbody>
       {% for job in history %}<tr>
-        <td class="p-0" style="vertical-align: middle;"><div class="squared-photo-small"><img src="{% static job.manager.getPhoto %}" alt="" /></div></td>
+        <td class="p-0" style="vertical-align: middle;"><div class="squared-photo-small"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>
         <td class="px-1"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <b>{{ job.manager.name_last }}</b></a></td>
         <td class="d-table-cell d-sm-none px-1">{{ job.date_start|date:"M y" }}</td>
         <td class="d-none d-sm-table-cell">{{ job.date_start }}</td>

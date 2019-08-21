@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row">
           <div class="col-4 profile-img">
-            <img src="{% static person.getPhoto %}"  alt="{{ person.name_last }}" />
+            <img src="{{ person.getPhoto }}"  alt="{{ person.name_last }}" />
             <div class="row profile-flag"><a href="{% url 'managers:country' nationality.id %}">
                 <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
               </a></div>         
