@@ -105,7 +105,7 @@ class Manager(models.Model):
 
     def getPhoto(self):
         img = self.photo if self.photo else "manager.png"
-        return f"/{settings.MEDIA_URL}/photos/{img}"
+        return f"{settings.MEDIA_URL}photos/{img}"
 
     def __str__(self):
         return f"{self.name_first} {self.name_last}"
