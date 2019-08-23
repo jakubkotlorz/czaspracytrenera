@@ -15,4 +15,5 @@ STATIC_ROOT = os.path.join(ENV_PATH, '../../public/static/')
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(ENV_PATH, '../../public/media/') 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
+# MEDIA_ROOT = os.path.join(ENV_PATH, '../../public/media/') 
