@@ -16,8 +16,8 @@
           <div class="col-8 col-md-4 profile-head">
             <p class="jumbo-header-h1"><br />{{ person.name_last }}</p>
             <p class="jumbo-header-h4 my-3">{{ person.name_first }}</p>
-            <p class="">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (<strong>{{ age }} l.</strong>) {% else %}(brak danych){% endif %} 
-              {% if city %} w <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+            <p><span class="d-none d-md-inline">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (</span><strong>{{ age }} l.</strong><span class="d-none d-md-inline">)</span> {% else %}</span>(brak danych){% endif %} 
+              {% if city %} <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
             {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
             </p>
           </div>
