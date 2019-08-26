@@ -6,13 +6,13 @@
 {% block header %}
     <div class="jumbotron" style="background-image: linear-gradient({{ cup.jmb_bg1 }}, {{ cup.jmb_bg2 }}); color: {{ cup.jmb_col }}; ">
       <div class="container">
-        <div class="row">
-          <div class="col-2 col-lg-1">
+        <div class="row mb-3">
+          <div class="col-3 col-md-2 col-xl-1">
             <img class="" style="height: 80px; " src="{% static cup.getIcon %}" />
           </div>
-          <div class="col-10 col-lg-11">
-            <h1 class="display-5">{{ cup.name }}</h1>
-            <p class="lead">{{ cup.years }}</p>
+          <div class="col-9 col-md-10 col-xl-11">
+            <p class="jumbo-header-h1">{{ cup.name }}</p>
+            <p class="jumbo-header-h5">{{ cup.years }}</p>
           </div>
         </div>
       </div>

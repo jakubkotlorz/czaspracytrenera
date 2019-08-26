@@ -59,6 +59,23 @@ a {
     border-radius: 0;
 }
 
+/* jumbo header - start */
+
+.jumbo-header-h1 {
+    font-size: 3.4rem;
+    font-weight: 200;
+    line-height: 80%;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+}
+
+.jumbo-header-h5 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.0rem;
+}
+
+/* jumbo header - end */
 
 /*  just profile - start */
 
