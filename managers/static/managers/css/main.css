@@ -159,7 +159,7 @@ a {
 }
 
 .emblem-col {
-    width: 96px;
+    /* width: 96px; */
     height: 36px;
     padding: 3px !important;
     text-align: center;
