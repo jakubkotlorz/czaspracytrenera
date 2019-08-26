@@ -7,26 +7,26 @@
     <div class="jumbotron pt-0 pb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
       <div class="container">
         <div class="row">
-          <div class="col-4 profile-img">
-            <img src="{{ person.getPhoto }}"  alt="{{ person.name_last }}" />
+          <div class="col-12 col-md-5 profile-img">
+            <img src="{{ person.getPhoto }}"  alt="{{ person.name_last }}"/>
             <div class="row profile-flag"><a href="{% url 'managers:country' nationality.id %}">
                 <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
               </a></div>         
           </div>
-          <div class="col-5 profile-head">
-            <h1 class="display-5"><br />{{ person.name_last }}</h1>
-            <p class="lead">{{ person.name_first }}</p>
+          <div class="col-8 col-md-4 profile-head">
+            <p class="jumbo-header-h1"><br />{{ person.name_last }}</p>
+            <p class="jumbo-header-h4 my-3">{{ person.name_first }}</p>
             <p class="">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (<strong>{{ age }} l.</strong>) {% else %}(brak danych){% endif %} 
               {% if city %} w <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
             {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
             </p>
           </div>
-          <div class="col-3 profile-club text-center">
+          <div class="col-4 col-md-3 profile-club text-center">
             {% if current_job %}<a href="{% url 'managers:team' current_job.team.slug %}">
               <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
               {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
             </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
-            <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>            
+            <p class="jumbo-header-h4">{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</p>            
           </div>          
         </div>
       </div>  
@@ -34,45 +34,6 @@
 {% endblock %}
 
 {% block content %}
-
-
-<!-- <div class="row">
-  <div class="profile-titlebar row-eq-height">
-    <div class="col-md-3">
-      <div class="profile-img">
-        <img src="{% static person.getPhoto %}" alt="{{ person.name_last }}"/>
-      </div>
-    </div>
-    <div class="col-md-5 profile-head">
-      <div class="profile-flag row">
-        <div class="col-sm-10">&nbsp;</div>
-        <div class="col-sm-2">
-          <a href="{% url 'managers:country' nationality.id %}"><img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}</a>
-        </div>
-      </div>
-      <div class="profile-names row">
-        <center><h1>{{ person.name_first }} {{ person.name_last }}</h1></center>
-      </div>
-      <div class="profile-detailed row-eq-height">
-        <div class="col-sm-12">
-          <p class="text-center">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (<strong>{{ age }} l.</strong>) {% else %}(brak danych){% endif %} 
-            {% if city %} w <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
-          {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="profile-club" style="text-align: center;">{% if current_job %}
-        <a href="{% url 'managers:team' current_job.team.id %}">
-          <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
-          {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
-        </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
-        <h2>{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</h2>
-      </div>
-    </div>
-  </div>
-  </div> -->
 
 {% if admin_bar %}
 <nav class="navbar navbar-expand-md bg-dark mb-4">

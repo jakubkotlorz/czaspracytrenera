@@ -69,6 +69,12 @@ a {
     margin-bottom: 0.4rem;
 }
 
+.jumbo-header-h4 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.0rem;
+}
+
 .jumbo-header-h5 {
     font-size: 1.4rem;
     font-weight: 800;
@@ -83,7 +89,7 @@ a {
     display: block;
     margin: 0 auto 0 auto;
     max-height: 210px;
-    height: 210px;
+    /* height: 210px; */
 }
 
 .profile-club img {
@@ -108,6 +114,13 @@ a {
     transform: translate(-50%, -50%);
     font-size: 1.8em;
     height: 38px;
+}
+
+@media screen and (max-width: 468px) {
+.profile-club img {
+    margin: 48px auto 8px auto;
+    height: 92px;
+}
 }
 
 
