@@ -7,7 +7,9 @@ import csv
 
 sqlite_file = 'db.sqlite3'
 app_name = 'managers'
-column_names = ['city', 'country', 'employment', 'externallink', 'manager', 'season', 'team', 'teamseason']
+
+# removed: 'teamseason' after 'team'
+column_names = ['city', 'country', 'employment', 'externallink', 'manager', 'season', 'team'] 
 out_file = 'statistics.csv'
 
 def main():
