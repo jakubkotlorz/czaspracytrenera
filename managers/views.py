@@ -100,7 +100,7 @@ def profile(request, slug):
             job.days = (date.today() - date(year=job.date_start.year, month=job.date_start.month, day=job.date_start.day)).days
         if job.links:
             q_links = q_links | Q(job=job)
-    links = ExternalLink.objects.filter(q_links)
+    links = ExternalLink.objects.filter(q_links) if len(q_links) > 0 else []
     if history and history[0].still_hired:
         current_job = history[0]
     else:
