@@ -62,8 +62,8 @@
 </div>
 {% if links %}<div class="profile-links">
   <p class="display-4">Linki</p>
-  <ul class="list">{% for link in links %}
-    <li class="list-item"><i class="glyphicon glyphicon-globe"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
+  <ul class="list-group list-group-flush">{% for link in links %}
+    <li class="list-group-item py-2"><i class="fas fa-external-link-alt"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
   {% endfor %}</ul>
 </div>{% endif %}
 
