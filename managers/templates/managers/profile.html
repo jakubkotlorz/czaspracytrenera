@@ -71,5 +71,14 @@
   {% endfor %}</ul>
 </div>{% endif %}
 
-</div>
+  {% if league_managers %}
+  <p class="h2 mb-0">Trenerzy w sezonie {{ season }}</p>
+  <p class="small">Lista managerów w obecnym sezonie</p>
+  <ul class="list-inline">{% for manager in league_managers %}
+    <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
+      <img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
+    </a></li>
+  {% endfor %}</ul>
+  {% endif %}
+
 {% endblock %}

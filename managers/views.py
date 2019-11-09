@@ -100,11 +100,13 @@ def profile(request, slug):
         if job.links:
             q_links = q_links | Q(job=job)
     links = ExternalLink.objects.filter(q_links) if len(q_links) > 0 else []
-    current_job = history[0] if history and history[0].still_hired else ""        
+    current_job = history[0] if history and history[0].still_hired else ""
+    season = current_job.getSeason() if current_job else None     
     
-    context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
+    context = { 'season': season, 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
     context['admin_bar'] = True if request.user.is_authenticated else False
-    context['managed_teams'] = ', '.join(set([job.team.name_full for job in history]))
+    context['managed_teams'] = ', '.join(set([job.team.name_full for job in history])) 
+    context['league_managers'] = season.getThisSeasonManagers() if season else None
     return render(request, 'managers/profile.html', context)
 
 

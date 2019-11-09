@@ -78,6 +78,12 @@ class Season(models.Model):
     objects = models.Manager()
     currentSeasons = CurrentSeasonsManager()
 
+    def getTeamsInSeason(self):
+        return self.teams.all()
+
+    def getThisSeasonManagers(self):
+        return [team.getCurrentEmployment().manager for team in self.getTeamsInSeason() if team.getCurrentEmployment() is not None]
+
     def getIcon(self):
         return f"/managers/icons-cup/{self.icon_name}"
 
@@ -129,6 +135,9 @@ class Employment(models.Model):
     still_hired = models.BooleanField(null=False, blank=False, default=False)
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
+
+    def getSeason(self):
+        return self.team.seasons.first()
 
     def durationDays(self):
         if self.still_hired:
