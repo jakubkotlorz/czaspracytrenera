@@ -87,10 +87,9 @@ def profile(request, slug):
     else:
         age = ''
     country = get_object_or_404(Country, pk=person.country_id)
-    if person.city_birth_id:
-        city = City.objects.get(pk=person.city_birth_id)
-    else:
-        city = ''
+    
+    city = City.objects.get(pk=person.city_birth_id) if person.city_birth_id else ''
+
     history = person.jobs.order_by('-still_hired', '-date_finish')
     q_links = Q()
     for job in history:
@@ -101,13 +100,11 @@ def profile(request, slug):
         if job.links:
             q_links = q_links | Q(job=job)
     links = ExternalLink.objects.filter(q_links) if len(q_links) > 0 else []
-    if history and history[0].still_hired:
-        current_job = history[0]
-    else:
-        current_job = ""
+    current_job = history[0] if history and history[0].still_hired else ""        
+    
     context = { 'person': person, 'nationality': country, 'history': history, 'current_job': current_job, 'city': city, 'age': age, 'links': links, 'no_club_icon': Team().getIcon }
-    if request.user.is_authenticated:
-        context['admin_bar'] = True
+    context['admin_bar'] = True if request.user.is_authenticated else False
+    context['managed_teams'] = ', '.join(set([job.team.name_full for job in history]))
     return render(request, 'managers/profile.html', context)
 
 

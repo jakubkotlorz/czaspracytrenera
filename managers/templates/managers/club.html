@@ -1,7 +1,9 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}Czas pracy trenera - {{ club.name_full }}{% endblock %}
+{% block title %}{{ club.name_full }} | Obecny trener | Zmiany trenera | Statystyki | CzasPracyTrenera.pl{% endblock %}
+{% block meta-desc %}{{ club.name_full }}{% if club.getCurrentEmployment %} - obecnym trenerem jest {{ club.getCurrentEmployment.manager }}{% endif %}. Sprawdź poprzednich managerów prowadzących {{ club.name_short }}, a także czas pracy każdego trenera, średnią długość pracy i statystyki.{% endblock %}
+{% block meta-keyw %}{{ club }}, {{ club.getCurrentEmployment.manager }}, {% endblock %}
 
 {% block header %}
     <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
@@ -19,10 +21,11 @@
         </div>
       </div>  
     </div>
-    {% if club.getCurrentEmployment %}
-    {% with club.getCurrentEmployment as job %}
+
     <div class="jumbotron pt-0 pb-0 mb-0" style="background-color: rgba(8, 60, 102, 0.055); color: #000000; ">
       <div class="container">
+          {% if club.getCurrentEmployment %}
+          {% with club.getCurrentEmployment as job %}
         <div class="d-flex align-items-center">
           <div class="mx-0 mx-sm-3 mx-md-5">
             <div class="badge badge-secondary badge-days-number">
@@ -40,17 +43,22 @@
             </a>
           </div>
           <div class="">
-            <img src="{{ job.manager.getPhoto }}" alt="{{ job.manager.name_last }}" class="img-fluid club-manager-photo" />
+            <img src="{{ job.manager.getPhoto }}" alt="{{ job.manager.name_last }}" title="Pracuje od {{ job.durationDays }} dni" class="img-fluid club-manager-photo" />
           </div>
         </div>
+        {% endwith %}
+        {% else %}
+        <div class="flex-grow-1 flex-column p-2 mx-0 mx-sm-3 mx-md-5">
+            <p class="h1 font-weight-light">Wakat</p>
+            <p class="h5 font-weight-light">Brak obecnie zatrudnionego trenera</p>
+        </div>
+        {% endif %} 
       </div>
     </div>  
-  {% endwith %}
-  {% endif %} 
 
     <div class="jumbotron pt-3 pb-4" style="background-color: rgba(8, 60, 102, 0.185); color: #000000; ">
       <div class="container">
-        <p class="row h1">Ostatnie 20 lat</p>
+        <p class="row h2">{{ club.name_short }} - trenerzy przez ostatnie 20. lat</p>
         <div class="progress club-timeline">{% for period in clubTimeLine %}
           <div class="progress-bar {{ period.isJob }}" role="progressbar" style="width: {{ period.percentage }}%" aria-valuenow="{{ period.percentage }}" aria-valuemin="0" aria-valuemax="100">{{ period.text }}</div>
         {% endfor %}</div>
@@ -60,10 +68,11 @@
 
 {% block content %}
 <div class="row">
-  <p class="h1">Dotychczasowi trenerzy</p>
+  <p class="h2">{{ club.name_short }} - trenerzy - historia</p>
   {% if history %}
   <table class="table table-striped">
-    <thead><tr><th>&nbsp;</th><th>Trener</th><th>Od</th><th>Do</th><th>Dni</th></tr></thead>
+    <thead><tr><th>&nbsp;</th><th>Trener</th><th><span class="d-none d-md-block">Początek pracy</span><span class="d-md-none">Od</span></th>
+      <th><span class="d-none d-md-block">Koniec pracy</span><span class="d-md-none">Do</span></th><th>Dni</th></tr></thead>
     <tbody>
       {% for job in history %}<tr>
         <td class="p-0" style="vertical-align: middle;"><div class="squared-photo-small"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>

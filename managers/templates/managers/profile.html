@@ -1,31 +1,33 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}Czas pracy trenera - {{ person.name_first }} {{ person.name_last }}{% endblock %}
+{% block title %}{{ person.name_first }} {{ person.name_last }} | Obecny klub | Prowadzone drużyny | Statystyki | CzasPracyTrenera.pl{% endblock %}
+{% block meta-desc %}{{ person }}{% if current_job %} - trener {{ current_job.team.name_full }}{% endif %}. Sprawdź: profil trenera, drużyny przez niego prowadzone, czas pracy w każdym klubie, średnią długość pracy i statystyki.{% endblock %}
+{% block meta-keyw %}{{ person.name_first }}, {{ person.name_last }}, {{ managed_teams }}, {% endblock %}
 
 {% block header %}
     <div class="jumbotron pt-0 pb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
       <div class="container">
         <div class="row">
           <div class="col-12 col-md-5 profile-img">
-            <img src="{{ person.getPhoto }}"  alt="{{ person.name_last }}"/>
+            <img src="{{ person.getPhoto }}"  alt="{{ person }}" title="{{ person }}{% if age %}ma {{ age }} lat{% endif %}"/>
             <div class="row profile-flag"><a href="{% url 'managers:country' nationality.id %}">
-                <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
+                <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" title="{{ person }} pochodzi z {{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
               </a></div>         
           </div>
           <div class="col-8 col-md-4 profile-head">
             <p class="jumbo-header-h1"><br />{{ person.name_last }}</p>
             <p class="jumbo-header-h4 my-3">{{ person.name_first }}</p>
             <p><span class="d-none d-md-inline">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (</span><strong>{{ age }} l.</strong><span class="d-none d-md-inline">)</span> {% else %}</span>(brak danych){% endif %} 
-              {% if city %} <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="{{ city.name_pl }}" class="flag18" /></a>
+              {% if city %} <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="Urodzony w {{ city.name_pl }}" class="flag18" /></a>
             {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
             </p>
           </div>
           <div class="col-4 col-md-3 profile-club text-center">
             {% if current_job %}<a href="{% url 'managers:team' current_job.team.slug %}">
-              <img src="{% static current_job.team.getIcon %}" alt="{{ current_job.team.name_full }}"/>
+              <img src="{% static current_job.team.getIcon %}" alt="Obecna drużyna {{ current_job.team.name_full }}" title="{{ person }} obecnie prowadzi drużynę {{ current_job.team }}"/>
               {% if not current_job.team.icon_name %}<div class="on-emblem-text">{{ current_job.team.name_full }}</div>{% endif %}
-            </a>{% else %}<img src="{% static no_club_icon %}" alt="Domyślny herb"/>{% endif %}
+            </a>{% else %}<img src="{% static no_club_icon %}" alt="Brak klubu" title="{{ person }} obecnie nie prowadzi żadnej drużyny"/>{% endif %}
             <p class="jumbo-header-h4">{% if current_job %}{{ current_job.days }} dni{% else %}Brak klubu{% endif %}</p>            
           </div>          
         </div>
@@ -41,14 +43,15 @@
 </nav>   
 {% endif %}
 
-<div class="row">
-  <p class="display-4 col-12">Przebieg kariery</p>
-  {% if history %}
+  <p class="h2 mb-0">Prowadzone drużyny</p>
+  <p class="small">Historia zatrudnienia</p>
+
+  {% if history %}<div class="row">
     <table class="table table-striped">
       <thead><tr><th>&nbsp;</th><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th><th>Dni</th></tr></thead>
       <tbody>
         {% for club in history %}<tr>
-          <td class="data-table emblem-col"><a href="{% url 'managers:team' club.team.slug %}"><img src="{% static club.team.getIcon %}" alt="{{ club.team.name_short }}" /></a></td>
+          <td class="data-table emblem-col"><a href="{% url 'managers:team' club.team.slug %}"><img src="{% static club.team.getIcon %}" alt="{{ club.team.name_short }}" title="{{ club.team.name_short }}" /></a></td>
           <td><a href="{% url 'managers:team' club.team.slug %}">{{ club.team.name_full }}</a>{% if club.role != '1st' %} ({{ club.role }}){% endif %}</td>
           <td>{{ club.date_start }}</td>
           <td>{% if club.date_finish %}{{ club.date_finish }}{% else %} - {% endif %}</td>
@@ -60,8 +63,9 @@
     <p class="col-12">Brak wpisów!</p>
   {% endif %}
 </div>
-{% if links %}<div class="profile-links">
-  <p class="display-4">Linki</p>
+{% if links %}<div class="profile-links mt-3">
+  <p class="h2 mb-0">Newsy</p>
+  <p class="small">Informacje o zmianach pracy</p>
   <ul class="list-group list-group-flush">{% for link in links %}
     <li class="list-group-item py-2"><i class="fas fa-external-link-alt"></i> <a href="{{ link.url }}" target="_blank">{{ link.title }}</a></li>
   {% endfor %}</ul>
