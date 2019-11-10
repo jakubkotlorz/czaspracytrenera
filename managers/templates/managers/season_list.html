@@ -28,7 +28,8 @@
     </nav>   
 {% endif %}
 
-    <p class="display-4">Pełna lista</p>
+    <p class="h2 mb-0">Trenerzy w Europie</p>
+    <p class="small">Sprawdź kto jest trenerem w klubie z każdej czołowej ligi europejskiej</p>
     <div class="card-columns">{% for season in object_list %}
       <div class="card mb-3" style="width: 18rem;">
         <div class="card-header"><a href="{% url 'managers:season' season.slug %}"><img class="card-img-top season-list-element" src="{% static season.getIcon %}" alt="{{ season }}" /></a></div>

@@ -18,7 +18,8 @@
 
 {% block content %}
 
-    <p class="display-4">Kraj pochodzenia</p>
+    <p class="h2 mb-0">Trenerzy według kraju pochodzenia</p>
+    <p class="small">Wybierz flagę, by zobaczyć wszystkich trenerów z tego kraju:</p>
     <ul class="list-inline">{% for country in countries_list %}
       {% if country.count_managers %}
       <li class="list-inline-item"><a href="{% url 'managers:country' country.id %}" class="btn btn-default" role="button">
@@ -28,7 +29,8 @@
     {% endfor %}</ul>
 
     <hr />
-    <p class="display-4">Pełna lista</p>
+    <p class="h2 mb-0">Wszyscy trenerzy</p>
+    <p class="small">Pełna lista menadżerów w serwisie:</p>
     <ul class="list-inline">{% for manager in all_managers %}
       <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
         <img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}

@@ -28,7 +28,8 @@
 {% endif %}
 
     <div>
-      <p class="display-4">Aktualni trenerzy</p>
+      <p class="h2 mb-0">Trenerzy w {{ cup.name }} - sezon {{ cup.years }}</p>
+      <p class="small">Lista zawiera informacje kto jest menadżerem w bieżącym sezonie {{ cup.name }}</p>
       {% if teams %}
       <table class="table table-hover table-condensed table-employments" id="table-employments">
         <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
@@ -51,7 +52,8 @@
       {% endif %}
 
       <hr />
-      <p class="display-4">Odeszli w tym sezonie</p>
+      <p class="h2 mb-0">Odeszli w sezonie {{ cup.years }}</p>
+      <p class="small">Nazwiska trenerów, którzy w tym sezonie odeszli lub zostali zwolnieni z klubu {{ cup.name }}</p>
       {% if jobs_lost %}
       <table class="table table-hover table-condensed table-employments">
         <thead><tr><th>&nbsp;</th><th class="d-none d-sm-table-cell th-sortable-default">Klub</th>
@@ -76,7 +78,8 @@
 
       {% if other_teams %}
       <hr />    
-      <p class="display-4">{{ country }} - pozostałe drużyny</p>    
+      <p class="h2 mb-0">Pozostałe klubu z tego kraju</p>
+      <p class="small">Lista drużyn z tego kraju, nie występujących w obecnym sezonie w {{ cup.name }}</p>
       <div class="">
         <ul class="list-inline">{% for team in other_teams|dictsort:"name_full" %}
           <li class="list-inline-item">
