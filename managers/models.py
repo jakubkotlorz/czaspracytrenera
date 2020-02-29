@@ -136,6 +136,12 @@ class Employment(models.Model):
     days_lasted = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=3, choices=ROLE_CHOICES, default=FIRST)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['manager'], condition=models.Q(still_hired='True'), name='unique_manager_hired'),
+            models.UniqueConstraint(fields=['team', 'role'], condition=models.Q(still_hired='True'), name='unique_team_hired')
+    ]
+
     def getSeason(self):
         return self.team.seasons.first()
 
