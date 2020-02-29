@@ -1,7 +1,9 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}Czas pracy trenera - sezon: {{ cup.name }}{% endblock %}
+{% block title %}{{ cup.name }} {{ cup.years }} | Trenerzy | Zmiany w sezonie | Statystyki | CzasPracyTrenera.pl{% endblock %}
+{% block meta-desc %}{{ cup.name }} - lista obecnych trenerów. Czas pracy trenera w sezonie {{ cup.years }}. Zmiany managerów. Sprawdź, kto prowadzi klub w {{ cup.name }}{% endblock %}
+{% block meta-keyw %}{{ cup.name }} {{ cup.years}}, {{ cup.getTeamsInSeason|join:", " }}, {{ cup.getThisSeasonManagers|join:", " }}{% endblock %}
 
 {% block header %}
     <div class="jumbotron" style="background-image: linear-gradient({{ cup.jmb_bg1 }}, {{ cup.jmb_bg2 }}); color: {{ cup.jmb_col }}; ">
