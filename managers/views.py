@@ -110,7 +110,7 @@ def profile(request, slug):
     return render(request, 'managers/profile.html', context)
 
 
-def profilePhoto(request, slug):
+def profile_photo_view(request, slug):
     person = get_object_or_404(Manager, slug=slug)
     uploaded_file_url = None 
     
