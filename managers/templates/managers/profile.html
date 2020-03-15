@@ -39,7 +39,8 @@
 
 {% if admin_bar %}
 <nav class="navbar navbar-expand-md bg-dark mb-4">
-  <a class="btn btn-secondary mr-1" href="{% url 'managers:profile-update-photo' person.slug %}" role="button">Zmień zdjęcie</a>
+  <a class="btn btn-secondary mr-3" href="{% url 'managers:profile-update-photo' person.slug %}" role="button">Zmień zdjęcie</a>
+  <a class="btn btn-secondary mr-3" href="{% url 'managers:profile-update-personal' person.slug %}" role="button">Zmień dane osobowe</a>
 </nav>   
 {% endif %}
 

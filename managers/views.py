@@ -126,6 +126,12 @@ def profile_photo_view(request, slug):
     return render(request, 'managers/profile-update-photo.html', context)
 
 
+class PersonalDataProfileView(UpdateView):
+    model = Manager
+    fields = ('name_first', 'name_last', 'slug', 'country', 'date_birth', 'city_birth')
+    template_name = 'managers/profile-update-personal.html'
+
+
 class SeasonListView(ListView):
     template_name = 'managers/season_list.html'
     queryset = Season.currentSeasons.all()
