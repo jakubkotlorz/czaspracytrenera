@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from datetime import datetime, date, timedelta
 from math import floor
@@ -110,6 +111,7 @@ def profile(request, slug):
     return render(request, 'managers/profile.html', context)
 
 
+@login_required
 def profile_photo_view(request, slug):
     person = get_object_or_404(Manager, slug=slug)
     uploaded_file_url = None 
@@ -126,10 +128,11 @@ def profile_photo_view(request, slug):
     return render(request, 'managers/profile-update-photo.html', context)
 
 
-class PersonalDataProfileView(UpdateView):
+class PersonalDataProfileView(LoginRequiredMixin, UpdateView):
     model = Manager
     fields = ('name_first', 'name_last', 'slug', 'country', 'date_birth', 'city_birth')
     template_name = 'managers/profile-update-personal.html'
+    login_url = '/admin/'
 
 
 class SeasonListView(ListView):

@@ -29,11 +29,9 @@ secret.py
 czaspracytrenera/settings/production.py
 passenger_wsgi.py
 db.sqlite3
-public/
+public/media/
+public/static/
 manage.py
 statistics.csv
 
 tmp/
-
-# media
-media/photos/

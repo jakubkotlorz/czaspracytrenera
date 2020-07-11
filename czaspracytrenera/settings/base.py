@@ -70,6 +70,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'czaspracytrenera.wsgi.application'
 
+LOGIN_URL = '/admin/'
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
