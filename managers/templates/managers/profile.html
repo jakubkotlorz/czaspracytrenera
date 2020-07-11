@@ -12,14 +12,14 @@
           <div class="col-12 col-md-5 profile-img">
             <img src="{{ person.getPhoto }}"  alt="{{ person }}" title="{{ person }}{% if age %}ma {{ age }} lat{% endif %}"/>
             <div class="row profile-flag"><a href="{% url 'managers:country' nationality.id %}">
-                <img src="{% static nationality.getIcon %}" alt="{{ nationality.name_pl }}" title="{{ person }} pochodzi z {{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
+                <img src="{{ nationality.get_flag }}" alt="{{ nationality.name_pl }}" title="{{ person }} pochodzi z {{ nationality.name_pl }}" class="flag-big" /> {{ country.name_pl }}
               </a></div>         
           </div>
           <div class="col-8 col-md-4 profile-head">
             <p class="jumbo-header-h1"><br />{{ person.name_last }}</p>
             <p class="jumbo-header-h4 my-3">{{ person.name_first }}</p>
             <p><span class="d-none d-md-inline">Urodzony: {% if age %}{{ person.date_birth|date:"d.m.Y" }} (</span><strong>{{ age }} l.</strong><span class="d-none d-md-inline">)</span> {% else %}</span>(brak danych){% endif %} 
-              {% if city %} <a href="{% url 'managers:country' city.country.id %}"><img src="{% static city.country.getIcon %}" alt="Urodzony w {{ city.name_pl }}" class="flag18" /></a>
+              {% if city %} <a href="{% url 'managers:country' city.country.id %}"><img src="{{ city.country.get_flag }}" alt="Urodzony w {{ city.name_pl }}" class="flag18" /></a>
             {{ city.name_pl }}{% else %} - {% endif %}{% if person.date_death %}, zmarł w {{ person.date_death|date:"d.m.Y" }}{% endif %}
             </p>
           </div>
@@ -77,7 +77,7 @@
   <p class="small">Lista managerów w obecnym sezonie</p>
   <ul class="list-inline">{% for manager in league_managers %}
     <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
-      <img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
+      <img src="{{ manager.country.get_flag }}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
     </a></li>
   {% endfor %}</ul>
   {% endif %}

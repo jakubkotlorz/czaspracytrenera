@@ -12,8 +12,8 @@ class Country(models.Model):
     icon_name = models.CharField(max_length=10)
     importance = models.IntegerField(default=0)
 
-    def getIcon(self):
-        return f"/managers/icons-country/{self.icon_name}"
+    def get_flag(self):
+        return f"{settings.MEDIA_URL}countries-flags/{self.icon_name}"
 
     def __str__(self):
         return self.name_pl

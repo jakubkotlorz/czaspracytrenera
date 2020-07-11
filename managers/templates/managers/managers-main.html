@@ -23,7 +23,7 @@
     <ul class="list-inline">{% for country in countries_list %}
       {% if country.count_managers %}
       <li class="list-inline-item"><a href="{% url 'managers:country' country.id %}" class="btn btn-default" role="button">
-        <img src="{% static country.getIcon %}" alt="{{ country.name_pl }}" class="flag32" /><span class="in-line-flag-counter">{{ country.count_managers }}</span>
+        <img src="{{ country.get_flag }}" alt="{{ country.name_pl }}" class="flag32" /><span class="in-line-flag-counter">{{ country.count_managers }}</span>
       </a></li>
       {% endif %}
     {% endfor %}</ul>
@@ -33,7 +33,7 @@
     <p class="small">Pełna lista menadżerów w serwisie:</p>
     <ul class="list-inline">{% for manager in all_managers %}
       <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
-        <img src="{% static manager.country.getIcon %}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
+        <img src="{{ manager.country.get_flag }}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
       </a></li>
     {% endfor %}</ul>
 
