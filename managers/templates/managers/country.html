@@ -14,7 +14,7 @@
       <ul class="list-inline">
         {% for cup in cups %}
           <li class="list-inline-item">
-            <a href="{% url 'managers:season' cup.slug %}"><img src="{% static cup.getIcon %}" alt="{{ cup.name }}" height=64px/>{{ cup.name }}</a>
+            <a href="{% url 'managers:season' cup.slug %}"><img src="{{ cup.get_cup_icon }}" alt="{{ cup.name }}" height=64px/>{{ cup.name }}</a>
           </li>
         {% endfor %}
       </ul>

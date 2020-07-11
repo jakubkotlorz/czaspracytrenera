@@ -32,7 +32,7 @@
     <p class="small">Sprawdź kto jest trenerem w klubie z każdej czołowej ligi europejskiej</p>
     <div class="card-columns">{% for season in object_list %}
       <div class="card mb-3" style="width: 18rem;">
-        <div class="card-header"><a href="{% url 'managers:season' season.slug %}"><img class="card-img-top season-list-element" src="{% static season.getIcon %}" alt="{{ season }}" /></a></div>
+        <div class="card-header"><a href="{% url 'managers:season' season.slug %}"><img class="card-img-top season-list-element" src="{{ season.get_cup_icon }}" alt="{{ season }}" /></a></div>
         <div class="card-body pt-2 pb-0"><h5 class="card-title"><a href="{% url 'managers:season' season.slug %}">{{ season }}</a></h5></div>
       </div>{% endfor %}
     </div>

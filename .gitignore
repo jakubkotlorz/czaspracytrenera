@@ -3,9 +3,6 @@
 # described in https://git-scm.com/docs/gitignore
 
 managers/static/managers/icons-club/*
-managers/static/managers/icons-country/*
-managers/static/managers/icons-cup/*
-managers/static/managers/photos/*
 
 *.egg-info
 *.pot

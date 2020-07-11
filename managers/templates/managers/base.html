@@ -38,14 +38,14 @@
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="cupsDropdown" role="button" aria-haspopup="true" aria-expanded="false">Rozgrywki <span class="caret"></span></a>
               <div class="dropdown-menu" aria-labelledby="cupsDropdown">
-                <a class="dropdown-item" href="{% url 'managers:season' 'pko-ekstraklasa-20192020' %}"><img src="{% static 'managers/icons-cup/48x48/pko_ekstraklasa_2019.png' %}" class="dropdown-cup-icon" /> Ekstraklasa</a>
-                <a class="dropdown-item" href="{% url 'managers:season' '1-liga-2019-2020' %}"><img src="{% static 'managers/icons-cup/48x48/fortuna1liga.png' %}" class="dropdown-cup-icon" /> 1. Liga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'pko-ekstraklasa-20192020' %}"><img src="{{ '/media/cups-emblems/48x48/pko_ekstraklasa_2019.png' }}" class="dropdown-cup-icon" /> Ekstraklasa</a>
+                <a class="dropdown-item" href="{% url 'managers:season' '1-liga-2019-2020' %}"><img src="{{ '/media/cups-emblems/48x48/fortuna1liga.png' }}" class="dropdown-cup-icon" /> 1. Liga</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'managers:season' 'premier-league-201920' %}"><img src="{% static 'managers/icons-cup/48x48/premier2018.png' %}" class="dropdown-cup-icon" /> Premier League</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 'bundesliga-2019-20' %}"><img src="{% static 'managers/icons-cup/48x48/bundesliga.png' %}" class="dropdown-cup-icon" /> Bundesliga</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 'la-liga-2019-2020' %}"><img src="{% static 'managers/icons-cup/48x48/laliga2018.png' %}" class="dropdown-cup-icon" /> La Liga</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 'serie-a-2019-20' %}"><img src="{% static 'managers/icons-cup/48x48/seriea.png' %}" class="dropdown-cup-icon" /> Serie A</a>
-                <a class="dropdown-item" href="{% url 'managers:season' 'ligue-1-2019-20' %}"><img src="{% static 'managers/icons-cup/48x48/ligue1.png' %}" class="dropdown-cup-icon" /> Ligue 1</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'premier-league-201920' %}"><img src="{{ '/media/cups-emblems/48x48/premier2018.png' }}" class="dropdown-cup-icon" /> Premier League</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'bundesliga-2019-20' %}"><img src="{{ '/media/cups-emblems/48x48/bundesliga.png' }}" class="dropdown-cup-icon" /> Bundesliga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'la-liga-2019-2020' %}"><img src="{{ '/media/cups-emblems/48x48/laliga2018.png' }}" class="dropdown-cup-icon" /> La Liga</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'serie-a-2019-20' %}"><img src="{{ '/media/cups-emblems/48x48/seriea.png' }}" class="dropdown-cup-icon" /> Serie A</a>
+                <a class="dropdown-item" href="{% url 'managers:season' 'ligue-1-2019-20' %}"><img src="{{ '/media/cups-emblems/48x48/ligue1.png' }}" class="dropdown-cup-icon" /> Ligue 1</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'managers:season-list' %}">Wszystkie rozgrywki</a>                
               </div>  
