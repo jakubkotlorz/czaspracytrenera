@@ -18,8 +18,27 @@
 
 {% block content %}
 
-<div class="row">
+  <div>
+    <p class="h2 mb-0">Zmiany trenerów w obecnym sezonie</p>
+    <p class="small">W najważniejszych ligach Europy</p>
+    <div class="card-deck">
+      {% for season in cups_list %}<a href="{% url 'managers:season' season.slug %}"><div class="card mb-3 mx-2" style="max-width: 300px;">
+        <div class="row no-gutters">
+          <div clas="col">
+            <img src="{{ season.get_cup_icon }}" class="card-img" style="height: 56px; "/>
+          </div>
+          <div class="col">
+            <div class="card-body px-3 py-3">
+              <h5 class="card-text">{{ season.get_changes_amount }}</h5>
+            </div>
+          </div>
+        </div>
+      </div></a>{% endfor %}
+    </div>
+  </div>
+  <p></p>
 
+<div class="row">
   <div class="col-md-6 pl-0 pr-1">
     <div class="card">
       <div class="card-header h3">Odeszli z klubu</div>

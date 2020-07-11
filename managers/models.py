@@ -84,8 +84,15 @@ class Season(models.Model):
     def getThisSeasonManagers(self):
         return [team.getCurrentEmployment().manager for team in self.getTeamsInSeason() if team.getCurrentEmployment() is not None]
 
-    def getIcon(self):
-        return f"/managers/icons-cup/{self.icon_name}"
+    def get_changes_amount(self):
+        q_teams = models.Q()
+        for t in self.getTeamsInSeason():
+            q_teams.add(models.Q(team=t.pk), models.Q.OR)
+        sacks = Employment.objects.filter(q_teams).filter(date_finish__range=[self.date_start, self.date_end])
+        return len(sacks) if len(sacks) > 0 else '-'
+    
+    def get_cup_icon(self):
+        return f"{settings.MEDIA_URL}cups-emblems/{self.icon_name}"
 
     def __str__(self):
         return f"{self.name} {self.years}"
