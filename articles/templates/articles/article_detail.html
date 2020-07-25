@@ -1,5 +1,6 @@
 {% extends "managers/base.html" %}
 {% load static %}
+{% load markdown_extras %}
 
 {% block title %} | Obecny trener | Zmiany trenera | Statystyki | CzasPracyTrenera.pl{% endblock %}
 {% block meta-desc %}{% endblock %}
@@ -25,6 +26,6 @@
 
 {% block content %}
 <div class="row">
-  <p class="">{{ object.body }}</p>
+  <p class="">{{ object.body | markdown | safe }}</p>
 </div>
 {% endblock %}
