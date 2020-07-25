@@ -1,0 +1,30 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %} | Obecny trener | Zmiany trenera | Statystyki | CzasPracyTrenera.pl{% endblock %}
+{% block meta-desc %}{% endblock %}
+{% block meta-keyw %}{% endblock %}
+
+{% block header %}
+    <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
+      <div class="container">
+        <div class="row">
+          <div class="col-4 col-sm-2 club-emblem text-center">
+            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}"/>
+          </div>
+          <div class="col-8 col-sm-8 profile-head text-center align-self-center">
+            <h1 class="display-4" >{{ object.title }}</h1>
+          </div>
+          <div class="d-none d-sm-block col-sm-2 club-emblem text-center">
+            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
+          </div>                  
+        </div>
+      </div>  
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <p class="">{{ object.body }}</p>
+</div>
+{% endblock %}
