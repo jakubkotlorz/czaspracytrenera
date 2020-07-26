@@ -15,7 +15,7 @@ from articles.models import Article
 
 def index(request):
     context = {
-        'articles': Article.objects.all(),
+        'articles': Article.published.all(),
         'cups_list': Season.objects.filter(current=True),
         'managers_hired': Employment.objects.filter(still_hired=True).order_by('-date_start')[:10],
         'managers_sacked': Employment.objects.filter(still_hired=False).order_by('-date_finish')[:10],
