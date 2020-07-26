@@ -39,7 +39,7 @@
       {% for season in cups_list %}<a href="{% url 'managers:season' season.slug %}"><div class="card mb-3 mx-2" style="max-width: 300px;">
         <div class="row no-gutters">
           <div clas="col">
-            <img src="{{ season.get_cup_icon }}" class="card-img" style="height: 56px; "/>
+            <img src="{{ season.get_cup_icon }}" class="card-img px-1 py-1" style="height: 56px; width: 56px; "/>
           </div>
           <div class="col">
             <div class="card-body px-3 py-3">
