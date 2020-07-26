@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 
@@ -27,6 +28,9 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('-publish',)
+
+    def get_absolute_url(self):
+        return reverse('articles:article', args=[str(self.slug)])
 
     def __str__(self):
         return self.title

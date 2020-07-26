@@ -4,4 +4,4 @@ from articles.models import Article
 class ArticlesSitemap(Sitemap):
 
     def items(self):
-        return Article.objects.all()
+        return Article.published.all()
