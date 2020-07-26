@@ -18,6 +18,20 @@
 
 {% block content %}
 
+{% if articles %}
+<div class="list-group">
+  {% for art in articles %}<a href="{% url 'articles:article' art.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ art.title }}</h5>
+      <small>{{ art.publish }}</small>
+    </div>
+    {{ art.body|truncatewords:30 }}
+    <!-- <small>Donec id elit non mi porta.</small> -->
+  </a>{% endfor %}
+</div>
+<p></p>
+{% endif %}
+
   <div>
     <p class="h2 mb-0">Zmiany trenerów w obecnym sezonie</p>
     <p class="small">W najważniejszych ligach Europy</p>
@@ -36,7 +50,6 @@
       </div></a>{% endfor %}
     </div>
   </div>
-  <p></p>
 
 <div class="row">
   <div class="col-md-6 pl-0 pr-1">

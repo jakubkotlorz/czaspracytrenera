@@ -10,10 +10,12 @@ from math import floor
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
 from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, UploadFileForm
 from .files_handling import upload_photo
+from articles.models import Article
 
 
 def index(request):
     context = {
+        'articles': Article.objects.all(),
         'cups_list': Season.objects.filter(current=True),
         'managers_hired': Employment.objects.filter(still_hired=True).order_by('-date_start')[:10],
         'managers_sacked': Employment.objects.filter(still_hired=False).order_by('-date_finish')[:10],
