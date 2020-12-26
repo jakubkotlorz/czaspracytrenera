@@ -124,7 +124,13 @@ class Manager(models.Model):
         return f"{self.name_first} {self.name_last}"
 
     def get_absolute_url(self):
-        return reverse('managers:profile', args=[str(self.slug)])        
+        return reverse('managers:profile', args=[str(self.slug)])
+
+    def save(self, *args, **kwargs):
+        if self.slug is '':
+            self.slug = slugify([self.name_first, self.name_last])
+        super(Manager, self).save(*args, **kwargs)
+
 
 
 class Employment(models.Model):

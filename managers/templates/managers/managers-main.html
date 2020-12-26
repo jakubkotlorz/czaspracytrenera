@@ -18,6 +18,12 @@
 
 {% block content %}
 
+{% if admin_bar %}
+    <nav class="navbar navbar-expand-md bg-dark mb-4">
+      <a class="btn btn-secondary mr-1" href="{% url 'managers:person-add' %}" role="button">Dodaj managera</a>
+    </nav>   
+{% endif %}
+
     <p class="h2 mb-0">Trenerzy według kraju pochodzenia</p>
     <p class="small">Wybierz flagę, by zobaczyć wszystkich trenerów z tego kraju:</p>
     <ul class="list-inline">{% for country in countries_list %}
@@ -26,6 +32,15 @@
         <img src="{{ country.get_flag }}" alt="{{ country.name_pl }}" class="flag32" /><span class="in-line-flag-counter">{{ country.count_managers }}</span>
       </a></li>
       {% endif %}
+    {% endfor %}</ul>
+
+    <hr />
+    <p class="h2 mb-0">Ostatnio dodani</p>
+    <p class="small">Pojawili się w serwisie:</p>
+    <ul class="list-inline">{% for manager in recently_added %}
+      <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
+        <img src="{{ manager.country.get_flag }}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
+      </a></li>
     {% endfor %}</ul>
 
     <hr />

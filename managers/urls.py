@@ -5,19 +5,24 @@ from . import views
 
 app_name = 'managers'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('country/<int:country_id>/', views.country, name='country'),
-    path('team/<slug:slug>/', views.club, name='team'),
-    path('manager/<slug:slug>/', views.profile, name='profile'),
+    # for moderators only
+    path('manager/add/', views.PersonAddView.as_view(), name='person-add'),
     path('manager/<slug:slug>/update-photo', views.profile_photo_view, name='profile-update-photo'),
     path('manager/<slug:slug>/update-personal', views.PersonalDataProfileView.as_view(), name='profile-update-personal'),
-    path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
     path('season/<slug:slug>/update', views.SeasonUpdateView.as_view(), name='season-update'),
-    path('season/<slug:slug>/', views.season, name='season'),
-    path('seasons/list', views.SeasonListView.as_view(), name='season-list'),
-    path('news/', views.news, name='news'),
+    path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
+
     path('managers/', views.managers, name='managers'),
+    path('manager/<slug:slug>/', views.profile, name='profile'),
+    path('team/<slug:slug>/', views.club, name='team'),
+    path('seasons/list', views.SeasonListView.as_view(), name='season-list'),
+    path('season/<slug:slug>/', views.season, name='season'),
+    path('country/<int:country_id>/', views.country, name='country'),
+    
+    path('news/', views.news, name='news'),
     path('search/', views.search, name='search'),
+    
+    path('', views.index, name='index'),
 ]
 
 if settings.DEBUG:

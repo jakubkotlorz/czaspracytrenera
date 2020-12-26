@@ -1,0 +1,31 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}MNGRS dodaj osobę{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+  <p class="display-4">{{ object }}</p>
+</div>
+
+<div class="row">
+  <div class="px-3">
+    <form method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Save">
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+</script>
+{% endblock extra_js %}

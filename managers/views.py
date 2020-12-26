@@ -69,8 +69,12 @@ def managers(request):
         country.count_managers = Manager.objects.filter(country=country).count()
     context = {
         'countries_list': countries_list,
-        'all_managers': Manager.objects.all().order_by('name_last')
-    }    
+        'all_managers': Manager.objects.all().order_by('name_last'),
+        'recently_added': Manager.objects.all().order_by('-id')[0:10]
+    } 
+    if request.user.is_authenticated:
+        context['admin_bar'] = True
+    
     return render(request, 'managers/managers-main.html', context)
 
 def country(request, country_id):
@@ -134,6 +138,13 @@ class PersonalDataProfileView(LoginRequiredMixin, UpdateView):
     model = Manager
     fields = ('name_first', 'name_last', 'slug', 'country', 'date_birth', 'city_birth')
     template_name = 'managers/profile-update-personal.html'
+    login_url = '/admin/'
+
+
+class PersonAddView(LoginRequiredMixin, CreateView):
+    model = Manager
+    fields = ('name_first', 'name_last', 'country', 'date_birth', 'city_birth')
+    template_name = 'managers/person-add.html'
     login_url = '/admin/'
 
 
