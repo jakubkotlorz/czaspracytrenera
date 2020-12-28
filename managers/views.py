@@ -191,10 +191,6 @@ def season(request, slug):
     season = get_object_or_404(Season, slug=slug)
     thisCountryTeams = Team.objects.filter(country=season.country)
     availableTeamsQs = thisCountryTeams.exclude(seasons=season)
-    
-
-
-    
     teamsInSeason = season.teams.all()
     otherTeams = list(set(thisCountryTeams) - set(teamsInSeason))
     
@@ -207,6 +203,11 @@ def season(request, slug):
     context = { 'cup': season, 'teams': teamsInSeason, 'jobs_lost': jobs_lost, 'other_teams': otherTeams, 'country': season.country }
     if request.user.is_authenticated:
         context['admin_bar'] = True
+        context['avance_season'] = True if season.next_season is None else False
+        context['next_season'] = season.next_season
+        context['prev_season'] = season.prev_season
+        context['next_season_slug'] = season.next_season.slug if season.next_season else False
+        context['prev_season_slug'] = season.prev_season.slug if season.prev_season else False
     return render(request, 'managers/season.html', context)
 
 def club(request, slug):

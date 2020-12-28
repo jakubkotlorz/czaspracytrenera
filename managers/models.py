@@ -74,6 +74,8 @@ class Season(models.Model):
     jmb_bg2 = models.CharField(max_length=8, default="#202020")
     jmb_col = models.CharField(max_length=8, default="#ffffff")
     teams = models.ManyToManyField(Team, related_name='seasons')
+    next_season = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, related_name='prev')
+    prev_season = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, related_name='next')
 
     objects = models.Manager()
     currentSeasons = CurrentSeasonsManager()
@@ -101,7 +103,7 @@ class Season(models.Model):
         return reverse('managers:season', args=[str(self.slug)])
 
     def save(self, *args, **kwargs):
-        if self.slug is '':
+        if self.slug == '':
             self.slug = slugify([self.name, self.years])
         super(Season, self).save(*args, **kwargs)
 
@@ -127,7 +129,7 @@ class Manager(models.Model):
         return reverse('managers:profile', args=[str(self.slug)])
 
     def save(self, *args, **kwargs):
-        if self.slug is '':
+        if self.slug == '':
             self.slug = slugify([self.name_first, self.name_last])
         super(Manager, self).save(*args, **kwargs)
 
