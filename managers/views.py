@@ -8,7 +8,7 @@ from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, UploadFileForm
+from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm
 from .files_handling import upload_photo
 from articles.models import Article
 
@@ -185,6 +185,40 @@ class SeasonUpdateView(LoginRequiredMixin, UpdateView):
     def clean(self):
         if 'add-team' in self.data:
             print('chcemy dodac druzyne')
+
+
+@login_required
+def season_avance(request, slug):
+    previous = get_object_or_404(Season, slug=slug)
+    
+    if request.method == 'POST':
+        form = SeasonAvanceForm(request.POST)
+        if form.is_valid():
+            pass
+            # uploaded_file_url = upload_photo(request.FILES['file'])
+            # person.photo = uploaded_file_url
+            # person.save()
+    else:
+        previous_teams = previous.getTeamsInSeason()
+        possible_teams = list(set(Team.objects.filter(country=previous.country)) - set(previous_teams))
+
+        form = SeasonAvanceForm(initial={
+            'country': previous.country,
+            'prev_season': previous.prev_season,
+            'name': previous.name,
+            'slug': '',
+            'date_start': previous.date_end + timedelta(days=1),
+            'date_end': previous.date_end + timedelta(days=365),
+            'teams': previous_teams,
+            'previous_teams': previous_teams,
+            'possible_teams': possible_teams
+        })
+
+    context = {
+        'previous': previous,
+        'form': form
+    }
+    return render(request, 'managers/season_avance.html', context)
 
 
 def season(request, slug):

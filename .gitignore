@@ -19,7 +19,9 @@ tests/.coverage
 build/
 tests/report/
 
+# environment
 .vscode/*
+.venv/
 
 # secret data
 secret.py

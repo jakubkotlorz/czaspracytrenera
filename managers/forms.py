@@ -35,6 +35,32 @@ class SeasonCreateForm(forms.ModelForm):
         )
 
 
+class SeasonAvanceForm(forms.ModelForm):
+    extra_field = forms.ModelChoiceField(queryset=Team.objects.all(), required=False, help_text="Company")
+    class Meta:
+        model = Season
+        fields = ('name', 'years', 'date_start', 'date_end', 'teams')
+
+    def __init__(self, *args, **kwargs):
+        super(SeasonAvanceForm, self).__init__(*args, **kwargs)        
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        # self.helper.form_action = reverse('managers:season-update', kwargs={ 'slug': self.instance.slug })
+        self.helper.layout = Layout(
+            Row(
+                Column(CustomInput('name'), css_class="form-group col-md-7"),
+                Column(CustomInput('years'), css_class="form-group col-md-5"),
+            ),
+            Row(
+            ),
+            Row(
+                Column(CustomInput('date_start'), css_class="form-group col-md-4"),
+                Column(CustomInput('date_end'), css_class="form-group col-md-4"),
+            ),
+                Column(CustomInput('extra_field'))
+            
+        )
+
 class SeasonUpdateForm(forms.ModelForm):
     class Meta:
         model = Season

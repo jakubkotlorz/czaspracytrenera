@@ -11,6 +11,7 @@ urlpatterns = [
     path('manager/<slug:slug>/update-personal', views.PersonalDataProfileView.as_view(), name='profile-update-personal'),
     path('season/<slug:slug>/update', views.SeasonUpdateView.as_view(), name='season-update'),
     path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
+    path('season/<slug:slug>/avance', views.season_avance, name='season-avance'),
 
     path('managers/', views.managers, name='managers'),
     path('manager/<slug:slug>/', views.profile, name='profile'),

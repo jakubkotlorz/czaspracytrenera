@@ -30,7 +30,7 @@
         {% if next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season' next_season_slug %}" role="button">Następny ({{ next_season }})</a>{% endif %}     
       </div>
       <div>
-        {% if not next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season-add' %}" role="button">Dodaj następny sezon</a>{% endif %}
+        {% if not next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season-avance' cup.slug %}" role="button">Dodaj następny sezon</a>{% endif %}
         <a class="btn btn-secondary mr-1" href="{% url 'managers:season-update' cup.slug %}" role="button">Edytuj</a>
       </div>
     </nav>   
