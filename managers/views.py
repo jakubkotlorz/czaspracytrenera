@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -187,38 +187,63 @@ class SeasonUpdateView(LoginRequiredMixin, UpdateView):
             print('chcemy dodac druzyne')
 
 
+def pkList2objectList(pkList, klass):
+    """Helper function to cast list of returned ids (from POST) to a list of objects of klass."""
+    retList = []
+    for item in pkList:
+        retList.append(klass.objects.get(pk=int(item)))
+    return retList
+
+
 @login_required
 def season_avance(request, slug):
     previous = get_object_or_404(Season, slug=slug)
     
-    if request.method == 'POST':
-        form = SeasonAvanceForm(request.POST)
-        if form.is_valid():
-            pass
-            # uploaded_file_url = upload_photo(request.FILES['file'])
-            # person.photo = uploaded_file_url
-            # person.save()
-    else:
-        previous_teams = previous.getTeamsInSeason()
-        possible_teams = list(set(Team.objects.filter(country=previous.country)) - set(previous_teams))
+    previous_teams = previous.getTeamsInSeason()
+    possible_teams = previous.getCountryTeamsNotInSeason()
 
-        form = SeasonAvanceForm(initial={
-            'country': previous.country,
-            'prev_season': previous.prev_season,
-            'name': previous.name,
-            'slug': '',
-            'date_start': previous.date_end + timedelta(days=1),
-            'date_end': previous.date_end + timedelta(days=365),
-            'teams': previous_teams,
-            'previous_teams': previous_teams,
-            'possible_teams': possible_teams
-        })
+    form = SeasonAvanceForm(
+        request.POST or None,
+        previous_teams = previous_teams,
+        possible_teams = possible_teams,
+        slug = slug,
+    )
+
+    if request.method == 'POST':
+        if form.is_valid():
+            relegated = pkList2objectList(request.POST.getlist('last_season_teams'), Team)
+            promoted = pkList2objectList(request.POST.getlist('considered_teams'), Team)
+            new_teams = (set(previous_teams) | set(promoted)) - set(relegated)
+
+            new_season = Season.objects.create(
+                country = previous.country,
+                name = form.cleaned_data.get('name'),
+                years = form.cleaned_data.get('years'),
+                date_start = form.cleaned_data.get('date_start'),
+                date_end = form.cleaned_data.get('date_end'),
+                prev_season = previous,
+            )
+            new_season.teams.set(new_teams)
+        else:
+            print("FORM IS NOT VALID!: ", form.errors)
+    else:
+        form.initial = {
+                'prev_season': previous.prev_season,
+                'name': previous.name,
+                'date_start': previous.date_end + timedelta(days=1),
+                'date_end': previous.date_end + timedelta(days=365),
+            }
 
     context = {
         'previous': previous,
         'form': form
     }
     return render(request, 'managers/season_avance.html', context)
+
+
+class SeasonDeleteView(LoginRequiredMixin, DeleteView):
+    model = Season
+    success_url ="/"
 
 
 def season(request, slug):

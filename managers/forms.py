@@ -20,12 +20,14 @@ class SearchForm(forms.Form):
     
 
 class SeasonCreateForm(forms.ModelForm):
+    """Model form to create new season."""
     class Meta:
         model = Season
         fields = ('country', 'name', 'years')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = 'managers:season-add'
@@ -36,29 +38,48 @@ class SeasonCreateForm(forms.ModelForm):
 
 
 class SeasonAvanceForm(forms.ModelForm):
-    extra_field = forms.ModelChoiceField(queryset=Team.objects.all(), required=False, help_text="Company")
+    """Model form to show values of last season and make it possible to edit and save as new one."""
+    last_season_teams = forms.ModelMultipleChoiceField(
+        queryset = None,
+        required = False
+    )
+    considered_teams = forms.ModelMultipleChoiceField(
+        queryset = None,
+        required = False
+    )
+
     class Meta:
         model = Season
-        fields = ('name', 'years', 'date_start', 'date_end', 'teams')
+        fields = ('name', 'years', 'date_start', 'date_end', 'slug')
 
     def __init__(self, *args, **kwargs):
-        super(SeasonAvanceForm, self).__init__(*args, **kwargs)        
+        self.previous_teams = kwargs.pop('previous_teams')
+        self.possible_teams = kwargs.pop('possible_teams')
+        self.slug = kwargs.pop('slug')
+        super(SeasonAvanceForm, self).__init__(*args, **kwargs)
+
+        self.fields['last_season_teams'].queryset = self.previous_teams
+        self.fields['last_season_teams'].widget.attrs['size'] = str(len(self.previous_teams))
+        self.fields['considered_teams'].queryset = self.possible_teams
+        self.fields['considered_teams'].widget.attrs['size'] = str(len(self.previous_teams))
+
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        # self.helper.form_action = reverse('managers:season-update', kwargs={ 'slug': self.instance.slug })
+        self.helper.form_action = reverse('managers:season-avance', kwargs={ 'slug': self.slug })
         self.helper.layout = Layout(
             Row(
                 Column(CustomInput('name'), css_class="form-group col-md-7"),
                 Column(CustomInput('years'), css_class="form-group col-md-5"),
             ),
             Row(
+                Column(CustomInput('date_start'), css_class="form-group col-md-6"),
+                Column(CustomInput('date_end'), css_class="form-group col-md-6"),
             ),
             Row(
-                Column(CustomInput('date_start'), css_class="form-group col-md-4"),
-                Column(CustomInput('date_end'), css_class="form-group col-md-4"),
+                Column(CustomInput('last_season_teams'), css_class="form-group col-md-6 chosen"),
+                Column(CustomInput('considered_teams'), css_class="form-group col-md-6 chosen"),
             ),
-                Column(CustomInput('extra_field'))
-            
+            ButtonHolder(Submit('submit', 'Zapisz', css_class='my-2'))
         )
 
 class SeasonUpdateForm(forms.ModelForm):

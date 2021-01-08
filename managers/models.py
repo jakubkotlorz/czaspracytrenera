@@ -83,6 +83,14 @@ class Season(models.Model):
     def getTeamsInSeason(self):
         return self.teams.all()
 
+    def getCountryTeamsNotInSeason(self, wo_national=False):
+        teams = Team.objects.filter(country=self.country) \
+            .exclude(seasons__pk=self.pk)
+        if wo_national:
+            teams = teams.filter(is_national=False)
+        return teams
+
+
     def getThisSeasonManagers(self):
         return [team.getCurrentEmployment().manager for team in self.getTeamsInSeason() if team.getCurrentEmployment() is not None]
 

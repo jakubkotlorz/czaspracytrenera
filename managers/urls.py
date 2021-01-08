@@ -12,6 +12,7 @@ urlpatterns = [
     path('season/<slug:slug>/update', views.SeasonUpdateView.as_view(), name='season-update'),
     path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
     path('season/<slug:slug>/avance', views.season_avance, name='season-avance'),
+    path('season/<slug:slug>/delete', views.SeasonDeleteView.as_view(), name='season-delete'), 
 
     path('managers/', views.managers, name='managers'),
     path('manager/<slug:slug>/', views.profile, name='profile'),
