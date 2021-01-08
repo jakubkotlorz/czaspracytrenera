@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -224,6 +225,13 @@ def season_avance(request, slug):
                 prev_season = previous,
             )
             new_season.teams.set(new_teams)
+            
+            # old season should point to new one
+            previous.next_season = new_season
+            previous.save()
+
+            # display new season
+            return redirect('managers:season', slug=new_season.slug)
         else:
             print("FORM IS NOT VALID!: ", form.errors)
     else:
@@ -243,7 +251,7 @@ def season_avance(request, slug):
 
 class SeasonDeleteView(LoginRequiredMixin, DeleteView):
     model = Season
-    success_url ="/"
+    success_url = reverse_lazy('managers:season-list')
 
 
 def season(request, slug):

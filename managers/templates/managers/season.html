@@ -32,6 +32,7 @@
       <div>
         {% if not next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season-avance' cup.slug %}" role="button">Dodaj następny sezon</a>{% endif %}
         <a class="btn btn-secondary mr-1" href="{% url 'managers:season-update' cup.slug %}" role="button">Edytuj</a>
+        <a class="btn btn-danger mr-1" href="{% url 'managers:season-delete' cup.slug %}" role="button">Usuń</a>
       </div>
     </nav>   
 {% endif %}

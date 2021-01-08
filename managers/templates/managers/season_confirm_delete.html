@@ -1,0 +1,31 @@
+{% extends "managers/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Czas pracy trenera - usuń sezon{% endblock %}
+
+{% block header %}
+    <div class="jumbotron" style="background-image: linear-gradient({{ object.jmb_bg1 }}, {{ object.jmb_bg2 }}); color: {{ object.jmb_col }}; ">
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-3 col-md-2 col-xl-1">
+            <img class="" style="height: 80px; " src="{{ object.get_object_icon }}" />
+          </div>
+          <div class="col-9 col-md-10 col-xl-11">
+            <p class="jumbo-header-h1">{{ object.name }}</p>
+            <p class="jumbo-header-h5">{{ object.years }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <p class="display-4">Usuń sezon</p>
+    <form method="post">{% csrf_token %}
+      <p class="mt-5">Are you sure you want to delete "{{ object }}"?</p>
+      <p class="mt-2 mb-5">{{ object.getTeamsInSeason|join:", " }}</p>
+      <button class="btn btn-primary" type="submit">Confirm</button>
+      <a href="{% url 'managers:season' object.slug %}" id="cancel" name="cancel" class="btn btn-secondary ml-1">Cancel</a>
+    </form>
+{% endblock %}
