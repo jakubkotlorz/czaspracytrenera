@@ -24,11 +24,25 @@ def index(request):
     return render(request, 'managers/index.html', context)
 
 
-class JobAddView(LoginRequiredMixin, CreateView):
+class AddJobView(LoginRequiredMixin, CreateView):
     model = Employment
     fields = ('team', 'manager', 'date_start', 'date_finish', 'still_hired', 'role')
     template_name = 'managers/job_add.html'
-    success_url = reverse_lazy('managers:job-add')
+    success_url = reverse_lazy('managers:add-job')
+
+
+class TeamAddJobView(AddJobView):
+    model = Employment
+    fields = ('manager', 'date_start', 'date_finish', 'still_hired', 'role')
+    template_name = 'managers/job_add.html'
+    # success_url = reverse_lazy('managers:team', slug=kwargs['slug'])
+
+    def form_valid(self, form):
+        form.instance.team = Team.objects.get(slug=self.kwargs['slug'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('managers:team', kwargs={'slug': self.kwargs['slug']})
 
 
 def search_manager(search_text):
@@ -364,4 +378,5 @@ def club(request, slug):
         # print(period)
 
     context = { 'club': club, 'history': jobs, 'clubTimeLine': clubTimeLine }
+    context['admin_bar'] = True if request.user.is_authenticated else False
     return render(request, 'managers/club.html', context)
