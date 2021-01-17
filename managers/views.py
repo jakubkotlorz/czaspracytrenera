@@ -23,6 +23,14 @@ def index(request):
     }
     return render(request, 'managers/index.html', context)
 
+
+class JobAddView(LoginRequiredMixin, CreateView):
+    model = Employment
+    fields = ('team', 'manager', 'date_start', 'date_finish', 'still_hired', 'role')
+    template_name = 'managers/job_add.html'
+    success_url = reverse_lazy('managers:job-add')
+
+
 def search_manager(search_text):
     res_query = Q()
     for q in search_text.split():
