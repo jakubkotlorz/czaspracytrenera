@@ -26,11 +26,12 @@
 {% if admin_bar %}
     <nav class="navbar navbar-expand-md bg-dark mb-4 justify-content-between">
       <div>
-        {% if prev_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season' prev_season_slug %}" role="button">Poprzedni ({{ prev_season }})</a>{% endif %}
-        {% if next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season' next_season_slug %}" role="button">Następny ({{ next_season }})</a>{% endif %}     
+        <a class="btn btn-secondary mr-1 ml-2 {% if not prev_season %}disabled{% endif %}" href="{% url 'managers:season' prev_season_slug %}" role="button">Poprzedni {% if prev_season %}({{ prev_season }}){% endif %}</a>
+        {% if next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season' next_season_slug %}" role="button">Następny ({{ next_season }})</a>{% else %}
+        <a class="btn btn-success mr-1 ml-2" href="{% url 'managers:season-avance' cup.slug %}" role="button">Dodaj następny sezon</a>{% endif %}
       </div>
       <div>
-        {% if not next_season %}<a class="btn btn-secondary mr-1 ml-2" href="{% url 'managers:season-avance' cup.slug %}" role="button">Dodaj następny sezon</a>{% endif %}
+        <a class="btn btn-secondary mr-1 {% if cup.current %} disabled {% endif %}" href="{% url 'managers:season-set-current' cup.slug %}" role="button">Ustaw aktualny</a>
         <a class="btn btn-secondary mr-1" href="{% url 'managers:season-update' cup.slug %}" role="button">Edytuj</a>
         <a class="btn btn-danger mr-1" href="{% url 'managers:season-delete' cup.slug %}" role="button">Usuń</a>
       </div>

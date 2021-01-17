@@ -43,9 +43,9 @@ admin.site.register(Team, ClubAdmin)
 
 
 class SeasonAdmin(admin.ModelAdmin):
-    list_display = ('current', 'prev_season', 'next_season', 'name', 'slug', 'years', 'country')
+    list_display = ('current', 'prev_season', 'next_season', 'name', 'slug', 'years', 'country',)
     list_display_links = ('name', 'years')
-    list_filter = ('current', )
+    list_filter = ('current', 'country', )
     prepopulated_fields = { 'slug': ('name', 'years', )}
     ordering = ('country', )
 admin.site.register(Season, SeasonAdmin)

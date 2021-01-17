@@ -13,6 +13,7 @@ urlpatterns = [
     path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
     path('season/<slug:slug>/avance', views.season_avance, name='season-avance'),
     path('season/<slug:slug>/delete', views.SeasonDeleteView.as_view(), name='season-delete'), 
+    path('season/<slug:slug>/set_current', views.season_set_current, name='season-set-current'),
 
     path('managers/', views.managers, name='managers'),
     path('manager/<slug:slug>/', views.profile, name='profile'),

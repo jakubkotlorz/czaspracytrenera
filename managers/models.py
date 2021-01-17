@@ -90,7 +90,6 @@ class Season(models.Model):
             teams = teams.filter(is_national=False)
         return teams
 
-
     def getThisSeasonManagers(self):
         return [team.getCurrentEmployment().manager for team in self.getTeamsInSeason() if team.getCurrentEmployment() is not None]
 
@@ -103,6 +102,32 @@ class Season(models.Model):
     
     def get_cup_icon(self):
         return f"{settings.MEDIA_URL}cups-emblems/{self.icon_name}"
+
+    def getCupList(self):
+        """Returns a list of all prev and next seasons of this one."""
+        cupList = []
+        cup = self
+        
+        # rewind to latest season
+        while(cup.next_season):
+            cup = cup.next_season
+        
+        # build the list going to first one
+        cupList.append(cup)
+        while cup.prev_season:
+            cup = cup.prev_season
+            cupList.append(cup)
+
+        return cupList
+
+    def setNewCurrent(self):
+        """Clear or currents in this cup and sets for this one."""
+        for season in self.getCupList():
+            if season.current:
+                season.current = False
+                season.save()
+        self.current = True
+        self.save()
 
     def __str__(self):
         return f"{self.name} {self.years}"

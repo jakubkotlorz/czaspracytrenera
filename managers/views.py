@@ -254,6 +254,12 @@ class SeasonDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('managers:season-list')
 
 
+def season_set_current(request, slug):
+    season = get_object_or_404(Season, slug=slug)
+    season.setNewCurrent()
+    return redirect('managers:season', slug) 
+
+
 def season(request, slug):
     season = get_object_or_404(Season, slug=slug)
     thisCountryTeams = Team.objects.filter(country=season.country)
