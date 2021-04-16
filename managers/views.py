@@ -28,14 +28,16 @@ class AddJobView(LoginRequiredMixin, CreateView):
     model = Employment
     fields = ('team', 'manager', 'date_start', 'date_finish', 'still_hired', 'role')
     template_name = 'managers/job_add.html'
-    success_url = reverse_lazy('managers:add-job')
+
+    def get_success_url(self):
+        team = self.object.team
+        return reverse_lazy('managers:team', kwargs={'slug': team.slug})
 
 
-class TeamAddJobView(AddJobView):
+class TeamAddJobView(LoginRequiredMixin, CreateView):
     model = Employment
     fields = ('manager', 'date_start', 'date_finish', 'still_hired', 'role')
     template_name = 'managers/job_add.html'
-    # success_url = reverse_lazy('managers:team', slug=kwargs['slug'])
 
     def form_valid(self, form):
         form.instance.team = Team.objects.get(slug=self.kwargs['slug'])

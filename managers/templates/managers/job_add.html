@@ -17,6 +17,7 @@
         <p class="display-4">Dodaj zatrudnienie</p>
         <form method="post">{% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Save">
+            <input type="submit" value="Dodaj" class="btn btn-success mr-1 ml-2" />
+            <input type="button" value="Anuluj" class="btn btn-danger mr-1 ml-2" onclick="javascript:history.back();" />
         </form>
 {% endblock %}
