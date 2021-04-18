@@ -4,7 +4,7 @@ from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, Field, Fieldset, ButtonHolder
 
-from .models import Season, Team
+from .models import Season, Team, Employment
 
 
 class CustomCheckbox(Field):
@@ -17,6 +17,15 @@ class CustomInput(Field):
 
 class SearchForm(forms.Form):
     search_query = forms.CharField(label='Szukaj', max_length=50)
+
+
+class EndJobDateForm(forms.ModelForm):
+    class Meta:
+        model = Employment
+        fields = ('date_finish', )
+        widgets = {
+            'date_finish': forms.DateInput(attrs={'type': 'date'})
+        }
     
 
 class SeasonCreateForm(forms.ModelForm):

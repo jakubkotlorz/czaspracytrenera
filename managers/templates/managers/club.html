@@ -71,7 +71,9 @@
 {% if admin_bar %}
     <nav class="navbar navbar-expand-md bg-dark mb-4 justify-content-between">
       <div>
-        <a class="btn btn-success mr-1 ml-2" href="{% url 'managers:team-add-job' club.slug %}" role="button">Dodaj trenera</a>
+        <a class="btn btn-success mr-1 ml-2" href="{% url 'managers:team-add-job' club.slug %}" role="button">Dodaj</a>
+        {% if not club.getCurrentEmployment %}<a class="btn btn-danger mr-1 ml-2 disabled" href="" role="button">Zwolnij</a>{% else %}
+        <a class="btn btn-danger mr-1 ml-2" href="{% url 'managers:end-job' club.getCurrentEmployment.pk %}" role="button">Zwolnij</a>{% endif %}
       </div>
     </nav>   
 {% endif %}

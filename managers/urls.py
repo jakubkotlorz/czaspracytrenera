@@ -6,7 +6,8 @@ from . import views
 app_name = 'managers'
 urlpatterns = [
     # for moderators only
-    path('job/', views.AddJobView.as_view(), name='add-job'),
+    path('job/add/', views.AddJobView.as_view(), name='add-job'),
+    path('job/<int:pk>/end/', views.EndJobView.as_view(), name='end-job'),
     path('team/<slug:slug>/add-job/', views.TeamAddJobView.as_view(), name='team-add-job'),
     path('manager/add/', views.PersonAddView.as_view(), name='person-add'),
     path('manager/<slug:slug>/update-photo', views.profile_photo_view, name='profile-update-photo'),

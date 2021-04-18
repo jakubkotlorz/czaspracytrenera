@@ -1,0 +1,46 @@
+{% extends "managers/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Czas pracy trenera - zakończ pracę trenera{% endblock %}
+
+{% block header %}
+    <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="card text-white bg-secondary mb-3">
+              <div class="jumbo-img">
+                <img class="card-img-top" src="{{ object.manager.getPhoto }}" alt="{{ object.manager }}">
+              </div>
+              <div class="card-body text-center py-2">
+                <h5 class="card-title mb-0">{{ object.manager }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card text-white bg-secondary mb-3">
+              <div class="jumbo-img">
+                <img class="card-img-top" src="{% static object.team.getIcon %}" alt="{{ object.team.name_full }}">
+              </div>
+              <div class="card-body text-center py-2">
+                <h5 class="card-title mb-0">{{ object.team }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+        <p class="display-4">Zwolnij trenera</p>
+        <p>Stanowisko pracy: {{ object.role }}</p>
+        <p>Czas pracy trenera: {{ object.durationDays }} dni</p>
+        <p>Rozpoczęcie pracy: {{ object.date_start }}</p>
+        <form method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Zakończ pracę" class="btn btn-success mr-1 ml-2" />
+            <input type="button" value="Anuluj" class="btn btn-danger mr-1 ml-2" onclick="javascript:history.back();" />
+        </form>
+{% endblock %}
