@@ -9,7 +9,7 @@ from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm, EndJobDateForm
+from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm, EndJobDateForm, TeamAddJobForm
 from .files_handling import upload_photo
 from articles.models import Article
 
@@ -33,11 +33,19 @@ class AddJobView(LoginRequiredMixin, CreateView):
         team = self.object.team
         return reverse_lazy('managers:team', kwargs={'slug': team.slug})
 
+    def get_object(self):
+        return get_object_or_404(Season, slug=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super(SeasonUpdateView, self).get_context_data(**kwargs)
+        return context
+
 
 class TeamAddJobView(LoginRequiredMixin, CreateView):
     model = Employment
-    fields = ('manager', 'date_start', 'date_finish', 'still_hired', 'role')
     template_name = 'managers/job_add.html'
+    form_class = TeamAddJobForm
+    login_url = '/admin/'
 
     def form_valid(self, form):
         form.instance.team = Team.objects.get(slug=self.kwargs['slug'])

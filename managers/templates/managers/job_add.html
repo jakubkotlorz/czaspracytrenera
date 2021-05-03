@@ -1,6 +1,7 @@
 {% extends "managers/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% crispy form form.helper %}
 
 {% block title %}Czas pracy trenera - dodaj zatrudnienie{% endblock %}
 
@@ -14,10 +15,17 @@
 {% endblock %}
 
 {% block content %}
-        <p class="display-4">Dodaj zatrudnienie</p>
-        <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Dodaj" class="btn btn-success mr-1 ml-2" />
-            <input type="button" value="Anuluj" class="btn btn-danger mr-1 ml-2" onclick="javascript:history.back();" />
-        </form>
+<p class="display-4">Dodaj zatrudnienie</p>
+<div class="row">
+  <div class="col col-6">{% crispy form %}</div>
+  <div class="col col-6">Column</div>
+</div>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+$("#selected_manager").on("change", function() {
+  let selectedManagerId = $("#selected_manager option:selected").val();
+});
+</script>
+{% endblock extra_js %}

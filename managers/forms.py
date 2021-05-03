@@ -2,7 +2,7 @@ from django import forms
 from django.urls import reverse
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Field, Fieldset, ButtonHolder
+from crispy_forms.layout import Layout, Row, Column, Submit, Button, Field, Fieldset, ButtonHolder
 
 from .models import Season, Team, Employment
 
@@ -26,6 +26,38 @@ class EndJobDateForm(forms.ModelForm):
         widgets = {
             'date_finish': forms.DateInput(attrs={'type': 'date'})
         }
+
+
+class TeamAddJobForm(forms.ModelForm):
+    """Model form to add new employment."""
+    class Meta:
+        model = Employment
+        exclude = ('team', )
+        widgets = {
+            'manager': forms.Select(attrs={'id': 'selected_manager'}),
+            'date_start': forms.DateInput(attrs={'type': 'date'}, ),
+            'date_finish': forms.DateInput(attrs={'type': 'date'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            CustomInput('manager', css_class='form-group mb-3'),
+            Row(
+                Column(CustomInput('role'), css_class='form-group col-md-2 mb-0'),
+                Column(CustomInput('date_start'), css_class='form-group col-md-4 mb-0'),
+                Column(CustomInput('date_finish'), css_class='form-group col-md-4 mb-0'),
+                Column(CustomInput('still_hired'), css_class='form-group col-md-2 mb-0'),
+                css_class = 'form-row mb-5'
+            ),
+            ButtonHolder(
+                Submit('add', 'Dodaj', css_class='btn btn-success mr-1 ml-2'),
+                Button('cancel', 'Anuluj', css_class='btn btn-danger mr-1 ml-2', onclick="javascript:history.back();"),
+                css_class='my-3'
+            )
+        )
     
 
 class SeasonCreateForm(forms.ModelForm):
@@ -38,8 +70,6 @@ class SeasonCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'managers:season-add'
         self.helper.layout = Layout(
             Fieldset('Podstawowe', 'country', 'name', 'years' ),
             ButtonHolder(Submit('submit', 'Zapisz', css_class='my-2'))
@@ -91,6 +121,7 @@ class SeasonAvanceForm(forms.ModelForm):
             ButtonHolder(Submit('submit', 'Zapisz', css_class='my-2'))
         )
 
+
 class SeasonUpdateForm(forms.ModelForm):
     class Meta:
         model = Season
@@ -134,5 +165,14 @@ class SeasonUpdateForm(forms.ModelForm):
             Submit('submit', 'Zapisz', css_class='my-2')
         )
 
+
 class UploadFileForm(forms.Form):
-    file = forms.FileField(widget=forms.FileInput(attrs={'class': 'custom-file-input', 'id': 'customFile', 'name': 'givenFile'}))
+    file = forms.FileField(
+        widget = forms.FileInput(
+            attrs = {
+                'class': 'custom-file-input',
+                'id': 'customFile',
+                'name': 'givenFile'
+            }
+        )
+    )
