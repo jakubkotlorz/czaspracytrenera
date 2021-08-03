@@ -348,10 +348,10 @@ def season(request, slug):
     if request.user.is_authenticated:
         context['admin_bar'] = True
         context['avance_season'] = True if season.next_season is None else False
-        context['next_season'] = season.next_season
-        context['prev_season'] = season.prev_season
-        context['next_season_slug'] = season.next_season.slug if season.next_season else False
-        context['prev_season_slug'] = season.prev_season.slug if season.prev_season else False
+    context['next_season'] = season.next_season
+    context['prev_season'] = season.prev_season
+    context['next_season_slug'] = season.next_season.slug if season.next_season else False
+    context['prev_season_slug'] = season.prev_season.slug if season.prev_season else False
     return render(request, 'managers/season.html', context)
 
 def club(request, slug):
