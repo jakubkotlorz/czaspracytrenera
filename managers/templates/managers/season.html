@@ -6,7 +6,7 @@
 {% block meta-keyw %}{{ cup.name }} {{ cup.years}}, {{ cup.getTeamsInSeason|join:", " }}, {{ cup.getThisSeasonManagers|join:", " }}{% endblock %}
 
 {% block header %}
-    <div class="jumbotron jumbotron-fluid mb-0" style="background-image: linear-gradient({{ cup.jmb_bg1 }}, {{ cup.jmb_bg2 }}); color: {{ cup.jmb_col }}; ">
+    <div class="jumbotron jumbotron-fluid mb-0 mt-n2" style="background-image: linear-gradient({{ cup.jmb_bg1 }}, {{ cup.jmb_bg2 }}); color: {{ cup.jmb_col }}; ">
       <div class="container">
         <div class="row mb-3">
           <div class="col-3 col-md-2 col-xl-1">
@@ -21,7 +21,7 @@
     </div>
     <div class="jumbotron jumbotron-fluid py-2 bg-light">
       <div class="container">
-        <p class="lead mb-0 text-center text-muted">Inne lata: {% if prev_season %}<a href="{% url 'managers:season' prev_season_slug %}" class="text-decoration-none"><< {{ prev_season }}</a>{% endif %}
+        <p class="mb-0 text-center text-muted">Inne lata: {% if prev_season %}<a href="{% url 'managers:season' prev_season_slug %}" class="text-decoration-none"><< {{ prev_season }}</a>{% endif %}
           {% if next_season %}<a href="{% url 'managers:season' next_season_slug %}" class="text-decoration-none"> | {{ next_season }} >></a>{% endif %}</p>
       </div>
     </div>
