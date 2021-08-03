@@ -42,6 +42,9 @@ class Team(models.Model):
         else:
             return f"/managers/icons-club/{self.country.code.lower()}/{self.icon_name}"
 
+    def getCountryIcon(self):
+        return self.country.get_flag()
+
     def getCurrentEmployment(self):
         currentManager = self.hirings.filter(still_hired=True).filter(role='1st').first()
         return currentManager
@@ -54,6 +57,18 @@ class Team(models.Model):
 
     def get_absolute_url(self):
         return reverse('managers:team', args=[str(self.slug)])
+
+    @staticmethod
+    def search_team(search_text):
+        res_query = models.Q()
+        for q in search_text.split():
+            if len(q) < 2:
+                continue
+            res_query = res_query | models.Q(name_full__contains=q) | models.Q(name_short__contains=q) | models.Q(slug__contains=q)
+        if (len(res_query) > 0):
+            return Team.objects.filter(res_query)
+        else:
+            return []
 
 
 class CurrentSeasonsManager(models.Manager):

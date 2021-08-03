@@ -176,3 +176,14 @@ class UploadFileForm(forms.Form):
             }
         )
     )
+
+class WikipediaTextForm(forms.Form):
+    wikiInput = forms.CharField(
+        widget = forms.Textarea(
+            attrs = {
+                'id': 'wikiTextArea',
+                'class': 'form-control',
+                'rows': 5
+            }
+        )
+    )

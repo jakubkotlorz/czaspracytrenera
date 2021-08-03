@@ -12,6 +12,7 @@ urlpatterns = [
     path('manager/add/', views.PersonAddView.as_view(), name='person-add'),
     path('manager/<slug:slug>/update-photo', views.profile_photo_view, name='profile-update-photo'),
     path('manager/<slug:slug>/update-personal', views.PersonalDataProfileView.as_view(), name='profile-update-personal'),
+    path('manager/<slug:slug>/add-managerial-history', views.add_managerial_history_view, name='profile-add-managerial-history'),
     path('season/<slug:slug>/update', views.SeasonUpdateView.as_view(), name='season-update'),
     path('season/add/', views.SeasonCreateView.as_view(), name='season-add'),
     path('season/<slug:slug>/avance', views.season_avance, name='season-avance'),

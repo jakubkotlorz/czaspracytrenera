@@ -1,0 +1,60 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Czas pracy trenera - {{ manager }} - dodaj historię menadżerską{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <p class="display-4">{{ manager }}</p>
+</div>
+
+<div class="row">
+  {% if current_jobs %}<table class="table table-sm table-striped">
+    <thead><tr><th>&nbsp;</th><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th></tr></thead>
+    <tbody>
+      {% for job in current_jobs %}<tr>
+        <td class="data-table emblem-col-small"><a href="{% url 'managers:team' job.team.slug %}"><img src="{{ job.team.getCountryIcon }}" alt="{{ job.team.name_short }}" title="{{ job.team.name_short }}" /></a></td>
+        <td><a href="{% url 'managers:team' job.team.slug %}">{{ job.team.name_full }}</a>{% if job.role != '1st' %} ({{ job.role }}){% endif %}</td>
+        <td>{{ job.date_start }}</td>
+        <td>{% if job.date_finish %}{{ job.date_finish }}{% else %} - {% endif %}</td>
+      </tr>{% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="col-12">Brak wpisów!</p>
+{% endif %}
+</div>
+
+<hr/>
+
+<div class="">
+ <form method="post">{% csrf_token %}
+    <div class="form-group">
+      <label for="{{ wiki_form.wikiInput.id_for_label }}">Wrzuć tu tabelkę z wikipedii</label>
+      {{ wiki_form.wikiInput }}
+    </div>
+    <button class="btn btn-primary" type="submit">Sprawdź</button>
+  </form>
+</div>
+
+<div class="">
+  {% if parsed_jobs %}<table class="table table-sm">
+    <thead><tr><th>Wybierz klub</th><th>Klub</th><th>Od kiedy</th><th>Do kiedy</th></tr></thead>
+    <tbody>
+      {% for job in parsed_jobs %}<tr class="{% if job.saved %}table-secondary{% endif %}">
+        {% if job.saved %}<td class="data-table emblem-col-small left"><a class="btn btn-outline-primary" href="#" role="button">Wybierz</a>
+          <img src="{{ job.teamChooseList.0.getCountryIcon }}" alt="{{ job.teamChooseList.0.name_short }}" title="{{ job.teamChooseList.0.name_short }}" /></a>
+          {% if job.teamChooseList|length %}{{ job.teamChooseList.0 }}{% else %}{% endif %}</td>{% else %}<td></td>{% endif %}
+        <td><strong>{{ job.teamText }}</strong></td>
+        <td>{{ job.start }}</td>
+        <td>{% if job.finish %}{{ job.finish }}{% else %} - {% endif %}</td>
+      </tr>{% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+</div>
+{% endblock %}

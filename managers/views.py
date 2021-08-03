@@ -9,9 +9,10 @@ from datetime import datetime, date, timedelta
 from math import floor
 
 from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
-from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm, EndJobDateForm, TeamAddJobForm
+from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm, EndJobDateForm, TeamAddJobForm, WikipediaTextForm
 from .files_handling import upload_photo
 from articles.models import Article
+from .data_parsers import WikiTableParser
 
 
 def index(request):
@@ -162,6 +163,30 @@ def profile(request, slug):
     context['managed_teams'] = ', '.join(set([job.team.name_full for job in history])) 
     context['league_managers'] = season.getThisSeasonManagers() if season else None
     return render(request, 'managers/profile.html', context)
+
+
+@login_required
+def add_managerial_history_view(request, slug):
+    person = get_object_or_404(Manager, slug=slug)
+    currentHistory = person.jobs.order_by('still_hired', 'date_finish')
+    
+    parserJobs = ''
+    if request.method == 'POST':
+        parserInputForm = WikipediaTextForm(request.POST)
+        if parserInputForm.is_valid():
+            parser = WikiTableParser(parserInputForm.cleaned_data, person)
+            parser.markIntroducedJobs(currentHistory.values_list('date_start', 'date_finish'))
+            parserJobs = parser.getAllJobs()
+    else:
+        parserInputForm = WikipediaTextForm()
+
+    context = {
+        'manager': person,
+        'current_jobs': currentHistory,
+        'wiki_form': parserInputForm,
+        'parsed_jobs': parserJobs
+    }
+    return render(request, 'managers/admin/profile-add-history.html', context)
 
 
 @login_required

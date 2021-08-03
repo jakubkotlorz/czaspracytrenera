@@ -207,6 +207,23 @@ a {
     max-width: 48px;
 }
 
+.emblem-col-small {
+    height: 22px;
+    padding: 3px !important;
+    text-align: center;
+}
+
+
+.emblem-col-small img {
+    margin: 0;
+    height: 22px;
+    max-width: 48px;
+}
+
+.left {
+    text-align: left !important;
+}
+
 .hired-sacked-card {
     padding: 0px 0px;
 }
