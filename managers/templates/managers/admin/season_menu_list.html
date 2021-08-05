@@ -1,0 +1,68 @@
+{% extends "managers/base.html" %}
+{% load static %}
+
+{% block title %}Edycja elementów menu - sezony{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+<p class="display-4">Menu sezonów</p>
+
+<p class="">{{ seasons }}</p>
+<ul class="list-group">
+  {% for cup in seasons %}<li class="list-group-item">cup</li>
+{% endfor %}</ul>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Dodaj</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nowy sezon do menu</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ul class="list-group list-group-flush" id="season-list-ul">
+
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+    </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$('#exampleModal').on('shown.bs.modal', function () {
+  $('#season-list-ul').trigger('focus')
+  $.ajax({
+    type: 'GET',
+    url: "{% url 'managers:ajax-get-season-list' %}",
+    success: function(data) {
+      data.forEach(element => {
+        $("#season-list-ul").append('<li class="list-group-item d-flex justify-content-between align-items-center">' +
+           element.name + '<button type="button" class="btn btn-outline-success season-list-item" id="' + 
+           element.id + '">Dodaj</button> </li>')
+      });
+      $('.season-list-item').click(function(e) {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        console.log(id);
+        $('#exampleModal').modal('toggle');
+      });
+    },
+    error: function(response) {
+      console.log(response)
+    }
+  });
+})
+</script>
+{% endblock extra_js %}

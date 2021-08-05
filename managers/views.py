@@ -4,15 +4,43 @@ from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 from datetime import datetime, date, timedelta
 from math import floor
 
-from .models import Manager, Country, Season, Employment, City, Team, ExternalLink
+from .models import Manager, Country, Season, Employment, City, Team, ExternalLink, ActiveSeasonMenuManger, SeasonMenu
 from .forms import SearchForm, SeasonCreateForm, SeasonUpdateForm, SeasonAvanceForm, UploadFileForm, EndJobDateForm, TeamAddJobForm, WikipediaTextForm
 from .files_handling import upload_photo
 from articles.models import Article
 from .data_parsers import WikiTableParser
+
+
+def get_list_seasons(request):
+    json_list = list()
+
+    for season in Season.objects.all():
+        json_list.append({ 'id': season.pk, 'name': str(season) })
+
+    if request.is_ajax and request.method == 'GET':
+        zmienna = request.GET.get("variable", None)
+
+    return JsonResponse(json_list, safe=False, status=200)
+
+
+def season_menu_list(request):
+    """Will provide an interface to modify season list items and reorder."""
+
+    alls = SeasonMenu.objects.all()
+    print("Wszystkie sezony:")
+    print(alls)
+    print("Widoczne:")
+    print(SeasonMenu.visible.all())
+    print("---")
+    context = {
+        'seasons': SeasonMenu.objects.all()
+    }
+    return render(request, 'managers/admin/season_menu_list.html', context)
 
 
 def index(request):

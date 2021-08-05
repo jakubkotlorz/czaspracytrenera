@@ -6,6 +6,10 @@ from . import views
 app_name = 'managers'
 urlpatterns = [
     # for moderators only
+    path('season_menu_list', views.season_menu_list, name='season-menu-list'),
+    path('ajax/get_season_list', views.get_list_seasons, name='ajax-get-season-list'),
+
+
     path('job/add/', views.AddJobView.as_view(), name='add-job'),
     path('job/<int:pk>/end/', views.EndJobView.as_view(), name='end-job'),
     path('team/<slug:slug>/add-job/', views.TeamAddJobView.as_view(), name='team-add-job'),
