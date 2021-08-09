@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import datetime, date, timedelta
 from math import floor
@@ -17,10 +19,11 @@ from .data_parsers import WikiTableParser
 
 
 def get_list_seasons(request):
+    """API function to return all seasons list."""
     json_list = list()
 
     for season in Season.objects.all():
-        json_list.append({ 'id': season.pk, 'name': str(season) })
+        json_list.append({ 'id': season.pk, 'name': str(season), 'flag_src': str(season.country.get_flag()) })
 
     if request.is_ajax and request.method == 'GET':
         zmienna = request.GET.get("variable", None)
@@ -31,20 +34,39 @@ def get_list_seasons(request):
 def season_menu_list(request):
     """Will provide an interface to modify season list items and reorder."""
 
-    alls = SeasonMenu.objects.all()
-    print("Wszystkie sezony:")
-    print(alls)
-    print("Widoczne:")
-    print(SeasonMenu.visible.all())
-    print("---")
     context = {
-        'seasons': SeasonMenu.objects.all()
+        'seasons': SeasonMenu.objects.order_by('priority')
     }
     return render(request, 'managers/admin/season_menu_list.html', context)
 
 
+def season_menu_list_add(request, season_id):
+    """Gets season's id and adds it to SeasonMenu list."""
+
+    if not SeasonMenu.objects.filter(item=season_id).exists():
+        try:
+            highest_prio = SeasonMenu.objects.latest('priority').priority
+        except ObjectDoesNotExist:
+            highest_prio = 0
+
+        try:
+            SeasonMenu.objects.create(
+                item=Season.objects.get(id=season_id),
+                priority=highest_prio+1,
+                show=True
+            )
+        except ObjectDoesNotExist:
+            print("No season with this id!", season_id)
+
+    else:
+        print("Item", season_id, "already exists!")
+
+    return redirect('managers:season-menu-list')     
+
+
 def index(request):
     context = {
+        'admin_bar': True if request.user.is_authenticated else False,
         'articles': Article.published.all(),
         'cups_list': Season.objects.filter(current=True),
         'managers_hired': Employment.objects.filter(still_hired=True).order_by('-date_start')[:10],
@@ -457,3 +479,7 @@ def club(request, slug):
     context = { 'club': club, 'history': jobs, 'clubTimeLine': clubTimeLine }
     context['admin_bar'] = True if request.user.is_authenticated else False
     return render(request, 'managers/club.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('managers:index')

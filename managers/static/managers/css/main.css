@@ -220,6 +220,14 @@ a {
     max-width: 48px;
 }
 
+.small-flag {
+    margin: 0;
+    padding: 0;
+    border: 1px solid #9a9a9a;
+    height: 32px;
+    max-width: 48px;
+}
+
 .left {
     text-align: left !important;
 }

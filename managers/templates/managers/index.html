@@ -18,6 +18,17 @@
 
 {% block content %}
 
+{% if admin_bar %}
+    <nav class="navbar navbar-expand-md bg-dark mb-4 justify-content-between">
+      <div>
+        <a class="btn btn-secondary my-1 mr-1" href="{% url 'managers:season-menu-list' %}" role="button">Edytuj menu</a>
+      </div>
+      <div>
+        <a class="btn btn-secondary my-1 mr-1" href="{% url 'managers:logout-page' %}" role="button">Wyloguj</a>
+      </div>
+    </nav>   
+{% endif %}
+
 {% if articles %}
 <div class="list-group">
   {% for art in articles %}<a href="{% url 'articles:article' art.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">

@@ -6,9 +6,12 @@ from . import views
 app_name = 'managers'
 urlpatterns = [
     # for moderators only
-    path('season_menu_list', views.season_menu_list, name='season-menu-list'),
+    path('logout', views.logout_view, name='logout-page'),
+
     path('ajax/get_season_list', views.get_list_seasons, name='ajax-get-season-list'),
 
+    path('season_menu_list', views.season_menu_list, name='season-menu-list'),
+    path('season_menu_list/add/<int:season_id>/', views.season_menu_list_add, name='season-menu-list-add'),
 
     path('job/add/', views.AddJobView.as_view(), name='add-job'),
     path('job/<int:pk>/end/', views.EndJobView.as_view(), name='end-job'),

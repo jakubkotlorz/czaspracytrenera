@@ -10,11 +10,27 @@
 
 <p class="display-4">Menu sezonów</p>
 
-<p class="">{{ seasons }}</p>
-<ul class="list-group">
-  {% for cup in seasons %}<li class="list-group-item">cup</li>
-{% endfor %}</ul>
+<!-- Seson menu list start -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Nazwa</th>
+      <th scope="col">Priorytet</th>
+      <th scope="col">Widoczność</th>
+      <th scope="col">Operacje</th>
+    </tr>
+  </thead>
+  <tbody>{% for cup in seasons %}
+    <tr>
+      <th scope="row" class="{% if not cup.show %}font-weight-light{% endif %}">{{ cup.item }}</th>
+      <td>{{ cup.priority }}</td>
+      <td>{{ cup.show }}</td>
+      <td>+ -</td>
+    </tr>{% endfor %}
+  </tbody>
+</table>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Dodaj</button>
+<!-- Seson menu list end -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog">
@@ -41,6 +57,37 @@
 
 {% block extra_js %}
 <script>
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 $('#exampleModal').on('shown.bs.modal', function () {
   $('#season-list-ul').trigger('focus')
   $.ajax({
@@ -49,13 +96,25 @@ $('#exampleModal').on('shown.bs.modal', function () {
     success: function(data) {
       data.forEach(element => {
         $("#season-list-ul").append('<li class="list-group-item d-flex justify-content-between align-items-center">' +
-           element.name + '<button type="button" class="btn btn-outline-success season-list-item" id="' + 
-           element.id + '">Dodaj</button> </li>')
+            '<div>​<img src="' + element.flag_src + '" class="img-fluid img-thumbnail small-flag mr-2" alt="..." />' +
+            element.name + '</div><button type="button" class="btn btn-outline-success season-list-item" id="' + 
+            element.id + '">Dodaj</button> </li>')
       });
-      $('.season-list-item').click(function(e) {
+      $('.season-list-item').off('click').click(function(e) {
         e.preventDefault();
-        var id = $(this).attr('id');
-        console.log(id);
+        const id = $(this).attr('id');
+        $.ajax({
+          method: 'PUT',
+          url: "{% url 'managers:season-menu-list-add' 0 %}".replace("0", id),
+          headers: { 'Authorization': "Token " + localStorage.token },
+          success: (e) => {
+            location.reload();
+          },
+          error: (e) => {
+            console.log("error!");
+            console.error(e);
+          }
+        });
         $('#exampleModal').modal('toggle');
       });
     },
