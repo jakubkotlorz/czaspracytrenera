@@ -14,18 +14,22 @@
 <table class="table table-bordered">
   <thead>
     <tr>
+      <th scope="col">Kolejność</th>
       <th scope="col">Nazwa</th>
-      <th scope="col">Priorytet</th>
       <th scope="col">Widoczność</th>
       <th scope="col">Operacje</th>
     </tr>
   </thead>
   <tbody>{% for cup in seasons %}
     <tr>
+      <td>{{ cup.order }}</td>
       <th scope="row" class="{% if not cup.show %}font-weight-light{% endif %}">{{ cup.item }}</th>
-      <td>{{ cup.priority }}</td>
       <td>{{ cup.show }}</td>
-      <td>+ -</td>
+      <td>
+        <button type="button" class="move-up btn btn-outline-info btm-sm py-0" id="{{ cup.id }}">Góra</button>
+        <button type="button" class="move-down btn btn-outline-info btm-sm py-0" id="{{ cup.id }}">Dół</button>
+        <button type="button" class="remove btn btn-outline-danger btm-sm py-0" id="{{ cup.id }}">Usuń</button>
+      </td>
     </tr>{% endfor %}
   </tbody>
 </table>
@@ -87,6 +91,27 @@ $.ajaxSetup({
         }
     }
 });
+
+const movePosition = function(e) {
+  console.log(e.data);
+  e.preventDefault();
+  const id = $(this).attr('id');
+  $.ajax({
+    method: 'PUT',
+    url: "{% url 'managers:season-menu-list-edit' 0 'arg1' %}".replace(0, id).replace('arg1', "move-up"),
+    headers: { 'Authorization': "Token " + localStorage.token },
+          success: (e) => {
+            location.reload();
+          },
+          error: (e) => {
+            console.log("error!");
+            console.error(e);
+          }
+  });
+}
+
+$('.move-up').off('click').click('up', movePosition);
+$('.move-down').off('click').click('down', movePosition);
 
 $('#exampleModal').on('shown.bs.modal', function () {
   $('#season-list-ul').trigger('focus')

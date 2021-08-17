@@ -158,16 +158,18 @@ class Season(models.Model):
 
 class ActiveSeasonMenuManger(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(show=True).order_by('priority')
+        return super().get_queryset().filter(show=True).order('priority')
 
 
 class SeasonMenu(models.Model):
     item = models.ForeignKey(Season, null=True, blank=True, on_delete=models.SET_NULL)
-    priority = models.IntegerField(null=False, blank=True, default=0)
+    order = models.IntegerField(null=False, blank=True, default=0)
     show = models.BooleanField(default=False)
 
     objects = models.Manager()
     visible = ActiveSeasonMenuManger()
+
+
 
 
 class Manager(models.Model):

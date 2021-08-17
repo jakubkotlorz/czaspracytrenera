@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('season_menu_list', views.season_menu_list, name='season-menu-list'),
     path('season_menu_list/add/<int:season_id>/', views.season_menu_list_add, name='season-menu-list-add'),
+    path('season_menu_list/<int:season_id>/<str:action>', views.season_menu_list_change, name='season-menu-list-edit'),
 
     path('job/add/', views.AddJobView.as_view(), name='add-job'),
     path('job/<int:pk>/end/', views.EndJobView.as_view(), name='end-job'),

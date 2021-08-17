@@ -35,9 +35,33 @@ def season_menu_list(request):
     """Will provide an interface to modify season list items and reorder."""
 
     context = {
-        'seasons': SeasonMenu.objects.order_by('priority')
+        'seasons': SeasonMenu.objects.order_by('order')
     }
     return render(request, 'managers/admin/season_menu_list.html', context)
+
+
+def season_menu_list_change(request, season_id, action):
+    """season_id shall now be moved action."""
+
+    item = SeasonMenu.objects.get(pk=season_id)
+    try:
+        if action == 'move-up':
+            targetItem = SeasonMenu.objects.get(order=item.order-1)
+        elif action == 'move-down':
+            targetItem = SeasonMenu.objects.get(order=item.order+1)
+        else:
+            raise Exception
+        swap = targetItem.order
+        targetItem.order = item.order
+        item.order = swap
+        item.save()
+        targetItem.save()
+    except ObjectDoesNotExist:
+        print("Cannot do swap!!")
+    except:
+        print("Other error")
+
+    return redirect('managers:season-menu-list')
 
 
 def season_menu_list_add(request, season_id):
@@ -45,14 +69,14 @@ def season_menu_list_add(request, season_id):
 
     if not SeasonMenu.objects.filter(item=season_id).exists():
         try:
-            highest_prio = SeasonMenu.objects.latest('priority').priority
+            highest_prio = SeasonMenu.objects.latest('order').order
         except ObjectDoesNotExist:
             highest_prio = 0
 
         try:
             SeasonMenu.objects.create(
                 item=Season.objects.get(id=season_id),
-                priority=highest_prio+1,
+                order=highest_prio+1,
                 show=True
             )
         except ObjectDoesNotExist:
