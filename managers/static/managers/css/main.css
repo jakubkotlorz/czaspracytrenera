@@ -16,6 +16,7 @@ body {
     margin-bottom: 150px; /* Margin bottom by footer height */
     /* background: url('../images/bg-pitch.jpg') no-repeat center center fixed;
     background-size: cover; */
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 a {
@@ -324,64 +325,4 @@ tr:nth-child(even) {
 .club-timeline .no-job {
     border: 0px;
     background-color: inherit;
-}
-
-/* 
- * Articles
- */
-.article-lead p {
-    font-size: 20px;
-    line-height: 25px;
-    color: rgb(34, 34, 34);
-    font-weight: normal;
-    letter-spacing: -0.3px;
-    padding: 10px 0px;
-    margin: 0px;
-    hyphens: auto;
-}
-
-.article p {
-    font-size: 18px;
-    font-weight: lighter;
-    line-height: 28px;
-    color: rgb(34, 34, 34);
-    position: relative;
-    margin-bottom: 1em;
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-.article-authordatewrapper {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    margin: 15px 0px;
-    line-height: 1.4;
-}
-
-.article-authordatewrapper span {
-    font-size: 15px;
-    text-decoration: none;
-    display: inline-block;
-    line-height: 17px;
-    color: rgb(34, 34, 34);
-}
-
-.article-authordatewrapper time {
-    margin-top: 4px;
-    color: rgb(139, 139, 139);
-    font-size: 12px;
-}
-
-.article-authorleft {
-    display: flex;
-    align-self: flex-start;
-    flex-direction: column;
-    white-space: nowrap;
-    font-weight: normal;
 }

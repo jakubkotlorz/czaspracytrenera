@@ -1,5 +1,6 @@
 {% extends "managers/base.html" %}
 {% load static %}
+{% block extra_css %}<link href="{% static 'articles/css/articles.css' %}" rel="stylesheet">{% endblock extra_css %}
 {% load markdown_extras %}
 
 {% block title %}{{ object.title }} | Obecny trener | Zmiany trenera | mngrs.pl{% endblock %}
@@ -7,18 +8,24 @@
 {% block meta-keyw %}{{ object.header_keys }}{% endblock %}
 
 {% block header %}
-    <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
+    <div class="py-0 mb-0" style="background-image: linear-gradient(#083B66, #287a43); color: #FFFFFF; ">
       <div class="container">
-        <div class="row">
-          <div class="col-12 profile-head text-center align-self-center">
-            <h1 class="display-4" >{{ object.title }}</h1>
-          </div>               
-        </div>
+        <ol class="breadcrumb bg-transparent my-0 my-0">
+          <li class="breadcrumb-item"><a href="{% url 'articles:published-articles' %}" class="text-light">Artykuły</a></li>
+          <li class="breadcrumb-item active" aria-current="page" class="text-light">{{ object.title }}</li>
+        </ol>
       </div>  
     </div>
+
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+      <div class="col-lg-8 article-main">
+        {% if object.lead_image %}<div class="article-lead-picture" 
+            style="background-image: linear-gradient(-180deg, rgba(51,51,51,0.00) 50%, rgba(51,51,51,0.75) 88%), 
+            url('{{ object.lead_image.url }}');"></div>{% endif %}
+        <p class="article-title" >{{ object.title }}</p>
         {% if object.intro %}
         <div class="article-lead">
           {{ object.intro | markdown | safe }}
@@ -33,4 +40,30 @@
         <div class="article">
           {{ object.body | markdown | safe }}
         </div>
+      </div>
+      <div class="col-lg-4 article-sidebar">
+        <div class="article-sidebar-header">
+          Przeczytaj także:
+        </div>
+
+          {% for item in articles %}
+          <div class="card mb-3" style="max-width: 540px;">
+            <a href="{% url 'articles:article' item.slug %}">
+            <div class="row no-gutters">
+              <div class="col-md-3 bg-light">
+                <!-- <img src="..." alt="..."> -->
+              </div>
+              <div class="col-md-9">
+                <div class="card-body pt-1 pb-3 px-3">
+                  <p class="card-text article-sidebar-card">{{ item.intro|truncatewords:11 }}</p>
+                </div>
+              </div>
+            </div>
+            </a>
+          </div>
+          {% endfor %}
+
+
+      </div>
+    </div>
 {% endblock %}

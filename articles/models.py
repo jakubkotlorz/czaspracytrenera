@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(status='published')
+        return super(PublishedManager, self).get_queryset() \
+                .filter(status='published') \
+                .order_by('-created') \
 
 
 class Article(models.Model):
@@ -19,6 +21,7 @@ class Article(models.Model):
     header_desc = models.TextField(max_length=250, null=True, blank=True)
     header_keys = models.TextField(max_length=250, null=True, blank=True)
     author = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'articles')
+    lead_image = models.ImageField(upload_to='articles-images/%Y/')
     intro = models.TextField(null=True, blank=True)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
