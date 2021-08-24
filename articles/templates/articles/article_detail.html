@@ -2,30 +2,35 @@
 {% load static %}
 {% load markdown_extras %}
 
-{% block title %} | Obecny trener | Zmiany trenera | Statystyki | CzasPracyTrenera.pl{% endblock %}
-{% block meta-desc %}{% endblock %}
-{% block meta-keyw %}{% endblock %}
+{% block title %}{{ object.title }} | Obecny trener | Zmiany trenera | mngrs.pl{% endblock %}
+{% block meta-desc %}{{ object.header_desc }}{% endblock %}
+{% block meta-keyw %}{{ object.header_keys }}{% endblock %}
 
 {% block header %}
     <div class="jumbotron pt-3 pb-3 mb-0" style="background-image: linear-gradient(#083B66, #404040); color: #FFFFFF; ">
       <div class="container">
         <div class="row">
-          <div class="col-4 col-sm-2 club-emblem text-center">
-            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}"/>
-          </div>
-          <div class="col-8 col-sm-8 profile-head text-center align-self-center">
+          <div class="col-12 profile-head text-center align-self-center">
             <h1 class="display-4" >{{ object.title }}</h1>
-          </div>
-          <div class="d-none d-sm-block col-sm-2 club-emblem text-center">
-            <img src="{% static club.getIcon %}"  alt="{{ club.name_full }}" />
-          </div>                  
+          </div>               
         </div>
       </div>  
     </div>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <p class="">{{ object.body | markdown | safe }}</p>
-</div>
+        {% if object.intro %}
+        <div class="article-lead">
+          {{ object.intro | markdown | safe }}
+        </div>
+        <div class="article-authordatewrapper">
+          <div class="article-authorleft">
+            <span>{{ object.author }}</span>
+            <time>{{ object.created }}</time>
+          </div>
+        </div>
+        {% endif %}
+        <div class="article">
+          {{ object.body | markdown | safe }}
+        </div>
 {% endblock %}
