@@ -1,0 +1,23 @@
+{% load static %}
+<div class="position-relative mb-3 search-box" style="background-image: url({% static 'managers/images/768482.png' %})">
+  <div class="container py-5 px-3">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <h2 class="text-light my-3" style="text-shadow: 2px 2px 0px #474747, 7px 7px 0px rgba(0, 0, 0, 0.2);">Znajdź trenera lub drużynę</h2>
+        <div>
+          <form class="form-inline d-block" role="search" action="{% url 'managers:search' %}" method="GET">
+            <div class="input-group mb-3 shadow-lg">
+              <input type="text" class="form-control" placeholder="Nazwisko, nazwa, ..." 
+                  aria-label="Nazwisko, nazwa, ..." aria-describedby="basic-addon2" name='q' />
+              <div class="input-group-append">
+                <button class="btn btn-outline-light" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

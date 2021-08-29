@@ -4,8 +4,9 @@ from .models import Country, City, Manager, Season, Team, Employment, ExternalLi
 
 
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name_pl', 'name_en', 'icon_name')
+    list_display = ('code', 'name_pl', 'name_en', 'icon_name', 'importance')
     list_display_links = ('name_pl', 'name_en')
+    ordering = ('name_pl', 'name_en', 'importance')
 admin.site.register(Country, CountryAdmin)
 
 

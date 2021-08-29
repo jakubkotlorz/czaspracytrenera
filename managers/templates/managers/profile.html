@@ -1,7 +1,7 @@
 {% extends "managers/base.html" %}
 {% load static %}
 
-{% block title %}{{ person.name_first }} {{ person.name_last }} | Obecny klub | Prowadzone drużyny | Statystyki | CzasPracyTrenera.pl{% endblock %}
+{% block title %}{{ person.name_first }} {{ person.name_last }} | Obecny klub | Prowadzone drużyny | Statystyki | mngrs.pl{% endblock %}
 {% block meta-desc %}{{ person }}{% if current_job %} - trener {{ current_job.team.name_full }}{% endif %}. Sprawdź: profil trenera, drużyny przez niego prowadzone, czas pracy w każdym klubie, średnią długość pracy i statystyki.{% endblock %}
 {% block meta-keyw %}{{ person.name_first }}, {{ person.name_last }}, {{ managed_teams }}, {% endblock %}
 

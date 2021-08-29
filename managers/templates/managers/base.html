@@ -53,7 +53,7 @@
               </div>  
             </li>
           </ul>
-          <form class="form-inline my-2" role="search" action="{% url 'managers:search' %}" method="GET">
+          <form class="form-inline my-2 {% if hide_searchbox %}d-none{% endif %}" role="search" action="{% url 'managers:search' %}" method="GET">
             <div class="input-group">
               <input type="text" class="form-control" type="text" placeholder="Szukaj" aria-label="Szukaj..." name='q' />
               <div class="input-group-btn">

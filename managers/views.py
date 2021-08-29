@@ -91,10 +91,13 @@ def season_menu_list_add(request, season_id):
 def index(request):
     context = {
         'admin_bar': True if request.user.is_authenticated else False,
+        'featured_articles': Article.published.order_by('-created')[0:2],
         'articles': Article.published.all(),
-        'cups_list': Season.objects.filter(current=True),
+        'cups_list': Season.objects.filter(current=True).order_by('-country__importance'),
         'managers_hired': Employment.objects.filter(still_hired=True).order_by('-date_start')[:10],
         'managers_sacked': Employment.objects.filter(still_hired=False).order_by('-date_finish')[:10],
+        'managers_recently_added': Manager.objects.all().order_by('-id')[0:15],
+        'hide_searchbox': True,
     }
     return render(request, 'managers/index.html', context)
 
@@ -177,6 +180,7 @@ def search(request):
         'query': search_query,
         'res_managers': search_manager(search_query),
         'res_teams': search_team(search_query),
+        'hide_searchbox': True,
     }
 
     return render(request, 'managers/search.html', context)

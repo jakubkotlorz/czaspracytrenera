@@ -25,16 +25,22 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="list-group my-5">
-  {% for art in object_list %}<a href="{% url 'articles:article' art.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{ art.title }}</h5>
-      <small>{{ art.publish }}</small>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="list-group my-5">
+          {% for art in object_list %}<a href="{% url 'articles:article' art.slug %}" class="list-group-item list-group-item-action flex-column align-items-start mb-5">
+            <div class="d-flex w-100 justify-content-between my-2">
+              <h5 class="mb-1">{{ art.title }}</h5>
+              <small>{{ art.publish }}</small>
+            </div>
+            {{ art.body|truncatewords:50 }}
+            <!-- <small>Donec id elit non mi porta.</small> -->
+          </a>{% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        &nbsp;
+      </div>
     </div>
-    {{ art.body|truncatewords:50 }}
-    <!-- <small>Donec id elit non mi porta.</small> -->
-  </a>{% endfor %}
-</div>
 
 {% endblock %}

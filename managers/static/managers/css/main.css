@@ -88,6 +88,12 @@ a {
     height: 140px;
 }
 
+.search-box {
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    background-size: cover;
+}
+
 /* jumbo header - end */
 
 /*  just profile - start */

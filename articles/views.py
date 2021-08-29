@@ -3,6 +3,7 @@ from django.views.generic.list import ListView
 
 from .models import Article
 
+
 class ArticleFullView(DetailView):
 
     model = Article

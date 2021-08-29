@@ -1,25 +1,13 @@
 {% extends "managers/base.html" %}
 {% load static %}
+{% load markdown_extras %}
 
 {% block title %}Czas pracy trenera{% endblock %}
 {% block meta-desc %}Sprawdź, kto jest nowym trenerem, kogo i jak długo trenuje lub trenował drużynę każdy menadżer. Czas Pracy Trenera pokazuje jak długo zatrudniony jest trener w Ekstraklasie, Premier League, La Liga, Bundeslidze i innych czołowych ligach Europy.{% endblock %}
 
 {% block header %}
-    <div class="jumbotron" style="background-image: linear-gradient(#083B66, #083B66); color: {{ cup.jmb_col }}; ">
-      <div class="container">
-        <div class="row">
-          <div class="">
-            <h1 class="display-5">Zmiany na stanowisku pierwszego trenera</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-{% endblock %}
-
-{% block content %}
-
 {% if admin_bar %}
-    <nav class="navbar navbar-expand-md bg-dark mb-4 justify-content-between">
+    <nav class="navbar navbar-expand-md bg-dark justify-content-between">
       <div>
         <a class="btn btn-secondary my-1 mr-1" href="{% url 'managers:season-menu-list' %}" role="button">Edytuj menu</a>
       </div>
@@ -28,77 +16,95 @@
       </div>
     </nav>   
 {% endif %}
+{% include "managers/search_box.html" %}
+{% endblock %}
 
-{% if articles %}
-<div class="list-group">
-  {% for art in articles %}<a href="{% url 'articles:article' art.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{ art.title }}</h5>
-      <small>{{ art.publish }}</small>
-    </div>
-    {{ art.body|truncatewords:30 }}
-    <!-- <small>Donec id elit non mi porta.</small> -->
-  </a>{% endfor %}
-</div>
-<p></p>
-{% endif %}
-
-  <div>
-    <p class="h2 mb-0">Zmiany trenerów w obecnym sezonie</p>
-    <p class="small">W najważniejszych ligach Europy</p>
-    <div class="card-deck">
-      {% for season in cups_list %}<a href="{% url 'managers:season' season.slug %}"><div class="card mb-3 mx-2" style="max-width: 300px;">
-        <div class="row no-gutters">
-          <div clas="col">
-            <img src="{{ season.get_cup_icon }}" class="card-img px-1 py-1" style="height: 56px; width: 56px; "/>
+{% block content %}
+    <section class="my-4">
+      <p class="h2">Artykuły</p>
+      <p class="small"><a href="{% url 'articles:published-articles' %}">Przejdź do artykułów</a>, żeby poczytać więcej...</p>
+      <div class="card-deck mb-3">
+        {% for art in featured_articles %}
+        <a class="card list-group-item d-flex w-100 justify-content-between" href="{% url 'articles:article' art.slug %}" >
+          <div class="card-title">
+            <h5 class="mb-1">{{ art.title }}</h5>
+            <small class="text-muted">{{ art.publish }}</small>
           </div>
-          <div class="col">
-            <div class="card-body px-3 py-3">
-              <h5 class="card-text">{{ season.get_changes_amount }}</h5>
+          <div class="card-text mb-2">
+            {{ art.body|markdown|striptags|truncatewords:30 }}
+          </div>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="my-4">
+      <p class="h2">Zmiany trenerów w obecnym sezonie</p>
+      <p class="small">W najważniejszych ligach Europy</p>
+      <div class="card-deck mb-3 justify-content-center">
+        {% for season in cups_list %}<a href="{% url 'managers:season' season.slug %}">
+          <div class="card mb-3 mx-2" style="max-width: 300px;">
+            <div class="row no-gutters">
+              <div clas="col">
+                <img src="{{ season.get_cup_icon }}" class="card-img px-1 py-1" style="height: 56px; width: 56px; "/>
+              </div>
+              <div class="col">
+                <div class="card-body px-3 py-3">
+                  <h5 class="card-text">{{ season.get_changes_amount }}</h5>
+                </div>
+              </div>
+          </div>
+        </div></a>{% endfor %}
+      </div>
+    </section>
+
+    <section class="my-4">
+      <div class="row">
+        <div class="col-md-6 pl-0 pr-1">
+          <div class="card">
+            <div class="card-header h3">Odeszli z klubu</div>
+            <div class="card-body hired-sacked-card">
+              <table class="hired-sacked-table">{% for job in managers_sacked %}
+                <tr>
+                  <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>
+                  <td width="auto"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
+                  <td width="88px" align="center">{{ job.date_finish|date:"j N" }}</td>
+                  <td width="32px" align="center"><i class="fa fa-arrow-left" style="color:rgb(220, 0, 0); font-size: 18px;"></i></td>
+                  <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+                  <td width="88px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.days_lasted }}</strong> dni</td>
+                </tr>{% endfor %}
+              </table>
             </div>
           </div>
         </div>
-      </div></a>{% endfor %}
-    </div>
-  </div>
-
-<div class="row">
-  <div class="col-md-6 pl-0 pr-1">
-    <div class="card">
-      <div class="card-header h3">Odeszli z klubu</div>
-      <div class="card-body hired-sacked-card">
-        <table class="hired-sacked-table">{% for job in managers_sacked %}
-          <tr>
-            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>
-            <td width="auto"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
-            <td width="88px" align="center">{{ job.date_finish|date:"j N" }}</td>
-            <td width="32px" align="center"><i class="fa fa-arrow-left" style="color:rgb(220, 0, 0); font-size: 18px;"></i></td>
-            <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
-            <td width="88px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.days_lasted }}</strong> dni</td>
-          </tr>{% endfor %}
-        </table>
+        <div class="col-md-6 pl-1 pr-0">
+          <div class="card">
+            <div class="card-header h3">Zostali zatrudnieni</div>
+            <div class="card-body hired-sacked-card">
+              <table class="hired-sacked-table">{% for job in managers_hired %}
+                <tr>
+                  <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>
+                  <td width="auto"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
+                  <td width="88px" align="center">{{ job.date_start|date:"j N" }}</td>
+                  <td width="32px" align="center"><i class="fa fa-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
+                  <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
+                  <td width="72px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.durationDays }}</strong> dni</td>
+                </tr>{% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="col-md-6 pl-1 pr-0">
-    <div class="card">
-      <div class="card-header h3">Zostali zatrudnieni</div>
-      <div class="card-body hired-sacked-card">
-        <table class="hired-sacked-table">{% for job in managers_hired %}
-          <tr>
-            <td style="width: 32px; text-align: center;"><div class="squared-photo"><img src="{{ job.manager.getPhoto }}" alt="" /></div></td>
-            <td width="auto"><a href="{% url 'managers:profile' job.manager.slug %}">{{ job.manager.name_first }} <strong>{{ job.manager.name_last }}</strong></a></td>
-            <td width="88px" align="center">{{ job.date_start|date:"j N" }}</td>
-            <td width="32px" align="center"><i class="fa fa-arrow-right" style="color:rgb(0, 150, 0); font-size: 18px;"></i></td>
-            <td width="32px" align="center"><img src="{% static job.team.getIcon %}" alt="{{ job.team.name_short }}" class="emblem-in-table"/></td>
-            <td width="72px" align="right" class="pr-1"><strong style="margin-left: 3px;">{{ job.durationDays }}</strong> dni</td>
-          </tr>{% endfor %}
-        </table>
-      </div>
-    </div>
-  </div>
-
-</div>
+    <section class="my-4">
+      <p class="h2 mb-0">Ostatnio dodani</p>
+      <p class="small">Pojawili się w serwisie:</p>
+      <ul class="list-inline">{% for manager in managers_recently_added %}
+        <li class="list-inline-item"><a href="{% url 'managers:profile' manager.slug %}">
+          <img src="{{ manager.country.get_flag }}" class="in-line-flag" alt="{{ manager.country.name_pl }}" /> {{ manager.name_first.0 }}.{{ manager.name_last }}
+        </a></li>
+      {% endfor %}</ul>
+    </section>
 
 {% endblock %}
